@@ -20,10 +20,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         }
     }
 
-    private fun setUpToolbar() {
-        setSupportActionBar(binding.toolbar)
-    }
-
     private val bottomNavigationView: BottomNavigationView get() = binding.bottomNavigation
 
     private val container: ViewPager2 get() = binding.container
@@ -50,7 +46,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         container.apply {
             currentItem = 0
             adapter = mainContainerAdapter
-            isUserInputEnabled = false
+            setPageTransformer { _, _ -> alpha = 1f }
         }
     }
 
@@ -60,7 +56,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
 
     override fun createView() {
-        setUpToolbar()
         setUpViewPager()
         setUpBottomNavigation()
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="search_history"
+            type="com.pnam.watchingsocceronline.model.model.SearchHistory" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/ripple">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            search_type="@{search_history.searchType}"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:tint="?attr/blackWhite"
+            tools:src="@drawable/ic_history" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="center|start"
+            android:text="@{search_history.searchWord}"
+            android:textColor="?attr/blackWhite"
+            tools:text="Search word" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
+            android:rotation="-135"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_right_arrow"
+            app:tint="?attr/blackWhite" />
+    </LinearLayout>
+</layout>

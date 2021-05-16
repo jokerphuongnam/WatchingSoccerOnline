@@ -1,14 +1,18 @@
 package com.pnam.watchingsocceronline.presentationphone.main.analyst
 
 import androidx.fragment.app.viewModels
-import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.base.BaseFragment
-import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentAnalystBinding
+import com.pnam.watchingsocceronline.presentationphone.main.MainFragment
 
-class AnalystFragment: BaseFragment<FragmentAnalystBinding, AnalystViewModel>(R.layout.fragment_analyst) {
+class AnalystFragment : MainFragment<AnalystViewModel>() {
+
+    override val viewModel: AnalystViewModel by viewModels()
+
     override fun createView() {
 
     }
 
-    override val viewModel: AnalystViewModel by viewModels()
+    override fun onResume() {
+        super.onResume()
+        actionBar.title = "Analyst"
+    }
 }

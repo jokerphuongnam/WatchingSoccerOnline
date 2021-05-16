@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="video"
+            type="com.pnam.watchingsocceronline.model.model.Video" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layoutDescription="@xml/bottom_sheet_watch_video_scene">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:controller_layout_id="@layout/controller_video"
+                app:fastforward_increment="5000"
+                app:hide_on_touch="true"
+                app:player_layout_id="@layout/exo_simple_player_view"
+                app:resize_mode="fit"
+                app:rewind_increment="500"
+                app:show_timeout="5000"
+                app:use_controller="true" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

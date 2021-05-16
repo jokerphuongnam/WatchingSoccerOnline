@@ -44,15 +44,25 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(path: ':data')
     implementation project(path: ':domain')
+    implementation project(path: ':model')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.google.android:flexbox:2.0.1'
+
+    motionLayout()
 
     exoPlayer()
 
     ktx()
 
     coroutine()
+
+    coil()
+}
+
+private void motionLayout(){
+    dependencies.implementation "androidx.constraintlayout:constraintlayout:$motion_layout_version"
 }
 
 private void exoPlayer(){
@@ -69,4 +79,8 @@ private void ktx(){
 
 private void coroutine(){
     dependencies.implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+}
+
+private void coil(){
+    dependencies.implementation "io.coil-kt:coil:$coil_version"
 }

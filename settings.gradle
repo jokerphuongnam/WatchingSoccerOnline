@@ -1,3 +1,4 @@
+include ':model'
 include ':domain'
 include ':data'
 include ':presentationphone'

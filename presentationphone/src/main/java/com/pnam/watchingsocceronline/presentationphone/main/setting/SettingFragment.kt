@@ -1,14 +1,19 @@
 package com.pnam.watchingsocceronline.presentationphone.main.setting
 
 import androidx.fragment.app.viewModels
-import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.base.BaseFragment
-import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentSettingBinding
+import com.pnam.watchingsocceronline.presentationphone.main.MainFragment
 
-class SettingFragment: BaseFragment<FragmentSettingBinding, SettingViewModel>(R.layout.fragment_setting) {
+class SettingFragment :
+    MainFragment<SettingViewModel>() {
+
+    override val viewModel: SettingViewModel by viewModels()
+
     override fun createView() {
 
     }
 
-    override val viewModel: SettingViewModel by viewModels()
+    override fun onResume() {
+        super.onResume()
+        actionBar.title = "Resume"
+    }
 }
