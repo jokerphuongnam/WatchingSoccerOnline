@@ -11,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".main.MainActivity">
+        tools:context=".ui.main.MainActivity">
 
-
-        <androidx.viewpager2.widget.ViewPager2
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="?android:attr/actionBarSize"
-            app:userInputEnabled="@{false}"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

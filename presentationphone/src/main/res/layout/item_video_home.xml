@@ -27,11 +27,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
+                url_image="@{video.thumbnail}"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                url_image="@{video.thumbnail}"
                 tools:src="@drawable/ic_home" />
 
             <LinearLayout
@@ -58,10 +58,10 @@
                     <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:flexDirection="row"
-                        app:flexWrap="wrap"
+                        app:alignContent="stretch"
                         app:alignItems="stretch"
-                        app:alignContent="stretch" >
+                        app:flexDirection="row"
+                        app:flexWrap="wrap">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(video.view)}"
                             android:textColor="?attr/greyAttr"
-                            tools:text="200"/>
+                            tools:text="200" />
 
                         <TextView
                             android:layout_width="wrap_content"

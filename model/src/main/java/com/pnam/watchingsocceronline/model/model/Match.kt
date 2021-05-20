@@ -7,6 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Match(
     var mid: Long,
     var firstTeam: Team,
-    var secondTeam: Team,
-    var vid: Long
+    var secondTeam: Team
 ) : Parcelable
