@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="greyAttr"/>
+    <attr name="greyNightDark"/>
     <attr name="blackWhite"/>
     <attr name="whiteBlack"/>
 </resources>

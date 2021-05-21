@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="video"
+            type="com.pnam.watchingsocceronline.model.model.Video" />
+
+        <variable
+            name="user"
+            type="com.pnam.watchingsocceronline.model.model.User" />
+
+        <import type="coil.request.ImageRequest.Builder" />
+
+        <import type="kotlin.Unit" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <variable
+            name="avatar_handle"
+            type="Function1&lt;Builder, Unit>" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:behavior_hideable="false"
+        app:layoutDescription="@xml/bottom_sheet_watch_video_xml_container_scene"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <FrameLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="?attr/whiteBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/watch_video"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="?attr/whiteBlack"
+            android:orientation="vertical"
+            android:padding="-16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/main_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/main_layout">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:controller_layout_id="@layout/controller_video"
+                app:fastforward_increment="5000"
+                app:hide_on_touch="false"
+                app:player_layout_id="@layout/exo_simple_player_view"
+                app:resize_mode="fit"
+                app:rewind_increment="500"
+                app:show_timeout="5000"
+                app:use_controller="false" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:progressTint="#FFFFFF"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/mini_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:singleLine="true"
+            android:text="@{video.title}"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/playPause"
+            app:layout_constraintEnd_toStartOf="@+id/playPause"
+            app:layout_constraintStart_toEndOf="@+id/watch_video"
+            app:layout_constraintTop_toTopOf="@+id/playPause"
+            tools:text="Title" />
+
+        <ImageView
+            android:id="@+id/playPause"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:adjustViewBounds="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:scaleType="fitCenter"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/close"
+            app:layout_constraintEnd_toStartOf="@+id/close"
+            app:layout_constraintStart_toEndOf="@+id/mini_title"
+            app:layout_constraintTop_toTopOf="@+id/close"
+            app:srcCompat="@drawable/ic_play"
+            app:tint="?attr/blackWhite" />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:adjustViewBounds="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:scaleType="fitCenter"
+            android:alpha="0"
+            app:layout_constraintBottom_toBottomOf="@+id/main_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/playPause"
+            app:layout_constraintTop_toTopOf="@+id/main_layout"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="?attr/blackWhite" />
+
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/whiteBlack"
+            android:fillViewport="true"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watch_video">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/ripple"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:singleLine="false"
+                        android:text="@{video.title}"
+                        android:textColor="?attr/blackWhite"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="Title" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
+                        app:tint="?attr/blackWhite" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/highlight"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/ripple"
+                    android:gravity="start|center"
+                    android:text="@string/highlight"
+                    android:textColor="?attr/blackWhite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/ripple"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/comments" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:text="@{(video.comments == null)?String.valueOf(0): String.valueOf(video.comments.size())}"
+                                tools:text="30" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:adjustViewBounds="true"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/ic_up_and_down"
+                            app:tint="?attr/blackWhite" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/avatar"
+                            image_builder="@{avatar_handle}"
+                            url_image="@{user.avatar}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/ic_home"
+                            tools:src="@drawable/ic_home" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="?attr/greyNightDark"
+                            android:gravity="start|center"
+                            android:text="@string/write_public_comment"
+                            android:textColor="?attr/greyAttr" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recommends"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:listitem="@layout/item_video_home" />
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

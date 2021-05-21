@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.base
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,15 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(
         super.onDestroyView()
         _binding = null
     }
+
+
+    protected val actionBarSize: Int
+        get() {
+            return TypedValue.complexToDimensionPixelSize(
+                TypedValue().data,
+                resources.displayMetrics
+            )
+        }
 
 //    override val actionBarSize: Int by lazy {
 //        TypedValue.complexToDimensionPixelSize(TypedValue().data, requireActivity().resources.displayMetrics)

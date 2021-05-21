@@ -1,9 +1,11 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.base
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -45,17 +47,20 @@ interface BaseScreen<BD : ViewDataBinding, VM : BaseViewModel> {
     private fun type(
         fragment: (Fragment.() -> Unit)? = null,
         activity: (AppCompatActivity.() -> Unit)? = null
-    ) {
+    ): Context? {
         when (this) {
             is Fragment -> {
-                fragment ?: return
+                fragment ?: return requireContext()
                 fragment()
+                return requireContext()
             }
             is AppCompatActivity -> {
-                activity ?: return
+                activity ?: return this
                 activity()
+                return this
             }
         }
+        return null
     }
 
 //    val actionBarSize: Int
@@ -95,7 +100,7 @@ interface BaseScreen<BD : ViewDataBinding, VM : BaseViewModel> {
         }
     }
 
-    fun View.setScrollFlag(flags: Int){
+    fun View.setScrollFlag(flags: Int) {
         val params: AppBarLayout.LayoutParams = layoutParams as AppBarLayout.LayoutParams
         params.scrollFlags = flags
         layoutParams = params

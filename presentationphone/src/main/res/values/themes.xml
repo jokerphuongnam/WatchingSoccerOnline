@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="greyAttr">#7A7B7C</item>
+        <item name="greyNightDark">#E4E6EB</item>
         <item name="blackWhite">#000000</item>
         <item name="whiteBlack">#FFFFFF</item>
     </style>

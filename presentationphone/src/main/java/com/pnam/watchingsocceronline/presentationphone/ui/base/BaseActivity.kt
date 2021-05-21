@@ -53,9 +53,10 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
     protected fun showFragment(
         @IdRes container: Int,
         fragment: Fragment,
-        tag: String,
-        transactionViews: List<View>? = null
+        transactionViews: List<View>? = null,
+        isHidePreFrag: Boolean = true
     ) {
+        val tag = fragment.javaClass.simpleName
         val fragmentFindByTag: Fragment? = supportFragmentManager.findFragmentByTag(tag)
         supportFragmentManager.commit {
             transactionViews?.forEach { transactionView ->
@@ -64,12 +65,13 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
             if (fragmentFindByTag == null) {
                 add(container, fragment, tag)
             } else {
-                supportFragmentManager.findFragmentById(container)?.let {
-                    hide(it)
+                if(isHidePreFrag){
+                    supportFragmentManager.findFragmentById(container)?.let {
+                        hide(it)
+                    }
                 }
                 show(fragment)
             }
-            addToBackStack(tag)
         }
     }
 }

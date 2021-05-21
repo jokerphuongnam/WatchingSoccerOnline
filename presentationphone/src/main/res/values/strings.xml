@@ -8,4 +8,7 @@
     <string name="view">view</string>
     <string name="library">Library</string>
     <string name="soccerwatch">SoccerWatch</string>
+    <string name="highlight">Highlight</string>
+    <string name="comments">Comments</string>
+    <string name="write_public_comment">Write public comment...</string>
 </resources>

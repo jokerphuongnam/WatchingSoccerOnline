@@ -3,6 +3,8 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.toolbar
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ToolbarMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
@@ -15,6 +17,16 @@ class MainToolbar(
     internal fun onCreate() {
         binding.avatar.apply {
             setOnClickListener(avatarClick)
+        }
+
+        binding.avatarHandle = avatarHandle
+    }
+
+    private val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
+        {
+            it.transformations(CircleCropTransformation())
+            it.crossfade(true)
+            it.placeholder(R.drawable.ic_error)
         }
     }
 

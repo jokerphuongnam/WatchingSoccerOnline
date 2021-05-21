@@ -7,44 +7,114 @@
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
-       <KeyFrameSet>
-           <KeyAttribute
-               motion:motionTarget="@+id/relativeLayout"
-               motion:framePosition="80"
-               android:alpha="0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/textView"
-               motion:framePosition="80"
-               android:alpha="0" />
-           <KeyAttribute
-               motion:motionTarget="@+id/close"
-               motion:framePosition="80"
-               android:alpha="0.5" />
-       </KeyFrameSet>
         <OnSwipe
-            motion:touchAnchorId="@+id/relativeLayout"
+            motion:touchAnchorId="@+id/watch_video"
             motion:dragDirection="dragDown"
             motion:touchAnchorSide="bottom" />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/playPause"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@+id/close"
+            motion:layout_constraintEnd_toStartOf="@+id/close"
+            motion:layout_constraintStart_toEndOf="@+id/mini_title"
+            motion:layout_constraintTop_toTopOf="@+id/close" />
+        <Constraint
+            android:id="@+id/mini_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@+id/playPause"
+            motion:layout_constraintEnd_toStartOf="@+id/playPause"
+            motion:layout_constraintStart_toEndOf="@+id/watch_video"
+            motion:layout_constraintTop_toTopOf="@+id/playPause" />
+        <Constraint
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@+id/watch_video"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/playPause"
+            motion:layout_constraintTop_toTopOf="@+id/watch_video" />
+        <Constraint
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/watch_video" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/linearLayout"
+            android:id="@+id/scroll"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/watch_video"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_bias="1.0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/watch_video"
+            android:layout_width="100dp"
+            android:layout_height="?android:attr/actionBarSize"
+            motion:layout_constraintBottom_toBottomOf="@+id/main_layout"
+            motion:layout_constraintTop_toTopOf="@+id/main_layout"
             motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/relativeLayout"
-            motion:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            motion:layout_constraintVertical_bias="1.0"  />
+            android:id="@+id/main_layout"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintBottom_toTopOf="@+id/scroll"
+            motion:layout_constraintVertical_bias="0.93" />
+        <Constraint
+            android:id="@+id/playPause"
+            motion:layout_constraintEnd_toStartOf="@+id/close"
+            motion:layout_constraintStart_toEndOf="@+id/mini_title"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            motion:layout_constraintBottom_toBottomOf="@+id/close"
+            android:layout_marginBottom="16dp"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="@+id/close"
+            android:layout_marginTop="16dp" />
+        <Constraint
+            android:id="@+id/mini_title"
+            motion:layout_constraintEnd_toStartOf="@+id/playPause"
+            motion:layout_constraintStart_toEndOf="@+id/watch_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/playPause"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="@+id/playPause" />
+        <Constraint
+            android:id="@+id/close"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/playPause"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            motion:layout_constraintBottom_toBottomOf="@+id/main_layout"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="@+id/main_layout" />
     </ConstraintSet>
 </MotionScene>

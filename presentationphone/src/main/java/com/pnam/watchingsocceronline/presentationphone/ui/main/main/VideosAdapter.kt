@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.home
+package com.pnam.watchingsocceronline.presentationphone.ui.main.main
 
 import android.os.Parcelable
 import android.view.ViewGroup

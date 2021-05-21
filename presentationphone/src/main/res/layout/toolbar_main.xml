@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="user"
             type="com.pnam.watchingsocceronline.model.model.User" />
+
+        <import type="coil.request.ImageRequest.Builder"/>
+        <import type="kotlin.Unit"/>
+        <import type="kotlin.jvm.functions.Function1"/>
+        <variable
+            name="avatar_handle"
+            type="Function1&lt;Builder, Unit>" />
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -81,6 +87,8 @@
                 <ImageView
                     android:id="@+id/avatar"
                     android:layout_width="wrap_content"
+                    image_builder="@{avatar_handle}"
+                    url_image="@{user.avatar}"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"

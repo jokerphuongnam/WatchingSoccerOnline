@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.base
+package com.pnam.watchingsocceronline.presentationphone.ui.main.main
 
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
