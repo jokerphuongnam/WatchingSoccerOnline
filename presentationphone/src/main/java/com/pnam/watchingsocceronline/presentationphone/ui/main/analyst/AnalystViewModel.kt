@@ -10,6 +10,10 @@ class AnalystViewModel: BaseViewModel() {
         MutableLiveData()
     }
     fun getData(){
-        videosLiveData.postValue(FakeData.data)
+        val data = FakeData.data.toMutableList()
+        data.sortWith { old, new ->
+            old.view.compareTo(new.view)
+        }
+        videosLiveData.postValue(data)
     }
 }

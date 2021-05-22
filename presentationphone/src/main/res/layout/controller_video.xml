@@ -39,6 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_replay_5_24"
                     app:tint="#FFFFFF"
                     tools:tint="#000" />
@@ -49,29 +50,26 @@
                 android:layout_height="230dp"
                 android:layout_weight="1">
 
-                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                <ImageView
+                    android:id="@+id/exo_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:paddingTop="20dp"
+                    app:srcCompat="@drawable/ic_baseline_pause_circle_outline_24"
+                    app:tint="#FFFFFF"
+                    tools:tint="#000" />
 
-                    <ImageView
-                        android:id="@+id/exo_play"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_baseline_play_circle_outline_24"
-                        app:tint="#FFFFFF"
-                        tools:tint="#000" />
+                <ImageView
+                    android:id="@+id/exo_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="20dp"
+                    app:srcCompat="@drawable/ic_baseline_play_circle_outline_24"
+                    app:tint="#FFFFFF"
+                    tools:tint="#000" />
 
-                    <ImageView
-                        android:id="@+id/exo_pause"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_baseline_pause_circle_outline_24"
-                        app:tint="#FFFFFF"
-                        tools:tint="#000" />
-                </androidx.coordinatorlayout.widget.CoordinatorLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -93,18 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_forward_5_24"
                     app:tint="#FFFFFF"
                     tools:tint="#000" />
 
-                <ImageView
-                    android:id="@+id/full_screen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    app:srcCompat="@drawable/ic_baseline_fullscreen_24"
-                    app:tint="#FFFFFF"
-                    tools:tint="#000" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
 
@@ -133,20 +124,33 @@
                 <TextView
                     android:id="@+id/exo_position"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="/"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/exo_duration"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:textColor="#FFFFFF" />
+
+                <ImageView
+                    android:id="@+id/full_screen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_baseline_fullscreen_24"
+                    app:tint="#FFFFFF"
+                    tools:tint="#000" />
             </LinearLayout>
 
         </LinearLayout>

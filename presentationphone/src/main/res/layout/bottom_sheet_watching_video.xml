@@ -29,19 +29,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="?attr/whiteBlack"
+        android:visibility="gone"
         app:behavior_hideable="false"
+        app:layout_behavior="@string/bottom_sheet_behavior"
         app:layoutDescription="@xml/bottom_sheet_watch_video_xml_container_scene"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        tools:visibility="visible">
+
 
         <FrameLayout
             android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="?attr/whiteBlack"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
             android:id="@+id/watch_video"
@@ -57,17 +58,17 @@
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/videoView"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:controller_layout_id="@layout/controller_video"
                 app:fastforward_increment="5000"
-                app:hide_on_touch="false"
+                app:hide_on_touch="true"
                 app:player_layout_id="@layout/exo_simple_player_view"
                 app:resize_mode="fit"
                 app:rewind_increment="500"
                 app:show_timeout="5000"
-                app:use_controller="false" />
+                app:use_controller="true" />
 
             <ProgressBar
                 android:id="@+id/loading"
@@ -75,21 +76,24 @@
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
-                android:progressTint="#FFFFFF"
+                android:indeterminateTint="#FFFFFF"
                 android:scaleType="fitCenter" />
         </RelativeLayout>
 
 
         <TextView
             android:id="@+id/mini_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
             android:paddingEnd="8dp"
             android:singleLine="true"
             android:text="@{video.title}"
-            android:alpha="0"
             app:layout_constraintBottom_toBottomOf="@+id/playPause"
             app:layout_constraintEnd_toStartOf="@+id/playPause"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/watch_video"
             app:layout_constraintTop_toTopOf="@+id/playPause"
             tools:text="Title" />
@@ -98,13 +102,12 @@
             android:id="@+id/playPause"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
             android:adjustViewBounds="true"
+            android:alpha="0"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:scaleType="fitCenter"
-            android:alpha="0"
             app:layout_constraintBottom_toBottomOf="@+id/close"
             app:layout_constraintEnd_toStartOf="@+id/close"
             app:layout_constraintStart_toEndOf="@+id/mini_title"
@@ -117,10 +120,10 @@
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"
             android:adjustViewBounds="true"
+            android:alpha="0"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:scaleType="fitCenter"
-            android:alpha="0"
             app:layout_constraintBottom_toBottomOf="@+id/main_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/playPause"

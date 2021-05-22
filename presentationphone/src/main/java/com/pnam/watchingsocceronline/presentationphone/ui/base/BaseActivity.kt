@@ -46,15 +46,10 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
-//    override val actionBarSize: Int by lazy {
-//        TypedValue.complexToDimensionPixelSize(TypedValue().data, resources.displayMetrics)
-//    }
-
     protected fun showFragment(
         @IdRes container: Int,
         fragment: Fragment,
-        transactionViews: List<View>? = null,
-        isHidePreFrag: Boolean = true
+        transactionViews: List<View>? = null
     ) {
         val tag = fragment.javaClass.simpleName
         val fragmentFindByTag: Fragment? = supportFragmentManager.findFragmentByTag(tag)
@@ -65,12 +60,11 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
             if (fragmentFindByTag == null) {
                 add(container, fragment, tag)
             } else {
-                if(isHidePreFrag){
-                    supportFragmentManager.findFragmentById(container)?.let {
-                        hide(it)
-                    }
+                supportFragmentManager.findFragmentById(container)?.let {
+                    hide(it)
                 }
                 show(fragment)
+                setPrimaryNavigationFragment(fragment)
             }
         }
     }

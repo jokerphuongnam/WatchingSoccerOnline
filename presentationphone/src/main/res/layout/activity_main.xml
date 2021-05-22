@@ -17,7 +17,12 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="?android:attr/actionBarSize"/>
+            android:paddingBottom="?android:attr/actionBarSize" />
+
+
+        <include
+            android:id="@+id/watching_video"
+            layout="@layout/bottom_sheet_watching_video" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

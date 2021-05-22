@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
@@ -13,16 +12,14 @@ import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.analyst.AnalystFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoFragment.Companion.VIDEO
+import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     private val mainFragments: List<Fragment> by lazy {
         mutableListOf(
             homeFragment,
             analystFragment,
-            libraryFragment,
-            watchVideoFragment
+            libraryFragment
         )
     }
 
@@ -42,9 +39,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         LibraryFragment()
     }
 
-    private val watchVideoFragment: WatchVideoFragment by lazy {
-        WatchVideoFragment().apply {
+    private val watchVideoBottomSheet: WatchVideoBottomSheet by lazy {
+        WatchVideoBottomSheet(
+            this,
+            viewModel,
+            binding.watchingVideo,
+            paddingBottom
+        ).apply {
             collapseEvent = this@MainActivity.collapseEvent
+            motionProgressChanged = this@MainActivity.motionProgressChanged
         }
     }
 
@@ -67,12 +70,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 }
             }
             showFragment(fragment)
-            supportFragmentManager.findFragmentByTag(mainFragments[3].javaClass.simpleName)?.let {
-                supportFragmentManager.commit {
-                    show(it)
-                    (it as WatchVideoFragment).collapseEvent()
-                }
-            }
             true
         }
     }
@@ -87,14 +84,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         paddingBottom = binding.container.paddingBottom
         setUpBottomNavigation()
         showFragment(mainFragments[0])
+        watchVideoBottomSheet.onInit()
     }
 
     private fun showFragment(
         fragment: Fragment,
-        transactionViews: List<View>? = null,
-        isHidePreFrag: Boolean = false
+        transactionViews: List<View>? = null
     ) {
-        showFragment(R.id.container, fragment, transactionViews, isHidePreFrag)
+        showFragment(R.id.container, fragment, transactionViews)
     }
 
     override val viewModel: MainViewModel by viewModels()
@@ -102,16 +99,35 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     private val openVideoBottomSheet: (Video) -> Unit by lazy {
         { video ->
             binding.container.setPadding(0, 0, 0, 0)
-            binding.bottomNavigation.y = Resources.getSystem().displayMetrics.heightPixels.toFloat()
-            intent.putExtra(VIDEO, video)
-            showFragment(mainFragments[3], isHidePreFrag = false)
+//            binding.bottomNavigation.y = Resources.getSystem().displayMetrics.heightPixels.toFloat()
+            viewModel.videoLiveData.postValue(video)
+            watchVideoBottomSheet.show()
         }
     }
-
 
     private val collapseEvent: (() -> Unit) by lazy {
         {
             binding.container.setPadding(0, 0, 0, paddingBottom)
+        }
+    }
+
+    private val motionProgressChanged: (Float) -> Unit by lazy {
+        { progress ->
+            binding.container.setPadding(0, 0, 0, (progress * paddingBottom.toFloat()).toInt())
+            binding.bottomNavigation.y =
+                Resources.getSystem().displayMetrics.heightPixels.toFloat() - (progress * paddingBottom.toFloat()).toInt()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!watchVideoBottomSheet.isShow) {
+            super.onBackPressed()
+        } else {
+            if (watchVideoBottomSheet.collapseEvent()) {
+                super.onBackPressed()
+            } else {
+                watchVideoBottomSheet.collapseEvent()
+            }
         }
     }
 }

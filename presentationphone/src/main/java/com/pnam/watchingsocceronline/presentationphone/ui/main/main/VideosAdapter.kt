@@ -5,18 +5,21 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.pnam.watchingsocceronline.model.model.Notification
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewHolder
+import com.pnam.watchingsocceronline.presentationphone.databinding.ItemNotificaionBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemSearchBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemVideoHomeBinding
+import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewHolder
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.RecyclerType
 
 class VideosAdapter(
-    private val itemSearchCallback: ContainerItemCallback<SearchHistory>,
-    private val itemVideoCallback: ContainerItemCallback<Video>
+    private val itemSearchCallback: ContainerItemCallback<SearchHistory>? = null,
+    private val itemVideoCallback: ContainerItemCallback<Video>? = null,
+    private val itemNotificationCallback: ContainerItemCallback<Notification>? = null
 ) :
     ListAdapter<Parcelable, BaseViewHolder<ViewDataBinding, Parcelable>>(DIFF) {
 
@@ -26,6 +29,7 @@ class VideosAdapter(
             recyclerType = when (it[0]){
                 is Video -> RecyclerType.OTHER
                 is SearchHistory -> RecyclerType.SEARCH
+                is Notification -> RecyclerType.NOTIFICATION
                 else -> RecyclerType.OTHER
             }
         }
@@ -40,6 +44,7 @@ class VideosAdapter(
     ): BaseViewHolder<ViewDataBinding, Parcelable> = when (recyclerType) {
         RecyclerType.SEARCH -> SearchViewHolder(parent, itemSearchCallback)
         RecyclerType.OTHER -> VideoHomeViewHolder(parent, itemVideoCallback)
+        RecyclerType.NOTIFICATION -> NotificationViewHolder(parent, itemNotificationCallback)
     } as BaseViewHolder<ViewDataBinding, Parcelable>
 
 
@@ -52,7 +57,7 @@ class VideosAdapter(
 
     private class SearchViewHolder(
         parent: ViewGroup,
-        private val itemCallback: ContainerItemCallback<SearchHistory>
+        private val itemCallback: ContainerItemCallback<SearchHistory>?
     ) :
         BaseViewHolder<ItemSearchBinding, SearchHistory>(
             parent,
@@ -62,14 +67,14 @@ class VideosAdapter(
         override fun onBind(data: SearchHistory) {
             binding.apply {
                 searchHistory = data
-                container.setOnClickListener { itemCallback.onClick(data) }
+                container.setOnClickListener { itemCallback?.onClick(data) }
             }
         }
     }
 
     private class VideoHomeViewHolder(
         parent: ViewGroup,
-        private val itemCallback: ContainerItemCallback<Video>
+        private val itemCallback: ContainerItemCallback<Video>?
     ) :
         BaseViewHolder<ItemVideoHomeBinding, Video>(
             parent,
@@ -79,7 +84,24 @@ class VideosAdapter(
         override fun onBind(data: Video) {
             binding.apply {
                 video = data
-                container.setOnClickListener { itemCallback.onClick(data) }
+                container.setOnClickListener { itemCallback?.onClick(data) }
+            }
+        }
+    }
+
+    private class NotificationViewHolder(
+        parent: ViewGroup,
+        private val itemCallback: ContainerItemCallback<Notification>?
+    ) :
+        BaseViewHolder<ItemNotificaionBinding, Notification>(
+            parent,
+            R.layout.item_notificaion,
+            itemCallback
+        ) {
+        override fun onBind(data: Notification) {
+            binding.apply {
+                notification = data
+                container.setOnClickListener { itemCallback?.onClick(data) }
             }
         }
     }

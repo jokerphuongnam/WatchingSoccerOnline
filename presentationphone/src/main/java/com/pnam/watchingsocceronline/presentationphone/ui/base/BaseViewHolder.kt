@@ -13,9 +13,9 @@ abstract class BaseViewHolder<BD : ViewDataBinding, D : Parcelable> : RecyclerVi
 
     private var _binding: BD? = null
     protected val binding: BD get() = _binding!!
-    private val containerItemCallback: ContainerItemCallback<D>
+    private val containerItemCallback: ContainerItemCallback<D>?
 
-    private constructor (binding: BD, containerItemCallback: ContainerItemCallback<D>) : super(
+    private constructor (binding: BD, containerItemCallback: ContainerItemCallback<D>?) : super(
         binding.root
     ) {
         this._binding = binding
@@ -25,7 +25,7 @@ abstract class BaseViewHolder<BD : ViewDataBinding, D : Parcelable> : RecyclerVi
     constructor(
         parent: ViewGroup,
         @LayoutRes layout: Int,
-        containerItemCallback: ContainerItemCallback<D>
+        containerItemCallback: ContainerItemCallback<D>?
     ) : this(
         DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), layout, parent, false

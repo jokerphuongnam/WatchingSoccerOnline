@@ -48,8 +48,4 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(
                 resources.displayMetrics
             )
         }
-
-//    override val actionBarSize: Int by lazy {
-//        TypedValue.complexToDimensionPixelSize(TypedValue().data, requireActivity().resources.displayMetrics)
-//    }
 }
