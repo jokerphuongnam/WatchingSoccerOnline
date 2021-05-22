@@ -9,7 +9,7 @@ import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
-import com.pnam.watchingsocceronline.presentationphone.ui.main.analyst.AnalystFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     private val mainFragments: List<Fragment> by lazy {
         mutableListOf(
             homeFragment,
-            analystFragment,
+            chartFragment,
             libraryFragment
         )
     }
@@ -29,8 +29,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         }
     }
 
-    private val analystFragment: AnalystFragment by lazy {
-        AnalystFragment().apply {
+    private val chartFragment: ChartFragment by lazy {
+        ChartFragment().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
         }
     }
@@ -46,7 +46,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             binding.watchingVideo,
             paddingBottom
         ).apply {
-            collapseEvent = this@MainActivity.collapseEvent
             motionProgressChanged = this@MainActivity.motionProgressChanged
         }
     }
@@ -59,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 R.id.home -> {
                     mainFragments[0]
                 }
-                R.id.analyst -> {
+                R.id.chart -> {
                     mainFragments[1]
                 }
                 R.id.library -> {
@@ -98,16 +97,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     private val openVideoBottomSheet: (Video) -> Unit by lazy {
         { video ->
-            binding.container.setPadding(0, 0, 0, 0)
-//            binding.bottomNavigation.y = Resources.getSystem().displayMetrics.heightPixels.toFloat()
-            viewModel.videoLiveData.postValue(video)
+            binding.bottomNavigation.y = Resources.getSystem().displayMetrics.heightPixels.toFloat()
+            viewModel.videoLiveData.value = video
             watchVideoBottomSheet.show()
-        }
-    }
-
-    private val collapseEvent: (() -> Unit) by lazy {
-        {
-            binding.container.setPadding(0, 0, 0, paddingBottom)
         }
     }
 

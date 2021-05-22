@@ -1,15 +1,14 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.analyst
+package com.pnam.watchingsocceronline.presentationphone.ui.main.chart
 
 import androidx.fragment.app.viewModels
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.ui.main.main.MainFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.main.VideosAdapter
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 
-class AnalystFragment : MainFragment<AnalystViewModel>() {
+class ChartFragment : MainFragment<ChartViewModel>() {
 
-    override val viewModel: AnalystViewModel by viewModels()
+    override val viewModel: ChartViewModel by viewModels()
 
     override val callbackSearchHistory: ContainerItemCallback<SearchHistory> by lazy {
         object : ContainerItemCallback<SearchHistory> {

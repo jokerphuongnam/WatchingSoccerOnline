@@ -28,12 +28,13 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_margin="0dp"
         android:background="?attr/whiteBlack"
+        android:orientation="vertical"
         android:visibility="gone"
         app:behavior_hideable="false"
-        app:layout_behavior="@string/bottom_sheet_behavior"
         app:layoutDescription="@xml/bottom_sheet_watch_video_xml_container_scene"
+        app:layout_behavior="com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet"
         tools:visibility="visible">
 
 
@@ -47,7 +48,7 @@
         <RelativeLayout
             android:id="@+id/watch_video"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:background="?attr/whiteBlack"
             android:orientation="vertical"
             android:padding="-16dp"
@@ -58,7 +59,7 @@
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/videoView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:controller_layout_id="@layout/controller_video"
@@ -79,7 +80,6 @@
                 android:indeterminateTint="#FFFFFF"
                 android:scaleType="fitCenter" />
         </RelativeLayout>
-
 
         <TextView
             android:id="@+id/mini_title"
@@ -138,8 +138,10 @@
             android:background="?attr/whiteBlack"
             android:fillViewport="true"
             android:paddingStart="16dp"
+            android:animateLayoutChanges="true"
             android:paddingTop="16dp"
             android:paddingEnd="16dp"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -271,6 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/item_video_home" />
             </LinearLayout>
         </ScrollView>

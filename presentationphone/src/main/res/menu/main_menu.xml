@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_home"
         android:title="@string/home" />
     <item
-        android:id="@+id/analyst"
+        android:id="@+id/chart"
         android:icon="@drawable/ic_bar_chart"
-        android:title="@string/analyst" />
+        android:title="@string/chart" />
     <item
         android:id="@+id/library"
         android:icon="@drawable/ic_playlist"

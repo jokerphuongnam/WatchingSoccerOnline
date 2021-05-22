@@ -2,9 +2,9 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo
 
 import android.content.pm.ActivityInfo
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
@@ -25,11 +25,13 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.HttpDataSource
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
+import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
+import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 
 
 @Suppress("DEPRECATION")
@@ -41,17 +43,18 @@ class WatchVideoBottomSheet(
 ) {
 
     internal fun onInit() {
-        behavior.peekHeight = paddingBottom * 2
         onCreateView()
-        createBehavior()
+        onCreateBehavior()
+        onCreateViewModel()
     }
 
-    private fun createBehavior() {
+    private val behavior: CustomBottomSheet<MotionLayout> by lazy {
+        CustomBottomSheet.from(binding.container)
+    }
+
+    private fun onCreateBehavior() {
         behavior.addBottomSheetCallback(bottomSheetCallBack)
-    }
-
-    private val behavior: BottomSheetBehavior<MotionLayout> by lazy {
-        from(binding.container)
+        behavior.peekHeight = paddingBottom * 2
     }
 
     private var _exoPlayer: SimpleExoPlayer? = null
@@ -62,18 +65,6 @@ class WatchVideoBottomSheet(
     private lateinit var trackSelector: DefaultTrackSelector
 
     private fun onCreateView() {
-        viewModel.videoLiveData.observe(activity) { video ->
-            if (video == null) {
-                binding.video = null
-                return@observe
-            }
-            if (binding.video == null || binding.video!!.vid != video.vid) {
-                binding.video = video
-                loadVideo(video.video)
-            } else {
-                behavior.state = STATE_EXPANDED
-            }
-        }
         /**
          * make full screen
          * */
@@ -81,18 +72,43 @@ class WatchVideoBottomSheet(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        setUpVideoController()
+        onCreateVideoController()
+        onCreateRecyclerView()
         binding.apply {
             close.setOnClickListener(closeEvent)
             avatarHandle = this@WatchVideoBottomSheet.avatarHandle
             playPause.setOnClickListener {
-                Log.e("ccccccccccccccccccccccc", exoPlayer.playWhenReady.toString())
+                if (exoPlayer.playWhenReady) {
+                    binding.playPause.setImageResource(R.drawable.ic_pause)
+                } else {
+                    binding.playPause.setImageResource(R.drawable.ic_play)
+                }
+                exoPlayer.playWhenReady = !exoPlayer.playWhenReady
             }
         }
-        recyclerView()
     }
 
-    private fun setUpVideoController() {
+    private fun onCreateViewModel() {
+        viewModel.apply {
+            videoLiveData.observe(activity) { video ->
+                if (video == null) {
+                    binding.video = null
+                    return@observe
+                }
+                if (binding.video == null || binding.video!!.vid != video.vid) {
+                    binding.video = video
+                    loadVideo(video.video)
+                } else {
+                    behavior.state = STATE_EXPANDED
+                }
+            }
+            recommendLiveData.observe(activity) { videos ->
+                recommendAdapter.submitList(videos.toMutableList())
+            }
+        }
+    }
+
+    private fun onCreateVideoController() {
         videoController.apply {
             fullScreenEvent = { isFullScreen ->
                 activity.requestedOrientation = if (isFullScreen) {
@@ -105,18 +121,34 @@ class WatchVideoBottomSheet(
         }
     }
 
+    private val recommendItemClick: ContainerItemCallback<Video> by lazy {
+        object : ContainerItemCallback<Video> {
+            override fun onLongTouch(data: Video) {
+
+            }
+
+            override fun onClick(data: Video) {
+                viewModel.videoLiveData.value = data
+                show()
+            }
+        }
+    }
+
+    private val recommendAdapter: RecommendAdapter by lazy {
+        RecommendAdapter(recommendItemClick)
+    }
+
+    private fun onCreateRecyclerView() {
+        binding.recommends.apply {
+            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            adapter = recommendAdapter
+        }
+    }
+
     internal fun collapseEvent(): Boolean =
         (binding.container.progress == 1.0F).takeUnless { it }?.apply {
-            collapseEvent?.invoke()
             behavior.state = STATE_COLLAPSED
         } ?: true
-
-    internal var collapseEvent: (() -> Unit)? = null
-
-    private fun recyclerView() {
-        binding.recommends.layoutManager =
-            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-    }
 
     private val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
         {
@@ -150,19 +182,6 @@ class WatchVideoBottomSheet(
 
     internal var motionProgressChanged: ((progress: Float) -> Unit)? = null
 
-    internal fun show() {
-        behavior.state = STATE_EXPANDED
-        binding.container.isVisible = true
-    }
-
-    private fun dismiss() {
-        binding.container.isEnabled = false
-        binding.videoView.player.release()
-        _exoPlayer = null
-        binding.container.isVisible = false
-        viewModel.videoLiveData.postValue(null)
-    }
-
     private val bottomSheetCallBack: BottomSheetCallback by lazy {
         object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -172,6 +191,9 @@ class WatchVideoBottomSheet(
                     }
                     STATE_DRAGGING -> {
                         binding.videoView.useController = false
+                    }
+                    else -> {
+
                     }
                 }
             }
@@ -184,7 +206,7 @@ class WatchVideoBottomSheet(
                         0,
                         0,
                         0,
-                        (paddingBottom.toFloat() * slideOffset).toInt()
+                        (paddingBottom.toFloat() * (1.0 - slideOffset)).toInt()
                     )
                 }
             }
@@ -223,6 +245,10 @@ class WatchVideoBottomSheet(
                     Player.STATE_READY -> {
                         binding.loading.visibility = View.GONE
                         binding.videoView.useController = true
+                        binding.playPause.setImageResource(R.drawable.ic_play)
+                    }
+                    Player.STATE_IDLE -> {
+                        binding.playPause.setImageResource(R.drawable.ic_pause)
                     }
                 }
             }
@@ -248,7 +274,20 @@ class WatchVideoBottomSheet(
         }
     }
 
-    companion object {
-        internal const val VIDEO = "VIDEO"
+    internal fun show() {
+        behavior.state = STATE_EXPANDED
+        binding.container.isVisible = true
+        binding.scroll.fullScroll(ScrollView.FOCUS_UP)
+        viewModel.getRecommendVideo()
+        binding.container.setPadding(0, 0, 0, 0)
+    }
+
+    private fun dismiss() {
+        binding.container.isEnabled = false
+        binding.videoView.player.release()
+        _exoPlayer = null
+        binding.container.isVisible = false
+        binding.videoView.player = null
+        viewModel.videoLiveData.postValue(null)
     }
 }

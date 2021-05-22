@@ -4,7 +4,6 @@ import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.pnam.watchingsocceronline.model.model.Notification
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
@@ -12,7 +11,7 @@ import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemNotificaionBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemSearchBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemVideoHomeBinding
-import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewHolder
+import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseListAdapter
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.RecyclerType
 
@@ -20,13 +19,12 @@ class VideosAdapter(
     private val itemSearchCallback: ContainerItemCallback<SearchHistory>? = null,
     private val itemVideoCallback: ContainerItemCallback<Video>? = null,
     private val itemNotificationCallback: ContainerItemCallback<Notification>? = null
-) :
-    ListAdapter<Parcelable, BaseViewHolder<ViewDataBinding, Parcelable>>(DIFF) {
+) : BaseListAdapter<Parcelable, BaseListAdapter.BaseViewHolder<ViewDataBinding, Parcelable>>(DIFF) {
 
     override fun submitList(list: MutableList<Parcelable>?) {
         super.submitList(list)
         list?.takeIf { it.isNotEmpty() }?.let {
-            recyclerType = when (it[0]){
+            recyclerType = when (it[0]) {
                 is Video -> RecyclerType.OTHER
                 is SearchHistory -> RecyclerType.SEARCH
                 is Notification -> RecyclerType.NOTIFICATION
@@ -47,17 +45,9 @@ class VideosAdapter(
         RecyclerType.NOTIFICATION -> NotificationViewHolder(parent, itemNotificationCallback)
     } as BaseViewHolder<ViewDataBinding, Parcelable>
 
-
-    override fun onBindViewHolder(
-        holder: BaseViewHolder<ViewDataBinding, Parcelable>,
-        position: Int
-    ) {
-        holder.onBind(getItem(position))
-    }
-
     private class SearchViewHolder(
         parent: ViewGroup,
-        private val itemCallback: ContainerItemCallback<SearchHistory>?
+        itemCallback: ContainerItemCallback<SearchHistory>?
     ) :
         BaseViewHolder<ItemSearchBinding, SearchHistory>(
             parent,
@@ -74,7 +64,7 @@ class VideosAdapter(
 
     private class VideoHomeViewHolder(
         parent: ViewGroup,
-        private val itemCallback: ContainerItemCallback<Video>?
+        itemCallback: ContainerItemCallback<Video>?
     ) :
         BaseViewHolder<ItemVideoHomeBinding, Video>(
             parent,
@@ -91,7 +81,7 @@ class VideosAdapter(
 
     private class NotificationViewHolder(
         parent: ViewGroup,
-        private val itemCallback: ContainerItemCallback<Notification>?
+        itemCallback: ContainerItemCallback<Notification>?
     ) :
         BaseViewHolder<ItemNotificaionBinding, Notification>(
             parent,
