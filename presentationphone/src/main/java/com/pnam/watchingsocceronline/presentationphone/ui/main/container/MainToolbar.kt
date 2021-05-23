@@ -1,25 +1,30 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.toolbar
+package com.pnam.watchingsocceronline.presentationphone.ui.main.container
 
 import android.content.Intent
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.databinding.ToolbarMainBinding
+import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 
-class MainToolbar(
-    private val activity: AppCompatActivity,
-    private val binding: ToolbarMainBinding
-) {
+class MainToolbar(private val activity: AppCompatActivity) {
 
-    internal fun onCreate() {
+    private var _binding: LayoutAvatarBinding? = null
+    val binding: LayoutAvatarBinding get() = _binding!!
+
+    internal fun setBinding(view: View) {
+        _binding = LayoutAvatarBinding.bind(view)
         binding.avatar.apply {
             setOnClickListener(avatarClick)
         }
-
         binding.avatarHandle = avatarHandle
+    }
+
+    internal fun onCreate() {
     }
 
     private val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
@@ -28,10 +33,6 @@ class MainToolbar(
             it.crossfade(true)
             it.placeholder(R.drawable.ic_error)
         }
-    }
-
-    internal fun onResume() {
-        activity.setSupportActionBar(binding.toolbar)
     }
 
     private val userIntent: Intent by lazy {
@@ -51,5 +52,9 @@ class MainToolbar(
                 )
             }
         }
+    }
+
+    internal fun setUser(user: User?) {
+        binding.user = user
     }
 }

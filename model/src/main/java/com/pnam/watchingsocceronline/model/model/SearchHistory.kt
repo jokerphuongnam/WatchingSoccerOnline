@@ -8,6 +8,7 @@ import java.util.*
 
 @Parcelize
 data class SearchHistory(
+    var sid: Long,
     var uid: Long,
     var searchWord: String,
     var searchTime: Long,

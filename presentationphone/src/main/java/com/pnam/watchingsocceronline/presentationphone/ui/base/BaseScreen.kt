@@ -5,8 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
@@ -20,7 +21,7 @@ import com.pnam.watchingsocceronline.presentationphone.R
 
 interface BaseScreen<BD : ViewDataBinding, VM : BaseViewModel> {
     val layoutRes: Int
-    fun createView()
+    fun onCreateView()
     var _binding: BD?
     val binding: BD get() = _binding!!
     val viewModel: VM
@@ -108,5 +109,13 @@ interface BaseScreen<BD : ViewDataBinding, VM : BaseViewModel> {
 
     fun Intent.putParcelableExtra(key: String, value: Parcelable) {
         putExtra(key, value)
+    }
+
+    @ColorInt
+    fun Context.getColorFromAttr(@AttrRes attrColor: Int): Int {
+        val typedArray = theme.obtainStyledAttributes(intArrayOf(attrColor))
+        val textColor = typedArray.getColor(0, 0)
+        typedArray.recycle()
+        return textColor
     }
 }

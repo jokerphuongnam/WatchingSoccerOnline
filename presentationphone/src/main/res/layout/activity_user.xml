@@ -31,6 +31,7 @@
                     android:foreground="@drawable/ripple"
                     android:padding="16dp"
                     android:scaleType="fitCenter"
+                    app:tint="?attr/blackWhite"
                     app:srcCompat="@drawable/ic_close" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>

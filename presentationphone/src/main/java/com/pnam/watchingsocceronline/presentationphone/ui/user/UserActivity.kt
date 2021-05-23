@@ -20,7 +20,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         binding.backButton.setOnClickListener { onBackPressed() }
     }
 
-    override fun createView() {
+    override fun onCreateView() {
         setUpActionBar()
         setUpEvent()
     }

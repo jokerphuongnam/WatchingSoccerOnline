@@ -27,7 +27,7 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
         _binding = DataBindingUtil.setContentView<BD>(this, layoutRes).apply {
             lifecycleOwner = this@BaseActivity
         }
-        createView()
+        onCreateView()
     }
 
     protected val isEmptyFragmentBackStack: Boolean

@@ -3,11 +3,21 @@ package com.pnam.watchingsocceronline.presentationphone.utils
 import com.pnam.watchingsocceronline.model.model.Match
 import com.pnam.watchingsocceronline.model.model.Team
 import com.pnam.watchingsocceronline.model.model.Video
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 import kotlin.random.Random
 
 object FakeData {
-    val data: MutableList<Video> by lazy {
+
+    @ExperimentalCoroutinesApi
+    suspend fun getFakeData(): MutableList<Video> = suspendCancellableCoroutine {
+        it.resume(data){
+
+        }
+    }
+
+    private val data: MutableList<Video> by lazy {
         mutableListOf(
             Video(
                 Random(Calendar.getInstance().timeInMillis).nextLong(),

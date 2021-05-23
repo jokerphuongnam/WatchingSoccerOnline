@@ -1,20 +1,28 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main
 
-import android.content.res.Resources
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.container.ContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
+    private val containerId: Int by lazy {
+        R.id.container
+    }
+
     private val mainFragments: List<Fragment> by lazy {
         mutableListOf(
             homeFragment,
@@ -36,7 +44,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     }
 
     private val libraryFragment: LibraryFragment by lazy {
-        LibraryFragment()
+        LibraryFragment().apply {
+            openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+        }
     }
 
     private val watchVideoBottomSheet: WatchVideoBottomSheet by lazy {
@@ -49,8 +59,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             motionProgressChanged = this@MainActivity.motionProgressChanged
         }
     }
-
-    private val bottomNavigationView: BottomNavigationView get() = binding.bottomNavigation
 
     private val onNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener by lazy {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -74,14 +82,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     }
 
     private fun setUpBottomNavigation() {
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(
+            onNavigationItemSelectedListener
+        )
     }
 
     private var paddingBottom: Int = 0
+    private var bottomSheetOutSideScreen: Float = 0.0f
 
-    override fun createView() {
+    private fun setUpRoomDistance() {
         paddingBottom = binding.container.paddingBottom
+    }
+
+    override fun onCreateView() {
         setUpBottomNavigation()
+        setUpRoomDistance()
         showFragment(mainFragments[0])
         watchVideoBottomSheet.onInit()
     }
@@ -90,25 +105,32 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         fragment: Fragment,
         transactionViews: List<View>? = null
     ) {
-        showFragment(R.id.container, fragment, transactionViews)
+        showFragment(containerId, fragment, transactionViews)
     }
 
     override val viewModel: MainViewModel by viewModels()
 
-    private val openVideoBottomSheet: (Video) -> Unit by lazy {
-        { video ->
-            binding.bottomNavigation.y = Resources.getSystem().displayMetrics.heightPixels.toFloat()
-            viewModel.videoLiveData.value = video
+    private val openVideoBottomSheet: (Long) -> Unit by lazy {
+        { vid ->
+            bottomSheetOutSideScreen = binding.bottomNavigation.y + paddingBottom
+            binding.bottomNavigation.y += bottomSheetOutSideScreen
             watchVideoBottomSheet.show()
+            viewModel.openVideo(vid)
         }
     }
 
     private val motionProgressChanged: (Float) -> Unit by lazy {
         { progress ->
-            binding.container.setPadding(0, 0, 0, (progress * paddingBottom.toFloat()).toInt())
-            binding.bottomNavigation.y =
-                Resources.getSystem().displayMetrics.heightPixels.toFloat() - (progress * paddingBottom.toFloat()).toInt()
+            val bottomNavigationPos = progress * paddingBottom.toFloat()
+            binding.container.setPadding(0, 0, 0, bottomNavigationPos.toInt())
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        supportFragmentManager.findFragmentById(containerId)?.also {
+            (it as ContainerFragment<*>).onCreateOptionsMenu(menu)
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onBackPressed() {

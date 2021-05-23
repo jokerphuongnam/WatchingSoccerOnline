@@ -13,11 +13,13 @@ fun setImageFromUrl(
     url: String?,
     builder: (ImageRequest.Builder.() -> Unit)? = null
 ) {
-    url?.let {
+    if (url == null) {
+        imageView.setImageResource(R.drawable.ic_user)
+    } else {
         if (builder == null) {
-            imageView.load(it)
+            imageView.load(url)
         } else {
-            imageView.load(it,builder =  builder)
+            imageView.load(url, builder = builder)
         }
     }
 }

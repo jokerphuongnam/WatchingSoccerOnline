@@ -8,6 +8,8 @@ import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.request.ImageRequest
@@ -29,11 +31,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
+import com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 @Suppress("DEPRECATION")
 class WatchVideoBottomSheet(
     private val activity: AppCompatActivity,
@@ -46,6 +51,8 @@ class WatchVideoBottomSheet(
         onCreateView()
         onCreateBehavior()
         onCreateViewModel()
+        onCreateVideoController()
+        onCreateRecyclerView()
     }
 
     private val behavior: CustomBottomSheet<MotionLayout> by lazy {
@@ -72,8 +79,6 @@ class WatchVideoBottomSheet(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        onCreateVideoController()
-        onCreateRecyclerView()
         binding.apply {
             close.setOnClickListener(closeEvent)
             avatarHandle = this@WatchVideoBottomSheet.avatarHandle
@@ -88,21 +93,39 @@ class WatchVideoBottomSheet(
         }
     }
 
+    private var isRunVideo = false
+
+    private fun stopVideo() {
+        isRunVideo = false
+        binding.videoView.player.stop()
+        _exoPlayer = null
+        binding.videoView.player = null
+        binding.container.isVisible = false
+    }
+
+    private fun <D> MutableLiveData<D>.observe(observer: Observer<D>) {
+        observe(activity, observer)
+    }
+
     private fun onCreateViewModel() {
         viewModel.apply {
-            videoLiveData.observe(activity) { video ->
+            videoLiveData.observe { video ->
                 if (video == null) {
                     binding.video = null
+                    stopVideo()
                     return@observe
                 }
                 if (binding.video == null || binding.video!!.vid != video.vid) {
                     binding.video = video
+                    if (isRunVideo) {
+                        stopVideo()
+                    }
                     loadVideo(video.video)
                 } else {
                     behavior.state = STATE_EXPANDED
                 }
             }
-            recommendLiveData.observe(activity) { videos ->
+            recommendLiveData.observe { videos ->
                 recommendAdapter.submitList(videos.toMutableList())
             }
         }
@@ -159,6 +182,7 @@ class WatchVideoBottomSheet(
     }
 
     private fun loadVideo(url: String) {
+        isRunVideo = true
         val uri: Uri = Uri.parse(url)
         val loadControl = DefaultLoadControl()
         val bandwidthMeter: BandwidthMeter = DefaultBandwidthMeter()
@@ -190,6 +214,9 @@ class WatchVideoBottomSheet(
                         binding.videoView.useController = true
                     }
                     STATE_DRAGGING -> {
+                        binding.videoView.useController = false
+                    }
+                    STATE_COLLAPSED -> {
                         binding.videoView.useController = false
                     }
                     else -> {
@@ -283,11 +310,6 @@ class WatchVideoBottomSheet(
     }
 
     private fun dismiss() {
-        binding.container.isEnabled = false
-        binding.videoView.player.release()
-        _exoPlayer = null
-        binding.container.isVisible = false
-        binding.videoView.player = null
         viewModel.videoLiveData.postValue(null)
     }
 }

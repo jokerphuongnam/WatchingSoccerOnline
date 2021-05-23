@@ -36,8 +36,8 @@
 
                 <ImageView
                     android:id="@+id/exo_rew"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="?android:attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_replay_5_24"
@@ -52,8 +52,8 @@
 
                 <ImageView
                     android:id="@+id/exo_pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="?android:attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_pause_circle_outline_24"
@@ -62,8 +62,8 @@
 
                 <ImageView
                     android:id="@+id/exo_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="?android:attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_play_circle_outline_24"
@@ -88,8 +88,8 @@
 
                 <ImageView
                     android:id="@+id/exo_ffwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="?android:attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
                     android:layout_gravity="center"
                     android:paddingTop="20dp"
                     app:srcCompat="@drawable/ic_baseline_forward_5_24"

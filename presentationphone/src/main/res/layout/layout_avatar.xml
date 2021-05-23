@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.pnam.watchingsocceronline.model.model.User" />
+
+        <import type="coil.request.ImageRequest.Builder" />
+
+        <import type="kotlin.Unit" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <variable
+            name="avatar_handle"
+            type="Function1&lt;Builder, Unit>" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/profile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            image_builder="@{avatar_handle}"
+            url_image="@{user.avatar}"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_home"
+            tools:src="@drawable/ic_home" />
+    </FrameLayout>
+</layout>

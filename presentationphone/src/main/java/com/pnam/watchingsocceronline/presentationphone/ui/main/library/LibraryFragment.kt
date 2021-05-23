@@ -1,20 +1,16 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.library
 
 import androidx.fragment.app.viewModels
-import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
-import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentLibraryBinding
+import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.presentationphone.ui.main.container.ContainerFragment
+import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 
-class LibraryFragment :
-    BaseFragment<FragmentLibraryBinding, LibraryViewModel>(R.layout.fragment_library) {
+class LibraryFragment : ContainerFragment<LibraryViewModel>() {
     override val viewModel: LibraryViewModel by viewModels()
 
-    override fun createView() {
+    override val videoCallback: ContainerItemCallback<Video>? = null
 
-    }
+    override fun onCreateContainerView() {
 
-    override fun onResume() {
-        super.onResume()
-        actionBar.title = "Library"
     }
 }

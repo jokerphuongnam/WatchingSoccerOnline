@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:paddingBottom="?android:attr/actionBarSize" />
 
-
         <include
             android:id="@+id/watching_video"
             layout="@layout/bottom_sheet_watching_video" />
@@ -32,6 +31,6 @@
             android:layout_gravity="bottom"
             app:itemIconTint="@color/pink_grey"
             app:itemTextColor="@color/pink_grey"
-            app:menu="@menu/main_menu" />
+            app:menu="@menu/main_bottom_navigation_menu" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
