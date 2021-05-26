@@ -21,11 +21,36 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecycle
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
+import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import java.util.*
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 abstract class ContainerFragment<VM : ContainerViewModel> :
     BaseFragment<FragmentContainerBinding, VM>(R.layout.fragment_container) {
     private var _actionbar: ActionBar? = null
+
+    protected val videosBinding: LayoutRecyclerViewBinding by lazy {
+        binding.videos
+    }
+
+    protected val libraryBinding: LayoutLibraryBinding by lazy {
+        binding.library
+    }
+
+    private val searchBinding: LayoutRecyclerViewBinding by lazy {
+        binding.search
+    }
+
+    private val searchResultBinding: LayoutRecyclerViewBinding by lazy {
+        binding.searchResults
+    }
+
+    private val notificationBinding: LayoutRecyclerViewBinding by lazy {
+        binding.notification
+    }
 
     private val toolbar: MainToolbar by lazy {
         MainToolbar(requireActivity() as AppCompatActivity)
@@ -44,6 +69,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             }
 
             override fun onClick(data: SearchHistory) {
+                searchView.setQuery(data.searchWord, true)
             }
         }
     }
@@ -77,12 +103,14 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             override fun onClick(data: Notification) {
                 if (data.showTime < Calendar.getInstance().timeInMillis) {
                     openVideoBottomSheet(data.vid)
+                } else {
+                    showToast(R.string.match_has_not_happened_yet)
                 }
             }
         }
     }
 
-    internal val notificationsAdapter: NotificationsAdapter by lazy {
+    private val notificationsAdapter: NotificationsAdapter by lazy {
         NotificationsAdapter(notificationVideo)
     }
 
@@ -92,7 +120,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                 recyclerContainer.removeViewAt(0)
             } else {
                 recyclerContainer.removeViewAt(1)
-                mainBinding.list.apply {
+                videosBinding.list.apply {
                     adapter = videoAdapter
                     layoutManager =
                         LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -111,14 +139,6 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                 layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             }
         }
-    }
-
-    protected val mainBinding: LayoutRecyclerViewBinding by lazy {
-        binding.notLibrary
-    }
-
-    protected val libraryBinding: LayoutLibraryBinding by lazy {
-        binding.library
     }
 
     override val actionBar: ActionBar
@@ -154,6 +174,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                     typeface = Typeface.DEFAULT_BOLD
                 }
                 binding.recyclerContainer.displayedChild = 3
+                viewModel.notification()
                 searchItem.isVisible = false
                 _searchView = null
                 return true
@@ -187,6 +208,26 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             }
         }
 
+    private val searchQuery: SearchView.OnQueryTextListener by lazy {
+        object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                binding.recyclerContainer.displayedChild = 2
+                viewModel.searchResult(query)
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    viewModel.search()
+                } else {
+                    viewModel.search(newText)
+                }
+                return true
+            }
+        }
+    }
+
     private val searchExpandItem: MenuItem.OnActionExpandListener by lazy {
         object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
@@ -196,8 +237,10 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                 notificationItem.actionView.isVisible = false
                 binding.recyclerContainer.displayedChild = 1
                 searchView.setQuery("", false)
+                searchView.setOnQueryTextListener(searchQuery)
                 searchView.queryHint = "${getString(R.string.search_video)}…"
                 searchView.requestFocus()
+                viewModel.search()
                 notificationItem.isVisible = false
                 _notificationView = null
                 return true
@@ -245,10 +288,73 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
         setUpSearchItem()
     }
 
+    private fun viewModelObserve() {
+        viewModel.apply {
+            searchLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                        searchBinding.loading.isVisible = true
+                    }
+                    is Resource.Success -> {
+                        searchBinding.loading.isVisible = false
+                        searchAdapter.submitList(it.data)
+                    }
+                    is Resource.Error -> {
+
+                    }
+                }
+            }
+            searchResultLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                        searchResultBinding.loading.isVisible = true
+                    }
+                    is Resource.Success -> {
+                        searchResultBinding.loading.isVisible = false
+                        searchResultsAdapter.submitList(it.data)
+                    }
+                    is Resource.Error -> {
+
+                    }
+                }
+            }
+            notificationsLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                        notificationBinding.loading.isVisible = true
+                    }
+                    is Resource.Success -> {
+                        notificationBinding.loading.isVisible = false
+                        notificationsAdapter.submitList(it.data)
+                    }
+                    is Resource.Error -> {
+
+                    }
+                }
+            }
+            viewModel.videosLiveData.takeUnless { tag.toString() == LibraryFragment::class.java.simpleName }
+                ?.observe {
+                    when (it) {
+                        is Resource.Loading -> {
+                            videosBinding.loading.isVisible = true
+                        }
+                        is Resource.Success -> {
+                            videosBinding.loading.isVisible = false
+                            videoAdapter.submitList(it.data)
+                        }
+                        is Resource.Error -> {
+
+                        }
+                    }
+                }
+        }
+    }
+
     override fun onCreateView() {
         setUpRecycler()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         toolbar.onCreate()
+        viewModelObserve()
         actionBar.title = ""
         onCreateContainerView()
     }

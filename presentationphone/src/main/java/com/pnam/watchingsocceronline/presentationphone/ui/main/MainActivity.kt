@@ -1,8 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main
 
-import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -16,7 +14,9 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     private val containerId: Int by lazy {
@@ -112,8 +112,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     private val openVideoBottomSheet: (Long) -> Unit by lazy {
         { vid ->
-            bottomSheetOutSideScreen = binding.bottomNavigation.y + paddingBottom
-            binding.bottomNavigation.y += bottomSheetOutSideScreen
+            (binding.bottomNavigation.y + paddingBottom).let {
+                bottomSheetOutSideScreen = it
+                binding.bottomNavigation.y = it
+            }
             watchVideoBottomSheet.show()
             viewModel.openVideo(vid)
         }
@@ -121,8 +123,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     private val motionProgressChanged: (Float) -> Unit by lazy {
         { progress ->
-            val bottomNavigationPos = progress * paddingBottom.toFloat()
-            binding.container.setPadding(0, 0, 0, bottomNavigationPos.toInt())
+            (progress * paddingBottom.toFloat()).let {
+                binding.container.setPadding(0, 0, 0, it.toInt())
+                binding.bottomNavigation.y = bottomSheetOutSideScreen - it
+            }
         }
     }
 

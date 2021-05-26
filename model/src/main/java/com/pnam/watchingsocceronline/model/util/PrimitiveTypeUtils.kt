@@ -11,9 +11,8 @@ val Long.toCalendar: Calendar
         return calendar
     }
 
-val Long.toDateTimeString: String
-    get() {
-        val calendar: Calendar = toCalendar
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return sdf.format(calendar.time)
-    }
+fun Long.toDateTimeString(pattern: String): String{
+    val calendar: Calendar = toCalendar
+    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+    return sdf.format(calendar.time)
+}

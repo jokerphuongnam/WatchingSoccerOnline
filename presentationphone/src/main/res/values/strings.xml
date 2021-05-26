@@ -18,4 +18,6 @@
     <string name="minutes">minutes</string>
     <string name="search_video">Search soccer video</string>
     <string name="notification">Notification</string>
+    <string name="match_has_not_happened_yet">"The match hasn't happened yet "</string>
+    <string name="due">Due</string>
 </resources>

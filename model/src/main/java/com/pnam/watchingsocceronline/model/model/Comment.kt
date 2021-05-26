@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.model.model
 
 import android.os.Parcelable
+import com.pnam.watchingsocceronline.model.util.DateUtils
 import com.pnam.watchingsocceronline.model.util.toDateTimeString
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
@@ -15,9 +16,9 @@ data class Comment(
     var time: Long
 ) : Parcelable {
     var showTimeDate: String
-        get() = time.toDateTimeString
+        get() = time.toDateTimeString(DateUtils.HH_MM_DD_MM_YYYY)
         set(value) {
-            val dateFormat = SimpleDateFormat("hh:mm dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat(DateUtils.HH_MM_DD_MM_YYYY, Locale.getDefault())
             dateFormat.timeZone = TimeZone.getDefault()
             time = dateFormat.parse(value)!!.time
         }

@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.model.model
 
 import android.os.Parcelable
+import com.pnam.watchingsocceronline.model.util.DateUtils
 import com.pnam.watchingsocceronline.model.util.toDateTimeString
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
@@ -15,9 +16,9 @@ data class User(
     var birthDay: Long
 ) : Parcelable {
     var showBirthDay: String
-        get() = birthDay.toDateTimeString
+        get() = birthDay.toDateTimeString(DateUtils.DD_MM_YYYY)
         set(value) {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat(DateUtils.DD_MM_YYYY, Locale.getDefault())
             dateFormat.timeZone = TimeZone.getDefault()
             birthDay = dateFormat.parse(value)!!.time
         }

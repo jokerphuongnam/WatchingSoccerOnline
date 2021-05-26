@@ -68,7 +68,7 @@
                 android:layout_height="match_parent">
 
                 <include
-                    android:id="@+id/not_library"
+                    android:id="@+id/videos"
                     layout="@layout/layout_recycler_view" />
 
                 <include

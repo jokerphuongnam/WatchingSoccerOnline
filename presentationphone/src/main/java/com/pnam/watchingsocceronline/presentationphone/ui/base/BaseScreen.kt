@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
@@ -38,6 +39,15 @@ interface BaseScreen<BD : ViewDataBinding, VM : BaseViewModel> {
     }
 
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        type({
+            Toast.makeText(requireContext(), message, duration).show()
+        }) {
+            Toast.makeText(this, message, duration).show()
+        }
+    }
+
+
+    fun showToast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
         type({
             Toast.makeText(requireContext(), message, duration).show()
         }) {

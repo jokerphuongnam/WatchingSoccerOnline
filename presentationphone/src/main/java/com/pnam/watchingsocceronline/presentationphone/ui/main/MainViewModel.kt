@@ -7,8 +7,10 @@ import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 class MainViewModel : BaseViewModel() {
     internal val videoLiveData: MutableLiveData<Video?> by lazy { MutableLiveData() }
@@ -16,13 +18,13 @@ class MainViewModel : BaseViewModel() {
 
     internal fun getRecommendVideo() {
         viewModelScope.launch(Dispatchers.Main) {
-            recommendLiveData.postValue(FakeData.getFakeData().toMutableList())
+            recommendLiveData.postValue(FakeData.getFakeVideos().toMutableList())
         }
     }
 
     internal fun openVideo(vid: Long) {
         viewModelScope.launch(Dispatchers.Main) {
-            val recommends = FakeData.getFakeData().toMutableList()
+            val recommends = FakeData.getFakeVideos().toMutableList()
             for (video in recommends) {
                 if (video.vid == vid) {
                     videoLiveData.postValue(video)
