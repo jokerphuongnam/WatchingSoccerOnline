@@ -128,33 +128,34 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             }!!
         }
 
-    override fun onCreateView() {
-        setUpRecycler()
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        toolbar.onCreate()
-        onCreateContainerView()
-    }
-
     private var isNotification: Boolean = false
     private var isSearch: Boolean = false
 
     private var _notificationItem: MenuItem? = null
     private val notificationItem: MenuItem get() = _notificationItem!!
-    private val notificationTv: TextView by lazy { notificationItem.actionView as TextView }
+    private var _notificationView: TextView? = null
+    private val notificationView: TextView
+        get() = _notificationView ?: synchronized(this) {
+            _notificationView ?: (notificationItem.actionView as TextView).also {
+                _notificationView = it
+            }
+        }
 
     private val notificationExpandItem: MenuItem.OnActionExpandListener by lazy {
         object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                isSearch = false
                 isNotification = true
                 toolbar.binding.avatar.isVisible = false
-                searchItem.collapseActionView()
-                notificationTv.apply {
+                notificationView.apply {
                     setText(R.string.notification)
                     setTextColor(context.getColorFromAttr(R.attr.blackWhite))
                     textSize = 24f
                     typeface = Typeface.DEFAULT_BOLD
                 }
                 binding.recyclerContainer.displayedChild = 3
+                searchItem.isVisible = false
+                _searchView = null
                 return true
             }
 
@@ -164,6 +165,9 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                     toolbar.binding.avatar.isVisible = true
                 }
                 binding.recyclerContainer.displayedChild = 0
+                searchItem.isVisible = true
+                _notificationItem = null
+                requireActivity().invalidateOptionsMenu()
                 return true
             }
         }
@@ -175,19 +179,27 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
 
     private var _searchItem: MenuItem? = null
     private val searchItem: MenuItem get() = _searchItem!!
-    private val searchView: SearchView by lazy { searchItem.actionView as SearchView }
+    private var _searchView: SearchView? = null
+    private val searchView: SearchView
+        get() = _searchView ?: synchronized(this) {
+            _searchView ?: (searchItem.actionView as SearchView).also {
+                _searchView = it
+            }
+        }
 
     private val searchExpandItem: MenuItem.OnActionExpandListener by lazy {
         object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 isSearch = true
+                isNotification = false
                 toolbar.binding.avatar.isVisible = false
                 notificationItem.actionView.isVisible = false
-                searchView.requestFocus()
-                searchView.setQuery("", false)
-                notificationItem.collapseActionView()
                 binding.recyclerContainer.displayedChild = 1
+                searchView.setQuery("", false)
                 searchView.queryHint = "${getString(R.string.search_video)}…"
+                searchView.requestFocus()
+                notificationItem.isVisible = false
+                _notificationView = null
                 return true
             }
 
@@ -198,6 +210,9 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                 }
                 notificationItem.actionView.isVisible = true
                 binding.recyclerContainer.displayedChild = 0
+                notificationItem.isVisible = true
+                _searchView = null
+                requireActivity().invalidateOptionsMenu()
                 return true
             }
         }
@@ -230,15 +245,23 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
         setUpSearchItem()
     }
 
+    override fun onCreateView() {
+        setUpRecycler()
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        toolbar.onCreate()
+        actionBar.title = ""
+        onCreateContainerView()
+    }
+
     abstract fun onCreateContainerView()
 
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         if (isNotification) {
-
+            notificationItem.collapseActionView()
         } else if (isSearch) {
-
+            searchItem.collapseActionView()
         }
     }
 

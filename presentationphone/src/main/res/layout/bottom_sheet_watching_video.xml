@@ -49,9 +49,8 @@
             android:id="@+id/watch_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/whiteBlack"
+            android:background="#000"
             android:orientation="vertical"
-            android:padding="-16dp"
             app:layout_constraintBottom_toBottomOf="@+id/main_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/main_layout">

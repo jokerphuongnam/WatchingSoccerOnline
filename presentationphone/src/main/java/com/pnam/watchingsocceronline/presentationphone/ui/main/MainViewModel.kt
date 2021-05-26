@@ -16,14 +16,7 @@ class MainViewModel : BaseViewModel() {
 
     internal fun getRecommendVideo() {
         viewModelScope.launch(Dispatchers.Main) {
-            val recommends = FakeData.getFakeData().toMutableList()
-            for (video in recommends) {
-                if (video.vid == videoLiveData.value!!.vid) {
-                    recommends.remove(video)
-                    break
-                }
-            }
-            recommendLiveData.postValue(recommends)
+            recommendLiveData.postValue(FakeData.getFakeData().toMutableList())
         }
     }
 
