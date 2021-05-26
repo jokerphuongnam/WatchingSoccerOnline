@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -56,7 +57,43 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
         MainToolbar(requireActivity() as AppCompatActivity)
     }
 
-    protected abstract val videoCallback: ContainerItemCallback<Video>?
+    private val alertUnplayedVideo: AlertDialog.Builder by lazy {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(R.string.unplayed_video)
+            setPositiveButton(getString(R.string.get_notification)) { dialog, id ->
+                dialog.cancel()
+            }
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+        }
+    }
+
+    private fun clickVideo(video: Video) {
+        if (
+            video.showTime > Calendar.getInstance()
+                .apply { timeZone = TimeZone.getDefault() }.timeInMillis
+        ) {
+            alertUnplayedVideo.setMessage(
+                """${getString(R.string.video_will_show)} ${video.showTimeDate}
+                        |${getString(R.string.do_you_want_to_receive_noti_when_video_be_shown)}""".trimMargin()
+            ).show()
+
+        } else {
+            openVideoBottomSheet(video.vid)
+        }
+    }
+
+    private val videoCallback: ContainerItemCallback<Video> by lazy {
+        object : ContainerItemCallback<Video> {
+            override fun onLongTouch(data: Video) {
+            }
+
+            override fun onClick(data: Video) {
+                clickVideo(data)
+            }
+        }
+    }
 
     internal val videoAdapter: VideosAdapter by lazy {
         VideosAdapter(videoCallback)
@@ -85,7 +122,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             }
 
             override fun onClick(data: Video) {
-                openVideoBottomSheet(data.vid)
+                clickVideo(data)
             }
         }
     }

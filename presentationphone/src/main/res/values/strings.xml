@@ -20,4 +20,11 @@
     <string name="notification">Notification</string>
     <string name="match_has_not_happened_yet">"The match hasn't happened yet "</string>
     <string name="due">Due</string>
+    <string name="video_will_show">The video will be shown on</string>
+    <string name="do_you_want_to_receive_noti_when_video_be_shown">Do you want to receive notifications when the video is shown?</string>
+    <string name="unplayed_video">Unplayed video</string>
+    <string name="get_notification">Get notification</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_to_play_list">Save to play list</string>
+    <string name="download">Download</string>
 </resources>
