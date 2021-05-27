@@ -11,6 +11,6 @@ class ChartFragment : ContainerFragment<ChartViewModel>() {
     override val viewModel: ChartViewModel by viewModels()
 
     override fun onCreateContainerView() {
-        viewModel.getData()
+        viewModel.getVideos()
     }
 }

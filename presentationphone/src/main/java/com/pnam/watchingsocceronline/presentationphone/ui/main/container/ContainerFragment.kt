@@ -10,8 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.pnam.watchingsocceronline.model.model.Notification
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
@@ -157,24 +155,11 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                 recyclerContainer.removeViewAt(0)
             } else {
                 recyclerContainer.removeViewAt(1)
-                videosBinding.list.apply {
-                    adapter = videoAdapter
-                    layoutManager =
-                        LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                }
+                videosBinding.list.adapter = videoAdapter
             }
-            search.list.apply {
-                adapter = searchAdapter
-                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            }
-            searchResults.list.apply {
-                adapter = searchResultsAdapter
-                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            }
-            notification.list.apply {
-                adapter = notificationsAdapter
-                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            }
+            search.list.adapter = searchAdapter
+            searchResults.list.adapter = searchResultsAdapter
+            notification.list.adapter = notificationsAdapter
         }
     }
 

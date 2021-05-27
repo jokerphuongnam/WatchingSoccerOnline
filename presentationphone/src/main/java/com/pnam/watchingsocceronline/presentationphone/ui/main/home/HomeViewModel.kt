@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 @FlowPreview
 @ExperimentalCoroutinesApi
 class HomeViewModel: ContainerViewModel() {
-    internal fun getData() {
+
+    override fun getVideos() {
         videosLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             videosLiveData.postValue(Resource.Success(FakeData.getFakeVideos()))

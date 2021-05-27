@@ -27,4 +27,7 @@
     <string name="cancel">Cancel</string>
     <string name="save_to_play_list">Save to play list</string>
     <string name="download">Download</string>
+    <string name="remove_from_history">Remove from history</string>
+    <string name="recently">Recently</string>
+    <string name="video">Video</string>
 </resources>

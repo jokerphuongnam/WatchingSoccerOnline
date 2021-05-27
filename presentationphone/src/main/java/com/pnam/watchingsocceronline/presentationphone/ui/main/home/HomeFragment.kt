@@ -11,6 +11,6 @@ class HomeFragment : ContainerFragment<HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateContainerView() {
-        viewModel.getData()
+        viewModel.getVideos()
     }
 }

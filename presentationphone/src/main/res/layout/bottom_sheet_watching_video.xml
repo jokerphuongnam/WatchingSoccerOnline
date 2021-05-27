@@ -31,6 +31,7 @@
         android:layout_margin="0dp"
         android:background="?attr/whiteBlack"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:visibility="gone"
         app:behavior_hideable="false"
         app:layoutDescription="@xml/bottom_sheet_watch_video_xml_container_scene"
@@ -273,6 +274,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_video_home" />
             </LinearLayout>
         </ScrollView>

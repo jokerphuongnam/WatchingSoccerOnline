@@ -43,7 +43,7 @@ internal class VideosAdapter(
                     ) {
                         R.menu.more_options_video_unplayed_menu
                     } else {
-                        R.menu.more_option_video_show_menu
+                        R.menu.more_options_video_show_menu
                     }
                     PopupMenu(moreOption.context, moreOption).apply {
                         inflate(menuRes)
@@ -72,6 +72,7 @@ internal class VideosAdapter(
         fun download(video: Video)
         fun saveToPlayList(video: Video)
         fun getNotification(video: Video)
+        fun removeFromHistory(video: Video)
     }
 
     private companion object {

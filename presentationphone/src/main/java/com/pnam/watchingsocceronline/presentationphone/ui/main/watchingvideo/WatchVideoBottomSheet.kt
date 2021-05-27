@@ -10,8 +10,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.google.android.exoplayer2.*
@@ -31,13 +29,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
-import com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @Suppress("DEPRECATION")
 class WatchVideoBottomSheet(
@@ -120,7 +119,7 @@ class WatchVideoBottomSheet(
                     if (isRunVideo) {
                         stopVideo()
                     }
-                    loadVideo(video.video)
+                    loadVideoFromUrl(video.video)
                 } else {
                     behavior.state = STATE_EXPANDED
                 }
@@ -162,10 +161,7 @@ class WatchVideoBottomSheet(
     }
 
     private fun onCreateRecyclerView() {
-        binding.recommends.apply {
-            layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            adapter = recommendAdapter
-        }
+        binding.recommends.adapter = recommendAdapter
     }
 
     internal fun collapseEvent(): Boolean =
@@ -181,9 +177,12 @@ class WatchVideoBottomSheet(
         }
     }
 
-    private fun loadVideo(url: String) {
+    private fun loadVideoFromUrl(url: String) {
+        loadVideo(Uri.parse(url))
+    }
+
+    private fun loadVideo(uri: Uri) {
         isRunVideo = true
-        val uri: Uri = Uri.parse(url)
         val loadControl = DefaultLoadControl()
         val bandwidthMeter: BandwidthMeter = DefaultBandwidthMeter()
         trackSelector = DefaultTrackSelector(

@@ -2,6 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.custom
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
@@ -20,7 +21,7 @@ class CustomBottomSheet<V : View>(private val context: Context, attrs: Attribute
     ): Boolean {
         val relativeLayout: RelativeLayout = parent.findViewById(R.id.watch_video)
         val heightDp: Float = event.rawY / context.resources.displayMetrics.density
-        if (state != STATE_EXPANDED) {
+        if (state == STATE_COLLAPSED) {
             return super.onInterceptTouchEvent(parent, child, event)
         }
         if (state == STATE_EXPANDED && heightDp in 0.0..relativeLayout.height.toDouble()) {

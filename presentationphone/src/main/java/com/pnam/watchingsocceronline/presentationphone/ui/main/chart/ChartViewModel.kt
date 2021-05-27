@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 @FlowPreview
 @ExperimentalCoroutinesApi
 class ChartViewModel: ContainerViewModel() {
-    internal fun getData() {
+
+    override fun getVideos() {
         videosLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             val data = FakeData.getFakeVideos().toMutableList().apply {

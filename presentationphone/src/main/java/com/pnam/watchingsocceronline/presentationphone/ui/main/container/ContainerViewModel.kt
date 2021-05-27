@@ -17,11 +17,13 @@ import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-open class ContainerViewModel : BaseViewModel() {
+abstract class ContainerViewModel : BaseViewModel() {
 
     internal val videosLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy {
         MutableLiveData()
     }
+
+    internal abstract fun getVideos()
 
     internal var user: User? = null
     internal val searchLiveData: MutableLiveData<Resource<MutableList<SearchHistory>>> by lazy { MutableLiveData() }
