@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="user"
@@ -21,10 +22,27 @@
     </data>
 
     <FrameLayout
-        android:id="@+id/profile"
+        android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="12dp">
+
+
+        <TextView
+            android:id="@+id/sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/outline_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/sign_in"
+            android:textColor="@color/pink"
+            android:textStyle="bold"
+            android:visibility="@{user == null?View.VISIBLE:View.GONE}" />
 
         <ImageView
             android:id="@+id/avatar"
@@ -33,12 +51,14 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:visibility="@{user == null?View.GONE:View.VISIBLE}"
             android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
             android:foreground="@drawable/ripple"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_home"
-            tools:src="@drawable/ic_home" />
+            tools:src="@drawable/ic_home"
+            tools:visibility="gone" />
     </FrameLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.container
+package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.view.ViewGroup
 import androidx.annotation.MenuRes
@@ -8,7 +8,8 @@ import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemVideoHomeBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseListAdapter
-import com.pnam.watchingsocceronline.presentationphone.ui.main.container.VideosAdapter.VideoViewHolder
+import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.VideosAdapter.VideoViewHolder
+import com.pnam.watchingsocceronline.presentationphone.ui.main.videocallback.MoreOptionClick
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import java.util.*
 
@@ -52,9 +53,6 @@ internal class VideosAdapter(
                                 R.id.download -> {
                                     moreOptionClick?.download(data)
                                 }
-                                R.id.save_playlist -> {
-                                    moreOptionClick?.saveToPlayList(data)
-                                }
                                 R.id.get_notification -> {
                                     moreOptionClick?.getNotification(data)
                                 }
@@ -66,13 +64,6 @@ internal class VideosAdapter(
                 }
             }
         }
-    }
-
-    internal interface MoreOptionClick {
-        fun download(video: Video)
-        fun saveToPlayList(video: Video)
-        fun getNotification(video: Video)
-        fun removeFromHistory(video: Video)
     }
 
     private companion object {

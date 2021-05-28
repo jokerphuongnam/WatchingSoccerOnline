@@ -1,7 +1,7 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.chart
 
 import androidx.lifecycle.viewModelScope
-import com.pnam.watchingsocceronline.presentationphone.ui.main.container.ContainerViewModel
+import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerViewModel
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class ChartViewModel: ContainerViewModel() {
+class ChartViewModelMain: MainContainerViewModel() {
 
     override fun getVideos() {
         videosLiveData.postValue(Resource.Loading())

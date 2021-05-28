@@ -8,10 +8,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
-import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.container.ContainerFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragmentMain
+import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragmentMain
+import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
+import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -31,20 +31,20 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         )
     }
 
-    private val homeFragment: HomeFragment by lazy {
-        HomeFragment().apply {
+    private val homeFragment: HomeFragmentMain by lazy {
+        HomeFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
         }
     }
 
-    private val chartFragment: ChartFragment by lazy {
-        ChartFragment().apply {
+    private val chartFragment: ChartFragmentMain by lazy {
+        ChartFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
         }
     }
 
-    private val libraryFragment: LibraryFragment by lazy {
-        LibraryFragment().apply {
+    private val libraryFragment: LibraryFragmentMain by lazy {
+        LibraryFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
         }
     }
@@ -97,6 +97,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     override fun onCreateView() {
         setUpBottomNavigation()
         setUpRoomDistance()
+        viewModel.user()
         showFragment(mainFragments[0])
         watchVideoBottomSheet.onInit()
     }
@@ -132,7 +133,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         supportFragmentManager.findFragmentById(containerId)?.also {
-            (it as ContainerFragment<*>).onCreateOptionsMenu(menu)
+            (it as MainContainerFragment<*>).onCreateOptionsMenu(menu)
         }
         return super.onCreateOptionsMenu(menu)
     }

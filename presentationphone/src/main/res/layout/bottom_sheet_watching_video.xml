@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="video"
@@ -200,7 +201,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="@drawable/ripple"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{user == null?View.GONE:View.VISIBLE}">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -265,14 +267,12 @@
                             android:text="@string/write_public_comment"
                             android:textColor="?attr/greyAttr" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recommends"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="vertical"
                     android:scrollbars="none"

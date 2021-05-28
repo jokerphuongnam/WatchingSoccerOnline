@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WatchingSoccerOnline">
         <activity android:name=".ui.user.UserActivity"/>
+        <activity android:name=".ui.signin.SignInActivity"/>
         <activity android:name="com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity"
             android:configChanges="orientation|screenSize|layoutDirection">
             <intent-filter>

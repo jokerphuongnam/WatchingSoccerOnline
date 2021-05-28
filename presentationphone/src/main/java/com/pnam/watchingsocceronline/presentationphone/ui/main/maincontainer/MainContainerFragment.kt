@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.container
+package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.graphics.Typeface
 import android.view.Menu
@@ -14,11 +14,12 @@ import com.pnam.watchingsocceronline.model.model.Notification
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentContainerBinding
+import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainContainerBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerViewBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
+import com.pnam.watchingsocceronline.presentationphone.ui.main.videocallback.MoreOptionClick
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,8 +28,8 @@ import java.util.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class ContainerFragment<VM : ContainerViewModel> :
-    BaseFragment<FragmentContainerBinding, VM>(R.layout.fragment_container) {
+abstract class MainContainerFragment<VM : MainContainerViewModel> :
+    BaseFragment<FragmentMainContainerBinding, VM>(R.layout.fragment_main_container) {
     private var _actionbar: ActionBar? = null
 
     protected val videosBinding: LayoutRecyclerViewBinding by lazy {
@@ -93,8 +94,23 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
         }
     }
 
+    private val moreOptionClick: MoreOptionClick by lazy {
+        object : MoreOptionClick {
+            override fun download(video: Video) {
+                viewModel.downloadVideo(video)
+            }
+
+            override fun getNotification(video: Video) {
+                viewModel.getNotification(video)
+            }
+
+            override fun removeFromHistory(video: Video) {
+            }
+        }
+    }
+
     internal val videoAdapter: VideosAdapter by lazy {
-        VideosAdapter(videoCallback)
+        VideosAdapter(videoCallback, moreOptionClick)
     }
 
     private val searchHistoryCallback: ContainerItemCallback<SearchHistory> by lazy {
@@ -151,7 +167,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
 
     private fun setUpRecycler() {
         binding.apply {
-            if (tag.toString() == LibraryFragment::class.java.simpleName) {
+            if (tag.toString() == LibraryFragmentMain::class.java.simpleName) {
                 recyclerContainer.removeViewAt(0)
             } else {
                 recyclerContainer.removeViewAt(1)
@@ -188,7 +204,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 isSearch = false
                 isNotification = true
-                toolbar.binding.avatar.isVisible = false
+                toolbar.binding.container.isVisible = false
                 notificationView.apply {
                     setText(R.string.notification)
                     setTextColor(context.getColorFromAttr(R.attr.blackWhite))
@@ -205,7 +221,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 isNotification = false
                 if (!isSearch) {
-                    toolbar.binding.avatar.isVisible = true
+                    toolbar.binding.container.isVisible = true
                 }
                 binding.recyclerContainer.displayedChild = 0
                 searchItem.isVisible = true
@@ -255,7 +271,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 isSearch = true
                 isNotification = false
-                toolbar.binding.avatar.isVisible = false
+                toolbar.binding.container.isVisible = false
                 notificationItem.actionView.isVisible = false
                 binding.recyclerContainer.displayedChild = 1
                 searchView.setQuery("", false)
@@ -271,7 +287,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 isSearch = false
                 if (!isNotification) {
-                    toolbar.binding.avatar.isVisible = true
+                    toolbar.binding.container.isVisible = true
                 }
                 notificationItem.actionView.isVisible = true
                 binding.recyclerContainer.displayedChild = 0
@@ -292,7 +308,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
 
     private fun setUpUser() {
         profileItem.actionView
-        toolbar.setBinding(profileItem.actionView.findViewById(R.id.profile))
+        toolbar.setBinding(profileItem.actionView.findViewById(R.id.container))
         toolbar.setUser(viewModel.user)
     }
 
@@ -354,7 +370,7 @@ abstract class ContainerFragment<VM : ContainerViewModel> :
                     }
                 }
             }
-            viewModel.videosLiveData.takeUnless { tag.toString() == LibraryFragment::class.java.simpleName }
+            viewModel.videosLiveData.takeUnless { tag.toString() == LibraryFragmentMain::class.java.simpleName }
                 ?.observe {
                     when (it) {
                         is Resource.Loading -> {

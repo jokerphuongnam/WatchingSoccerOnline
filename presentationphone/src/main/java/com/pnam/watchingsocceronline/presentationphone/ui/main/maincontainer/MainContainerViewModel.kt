@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.container
+package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class ContainerViewModel : BaseViewModel() {
+abstract class MainContainerViewModel : BaseViewModel() {
 
     internal val videosLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy {
         MutableLiveData()
@@ -55,5 +55,13 @@ abstract class ContainerViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.Main) {
             notificationsLiveData.postValue(Resource.Success(FakeData.getFakeNotification()))
         }
+    }
+
+    internal fun getNotification(video: Video) {
+
+    }
+
+    internal fun downloadVideo(video: Video){
+
     }
 }

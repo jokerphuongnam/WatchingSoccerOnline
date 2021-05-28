@@ -1,14 +1,14 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.container
+package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.content.Intent
 import android.view.View
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarBinding
+import com.pnam.watchingsocceronline.presentationphone.ui.signin.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 
 class MainToolbar(private val activity: AppCompatActivity) {
@@ -20,6 +20,9 @@ class MainToolbar(private val activity: AppCompatActivity) {
         _binding = LayoutAvatarBinding.bind(view)
         binding.avatar.apply {
             setOnClickListener(avatarClick)
+        }
+        binding.signIn.apply {
+            setOnClickListener(signInClick)
         }
         binding.avatarHandle = avatarHandle
     }
@@ -42,10 +45,29 @@ class MainToolbar(private val activity: AppCompatActivity) {
     private val avatarClick: View.OnClickListener by lazy {
         View.OnClickListener {
             /**
-             * open fragment user
+             * open user activity
              * */
             activity.apply {
                 startActivity(userIntent)
+                overridePendingTransition(
+                    R.anim.slide_in_bottom,
+                    R.anim.slide_out_top
+                )
+            }
+        }
+    }
+
+    private val signInIntent: Intent by lazy {
+        Intent(activity, SignInActivity::class.java)
+    }
+
+    private val signInClick: View.OnClickListener by lazy {
+        View.OnClickListener {
+            /**
+             * open sign in activity
+             * */
+            activity.apply {
+                startActivity(signInIntent)
                 overridePendingTransition(
                     R.anim.slide_in_bottom,
                     R.anim.slide_out_top

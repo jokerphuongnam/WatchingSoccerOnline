@@ -10,8 +10,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
@@ -32,6 +30,7 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWa
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
+import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -80,7 +79,7 @@ class WatchVideoBottomSheet(
         )
         binding.apply {
             close.setOnClickListener(closeEvent)
-            avatarHandle = this@WatchVideoBottomSheet.avatarHandle
+            avatarHandle = viewModel.avatarHandle
             playPause.setOnClickListener {
                 if (exoPlayer.playWhenReady) {
                     binding.playPause.setImageResource(R.drawable.ic_pause)
@@ -109,23 +108,43 @@ class WatchVideoBottomSheet(
     private fun onCreateViewModel() {
         viewModel.apply {
             videoLiveData.observe { video ->
-                if (video == null) {
-                    binding.video = null
-                    stopVideo()
-                    return@observe
-                }
-                if (binding.video == null || binding.video!!.vid != video.vid) {
-                    binding.video = video
-                    if (isRunVideo) {
-                        stopVideo()
+                when (video) {
+                    is Resource.Loading -> {
+                        binding.loading.isVisible = true
                     }
-                    loadVideoFromUrl(video.video)
-                } else {
-                    behavior.state = STATE_EXPANDED
+                    is Resource.Success -> {
+                        binding.loading.isVisible = false
+                        if (video.data == null) {
+                            binding.video = null
+                            stopVideo()
+                            return@observe
+                        }
+                        if (binding.video == null || binding.video!!.vid != video.data.vid) {
+                            binding.video = video.data
+                            if (isRunVideo) {
+                                stopVideo()
+                            }
+                            loadVideoFromUrl(video.data.video)
+                        } else {
+                            behavior.state = STATE_EXPANDED
+                        }
+                    }
+                    is Resource.Error -> {
+
+                    }
                 }
             }
             recommendLiveData.observe { videos ->
-                recommendAdapter.submitList(videos.toMutableList())
+                when (videos) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        recommendAdapter.submitList(videos.data?.toMutableList())
+                    }
+                    is Resource.Error -> {
+
+                    }
+                }
             }
         }
     }
@@ -150,7 +169,7 @@ class WatchVideoBottomSheet(
             }
 
             override fun onClick(data: Video) {
-                viewModel.videoLiveData.value = data
+                viewModel.openVideo(data.vid)
                 show()
             }
         }
@@ -168,14 +187,6 @@ class WatchVideoBottomSheet(
         (binding.container.progress == 1.0F).takeUnless { it }?.apply {
             behavior.state = STATE_COLLAPSED
         } ?: true
-
-    private val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
-        {
-            it.transformations(CircleCropTransformation())
-            it.crossfade(true)
-            it.placeholder(R.drawable.ic_error)
-        }
-    }
 
     private fun loadVideoFromUrl(url: String) {
         loadVideo(Uri.parse(url))
@@ -309,6 +320,6 @@ class WatchVideoBottomSheet(
     }
 
     private fun dismiss() {
-        viewModel.videoLiveData.postValue(null)
+        viewModel.closeVideo()
     }
 }

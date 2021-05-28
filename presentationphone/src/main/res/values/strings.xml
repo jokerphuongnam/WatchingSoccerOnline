@@ -7,7 +7,7 @@
     <string name="mess_when_click_back_btn">Press again back button to exit</string>
     <string name="view">view</string>
     <string name="library">Library</string>
-    <string name="soccerwatch">SoccerWatch</string>
+    <string name="watching">Watching</string>
     <string name="highlight">Highlight</string>
     <string name="comments">Comments</string>
     <string name="write_public_comment">Write public comment…</string>
@@ -30,4 +30,5 @@
     <string name="remove_from_history">Remove from history</string>
     <string name="recently">Recently</string>
     <string name="video">Video</string>
+    <string name="sign_in">Sign in</string>
 </resources>

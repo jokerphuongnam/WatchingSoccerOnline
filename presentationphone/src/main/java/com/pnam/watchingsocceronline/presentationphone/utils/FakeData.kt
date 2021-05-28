@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.presentationphone.utils
 
 import com.pnam.watchingsocceronline.model.model.*
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -11,8 +12,27 @@ import kotlin.random.Random
 @FlowPreview
 @ExperimentalCoroutinesApi
 object FakeData {
+
+    private fun <T> CancellableContinuation<T>.resume(t: T) {
+        resume(t) {}
+    }
+
+    suspend fun getFakeUser(): User = suspendCancellableCoroutine {
+        it.resume(user)
+    }
+
+    private val user: User by lazy {
+        User(
+            1323,
+            "https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/117337543_1232748220451392_486736325028794565_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=bywnYaEFxvcAX82QrFi&_nc_ht=scontent-hkg4-2.xx&oh=889feaf4525a0c09e6d416ed05a81359&oe=60D73032",
+            "Phạm",
+            "Phương Nam",
+            916678800000
+        )
+    }
+
     suspend fun getFakeVideos(): MutableList<Video> = suspendCancellableCoroutine {
-        it.resume(videos) {}
+        it.resume(videos)
     }
 
     private val videos: MutableList<Video> by lazy {
@@ -790,7 +810,7 @@ object FakeData {
     }
 
     suspend fun getFakeNotification(): MutableList<Notification> = suspendCancellableCoroutine {
-        it.resume(notification) {}
+        it.resume(notification)
     }
 
     private val notification: MutableList<Notification> by lazy {
