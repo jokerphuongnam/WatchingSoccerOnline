@@ -25,7 +25,8 @@ abstract class MainContainerViewModel : BaseViewModel() {
 
     internal abstract fun getVideos()
 
-    internal var user: User? = null
+    internal val userLiveData: MutableLiveData<User?> by lazy { MutableLiveData() }
+
     internal val searchLiveData: MutableLiveData<Resource<MutableList<SearchHistory>>> by lazy { MutableLiveData() }
 
     internal fun search(searchWord: String? = null) {

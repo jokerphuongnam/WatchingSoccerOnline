@@ -10,10 +10,9 @@ import java.util.*
 @Parcelize
 data class Comment(
     var cid: Long,
-    var uid: Long,
-    var vid: Long,
     var content: String,
-    var time: Long
+    var time: Long,
+    var user: User
 ) : Parcelable {
     var showTimeDate: String
         get() = time.toDateTimeString(DateUtils.HH_MM_DD_MM_YYYY)

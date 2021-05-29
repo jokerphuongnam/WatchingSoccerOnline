@@ -23,14 +23,24 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/write_public_comment"
+                android:layout_marginBottom="16dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,8 +79,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comments"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
                 android:orientation="vertical"
                 android:scrollbars="none"

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
@@ -13,6 +14,7 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
+import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -94,14 +96,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         paddingBottom = binding.container.paddingBottom
     }
 
-    override fun onCreateView() {
-        setUpBottomNavigation()
-        setUpRoomDistance()
-        viewModel.user()
-        showFragment(mainFragments[0])
-        watchVideoBottomSheet.onInit()
-    }
-
     private fun showFragment(
         fragment: Fragment,
         transactionViews: List<View>? = null
@@ -129,6 +123,33 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 binding.bottomNavigation.y = bottomSheetOutSideScreen - it
             }
         }
+    }
+
+    private fun setUpViewModel() {
+        viewModel.userLiveData.observe {
+            when (it) {
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    viewModel.userObservers.forEach { observers ->
+                        it.data?.let { user -> observers.invoke(user) }
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+            }
+        }
+        viewModel.user()
+    }
+
+    override fun onCreateView() {
+        setUpBottomNavigation()
+        setUpRoomDistance()
+        setUpViewModel()
+        showFragment(mainFragments[0])
+        watchVideoBottomSheet.onInit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

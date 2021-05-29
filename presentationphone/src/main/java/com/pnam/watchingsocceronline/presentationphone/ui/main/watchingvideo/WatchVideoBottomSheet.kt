@@ -24,10 +24,12 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
+import com.pnam.watchingsocceronline.presentationphone.ui.main.comment.CommentFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
@@ -46,6 +48,7 @@ class WatchVideoBottomSheet(
 ) {
 
     internal fun onInit() {
+        viewModel.userObservers.add(::userObserver)
         onCreateView()
         onCreateBehavior()
         onCreateViewModel()
@@ -69,7 +72,7 @@ class WatchVideoBottomSheet(
     }
     private lateinit var trackSelector: DefaultTrackSelector
 
-    private fun onCreateView() {
+    private fun fullScreen(){
         /**
          * make full screen
          * */
@@ -77,6 +80,9 @@ class WatchVideoBottomSheet(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
+    }
+
+    private fun onCreateView() {
         binding.apply {
             close.setOnClickListener(closeEvent)
             avatarHandle = viewModel.avatarHandle
@@ -87,6 +93,14 @@ class WatchVideoBottomSheet(
                     binding.playPause.setImageResource(R.drawable.ic_play)
                 }
                 exoPlayer.playWhenReady = !exoPlayer.playWhenReady
+            }
+            comment.setOnClickListener {
+                CommentFragment().apply {
+                    show(
+                        this@WatchVideoBottomSheet.activity.supportFragmentManager,
+                        CommentFragment::class.java.simpleName
+                    )
+                }
             }
         }
     }
@@ -309,6 +323,10 @@ class WatchVideoBottomSheet(
 
             }
         }
+    }
+
+    private fun userObserver(user: User) {
+        binding.user = user
     }
 
     internal fun show() {

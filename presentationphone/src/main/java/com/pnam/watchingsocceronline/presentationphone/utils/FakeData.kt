@@ -44,7 +44,14 @@ object FakeData {
                 "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
                 700,
                 1618219260000,
-                mutableListOf(),
+                mutableListOf(
+                    Comment(
+                        2342,
+                        "Trận đấu hay quá",
+                        1618219270000,
+                        user
+                    )
+                ),
                 Match(
                     22,
                     Team(

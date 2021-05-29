@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.comment
+package com.pnam.watchingsocceronline.presentationphone.ui.main.comment
 
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 

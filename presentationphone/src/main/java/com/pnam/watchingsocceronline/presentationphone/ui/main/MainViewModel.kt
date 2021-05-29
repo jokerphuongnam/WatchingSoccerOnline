@@ -60,4 +60,8 @@ class MainViewModel : BaseViewModel() {
             it.placeholder(R.drawable.ic_error)
         }
     }
+
+    internal val userObservers: MutableList<(User) -> Unit> by lazy {
+        mutableListOf()
+    }
 }

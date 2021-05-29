@@ -2,7 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.content.Intent
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.model.model.User
@@ -11,7 +11,7 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarB
 import com.pnam.watchingsocceronline.presentationphone.ui.signin.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 
-class MainToolbar(private val activity: AppCompatActivity) {
+class MainToolbar(private val activity: FragmentActivity) {
 
     private var _binding: LayoutAvatarBinding? = null
     val binding: LayoutAvatarBinding get() = _binding!!
@@ -74,6 +74,11 @@ class MainToolbar(private val activity: AppCompatActivity) {
                 )
             }
         }
+    }
+
+    internal fun setUser(user: User?, builder: ImageRequest.Builder.() -> Unit) {
+        binding.avatarHandle = builder
+        setUser(user)
     }
 
     internal fun setUser(user: User?) {

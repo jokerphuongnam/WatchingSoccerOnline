@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import com.pnam.watchingsocceronline.model.model.Notification
 import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.Video
@@ -18,6 +19,7 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainC
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerViewBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.videocallback.MoreOptionClick
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
@@ -29,7 +31,9 @@ import java.util.*
 @FlowPreview
 @ExperimentalCoroutinesApi
 abstract class MainContainerFragment<VM : MainContainerViewModel> :
-    BaseFragment<FragmentMainContainerBinding, VM>(R.layout.fragment_main_container) {
+    BaseFragment<FragmentMainContainerBinding, VM, MainViewModel>(R.layout.fragment_main_container) {
+    override val activityViewModel: MainViewModel by activityViewModels()
+
     private var _actionbar: ActionBar? = null
 
     protected val videosBinding: LayoutRecyclerViewBinding by lazy {
@@ -53,7 +57,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     }
 
     private val toolbar: MainToolbar by lazy {
-        MainToolbar(requireActivity() as AppCompatActivity)
+        MainToolbar(requireActivity())
     }
 
     private val alertUnplayedVideo: AlertDialog.Builder by lazy {
@@ -186,6 +190,28 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             }!!
         }
 
+    private fun hideProfile(){
+        toolbar.binding.apply {
+            if(isShowSignIn){
+                signIn.isVisible = false
+            }
+            if(isShowAvatar){
+                avatar.isVisible = false
+            }
+        }
+    }
+
+    private fun showProfile(){
+        toolbar.binding.apply {
+            if(isShowSignIn){
+                signIn.isVisible = true
+            }
+            if(isShowAvatar){
+                avatar.isVisible = true
+            }
+        }
+    }
+
     private var isNotification: Boolean = false
     private var isSearch: Boolean = false
 
@@ -199,12 +225,20 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             }
         }
 
+    private val isShowSignIn: Boolean by lazy {
+        toolbar.binding.signIn.isVisible
+    }
+
+    private val isShowAvatar: Boolean by lazy {
+        toolbar.binding.avatar.isVisible
+    }
+
     private val notificationExpandItem: MenuItem.OnActionExpandListener by lazy {
         object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 isSearch = false
                 isNotification = true
-                toolbar.binding.container.isVisible = false
+                hideProfile()
                 notificationView.apply {
                     setText(R.string.notification)
                     setTextColor(context.getColorFromAttr(R.attr.blackWhite))
@@ -221,7 +255,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 isNotification = false
                 if (!isSearch) {
-                    toolbar.binding.container.isVisible = true
+                    showProfile()
                 }
                 binding.recyclerContainer.displayedChild = 0
                 searchItem.isVisible = true
@@ -271,7 +305,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 isSearch = true
                 isNotification = false
-                toolbar.binding.container.isVisible = false
+                hideProfile()
                 notificationItem.actionView.isVisible = false
                 binding.recyclerContainer.displayedChild = 1
                 searchView.setQuery("", false)
@@ -287,7 +321,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 isSearch = false
                 if (!isNotification) {
-                    toolbar.binding.container.isVisible = true
+                    showProfile()
                 }
                 notificationItem.actionView.isVisible = true
                 binding.recyclerContainer.displayedChild = 0
@@ -309,7 +343,9 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     private fun setUpUser() {
         profileItem.actionView
         toolbar.setBinding(profileItem.actionView.findViewById(R.id.container))
-        toolbar.setUser(viewModel.user)
+        activityViewModel.userLiveData.value?.data?.let { user ->
+            viewModel.userLiveData.postValue(user)
+        }
     }
 
     private val notificationItemId: Int by lazy { R.id.notification }
@@ -328,6 +364,9 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     private fun viewModelObserve() {
         viewModel.apply {
+            userLiveData.observe { user ->
+                toolbar.setUser(user)
+            }
             searchLiveData.observe {
                 when (it) {
                     is Resource.Loading -> {
@@ -388,10 +427,17 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
+    private fun setUpActivityViewModel() {
+        activityViewModel.userObservers.add { user ->
+            toolbar.setUser(user, activityViewModel.avatarHandle)
+        }
+    }
+
     override fun onCreateView() {
         setUpRecycler()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         toolbar.onCreate()
+        setUpActivityViewModel()
         viewModelObserve()
         actionBar.title = ""
         onCreateContainerView()
@@ -402,6 +448,9 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        activityViewModel.userLiveData.value?.data?.let { user ->
+            viewModel.userLiveData.postValue(user)
+        }
         if (isNotification) {
             notificationItem.collapseActionView()
         } else if (isSearch) {

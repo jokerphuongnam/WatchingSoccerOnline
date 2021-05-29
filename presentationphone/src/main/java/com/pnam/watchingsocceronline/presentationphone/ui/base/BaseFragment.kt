@@ -12,9 +12,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(
+abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel, AVM : BaseViewModel>(
     @LayoutRes override val layoutRes: Int
 ) : Fragment(), BaseScreen<BD, VM> {
+    protected abstract val activityViewModel: AVM
     override var _actionBar: ActionBar? = null
     override val actionBar: ActionBar by lazy { (requireActivity() as AppCompatActivity).supportActionBar!! }
     override var _binding: BD? = null
