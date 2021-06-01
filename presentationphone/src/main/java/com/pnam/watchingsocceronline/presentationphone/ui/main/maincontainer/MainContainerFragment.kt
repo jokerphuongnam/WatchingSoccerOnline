@@ -11,10 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import com.pnam.watchingsocceronline.model.model.Notification
-import com.pnam.watchingsocceronline.model.model.SearchHistory
-import com.pnam.watchingsocceronline.model.model.Video
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
+import com.pnam.watchingsocceronline.domain.model.Notification
+import com.pnam.watchingsocceronline.domain.model.SearchHistory
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
+import com.pnam.watchingsocceronline.presentationphone.background.DownloadWorkManager
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainContainerBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerOnlineViewBinding
@@ -98,10 +102,19 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
+    private val downloadWorkRequest: WorkRequest by lazy {
+        OneTimeWorkRequest.Builder(DownloadWorkManager::class.java).build()
+    }
+
+    private val workManager by lazy {
+        WorkManager.getInstance(requireContext())
+    }
+
     private val moreOptionClick: MoreOptionClick by lazy {
         object : MoreOptionClick {
             override fun download(video: Video) {
-                viewModel.downloadVideo(video)
+                //open service
+                workManager.enqueue(downloadWorkRequest)
             }
 
             override fun getNotification(video: Video) {
@@ -456,6 +469,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         } else if (isSearch) {
             searchItem.collapseActionView()
         }
+        viewModel.getVideos()
     }
 
     internal lateinit var openVideoBottomSheet: (String) -> Unit

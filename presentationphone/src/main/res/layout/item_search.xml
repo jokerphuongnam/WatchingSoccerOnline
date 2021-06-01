@@ -7,7 +7,7 @@
 
         <variable
             name="search_history"
-            type="com.pnam.watchingsocceronline.model.model.SearchHistory" />
+            type="com.pnam.watchingsocceronline.domain.model.SearchHistory" />
 
     </data>
 

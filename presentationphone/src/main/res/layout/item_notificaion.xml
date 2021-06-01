@@ -6,7 +6,7 @@
 
         <variable
             name="notification"
-            type="com.pnam.watchingsocceronline.model.model.Notification" />
+            type="com.pnam.watchingsocceronline.domain.model.Notification" />
     </data>
 
     <LinearLayout

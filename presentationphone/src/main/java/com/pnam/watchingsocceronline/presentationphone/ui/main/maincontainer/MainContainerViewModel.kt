@@ -2,21 +2,19 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.pnam.watchingsocceronline.model.model.Notification
-import com.pnam.watchingsocceronline.model.model.SearchHistory
-import com.pnam.watchingsocceronline.model.model.User
-import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.domain.model.Notification
+import com.pnam.watchingsocceronline.domain.model.SearchHistory
+import com.pnam.watchingsocceronline.domain.model.User
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseCase
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -67,9 +65,5 @@ abstract class MainContainerViewModel constructor(
 
     }
 
-    internal fun downloadVideo(video: Video){
-        viewModelScope.launch(Dispatchers.Main) {
-            useCase.downloadVideo(video)
-        }
-    }
+    internal fun downloadVideo(video: Video): Long = useCase.downloadVideo(video)
 }

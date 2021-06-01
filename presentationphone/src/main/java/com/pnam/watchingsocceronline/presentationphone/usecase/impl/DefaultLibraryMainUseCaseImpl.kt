@@ -1,6 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.usecase.impl
 
-import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.usecase.LibraryMainUseCase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject

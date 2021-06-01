@@ -8,7 +8,7 @@
 
         <variable
             name="user"
-            type="com.pnam.watchingsocceronline.model.model.User" />
+            type="com.pnam.watchingsocceronline.domain.model.User" />
 
         <import type="coil.request.ImageRequest.Builder" />
 

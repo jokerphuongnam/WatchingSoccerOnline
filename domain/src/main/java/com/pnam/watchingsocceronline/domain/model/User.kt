@@ -1,8 +1,8 @@
-package com.pnam.watchingsocceronline.model.model
+package com.pnam.watchingsocceronline.domain.model
 
 import android.os.Parcelable
-import com.pnam.watchingsocceronline.model.util.DateUtils
-import com.pnam.watchingsocceronline.model.util.toDateTimeString
+import com.pnam.watchingsocceronline.domain.util.DateUtils
+import com.pnam.watchingsocceronline.domain.util.toDateTimeString
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*

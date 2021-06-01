@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.model.util
+package com.pnam.watchingsocceronline.domain.util
 
 object DateUtils {
     internal const val DD_MM_YYYY = "dd/MM/yyyy"

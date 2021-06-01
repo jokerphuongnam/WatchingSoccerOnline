@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.pnam.watchingsocceronline.model.model.User
+import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.signin.SignInActivity

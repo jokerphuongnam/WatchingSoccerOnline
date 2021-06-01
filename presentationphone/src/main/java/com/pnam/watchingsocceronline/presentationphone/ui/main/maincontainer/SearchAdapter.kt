@@ -2,7 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.pnam.watchingsocceronline.model.model.SearchHistory
+import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemSearchBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseListAdapter

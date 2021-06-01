@@ -13,6 +13,5 @@ class HomeFragmentMain : MainContainerFragment<HomeViewModelMain>() {
     override val viewModel: HomeViewModelMain by viewModels()
 
     override fun onCreateContainerView() {
-        viewModel.getVideos()
     }
 }

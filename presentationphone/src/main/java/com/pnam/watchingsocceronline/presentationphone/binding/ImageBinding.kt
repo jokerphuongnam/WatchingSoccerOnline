@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.request.ImageRequest
-import com.pnam.watchingsocceronline.model.model.SearchHistory
+import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.presentationphone.R
 
 @BindingAdapter(value = ["url_image", "image_builder"], requireAll = false)

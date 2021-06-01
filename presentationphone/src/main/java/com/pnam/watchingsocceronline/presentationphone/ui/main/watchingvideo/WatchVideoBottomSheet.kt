@@ -24,8 +24,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
-import com.pnam.watchingsocceronline.model.model.User
-import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.domain.model.User
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel

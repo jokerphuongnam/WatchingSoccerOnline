@@ -1,8 +1,8 @@
-package com.pnam.watchingsocceronline.model.model
+package com.pnam.watchingsocceronline.domain.model
 
 import android.os.Parcelable
-import com.pnam.watchingsocceronline.model.util.DateUtils
-import com.pnam.watchingsocceronline.model.util.toDateTimeString
+import com.pnam.watchingsocceronline.domain.util.DateUtils
+import com.pnam.watchingsocceronline.domain.util.toDateTimeString
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,8 +18,7 @@ data class Video(
     var highLight1: String,
     var highLight2: String,
     var highLight3: String,
-    var comments: MutableList<Comment>,
-    var match: Match
+    var comments: MutableList<Comment>
 ) : Parcelable {
     var showTimeDate: String
         get() = showTime.toDateTimeString(DateUtils.HH_MM_DD_MM_YYYY)

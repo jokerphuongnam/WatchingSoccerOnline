@@ -2,7 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.comment
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.pnam.watchingsocceronline.model.model.Comment
+import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemCommentBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseListAdapter

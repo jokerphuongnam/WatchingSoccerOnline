@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.pnam.watchingsocceronline.model.model.User
-import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.domain.model.User
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData

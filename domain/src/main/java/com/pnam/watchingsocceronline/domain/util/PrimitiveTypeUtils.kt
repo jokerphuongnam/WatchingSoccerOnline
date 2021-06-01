@@ -1,6 +1,6 @@
-package com.pnam.watchingsocceronline.model.util
+package com.pnam.watchingsocceronline.domain.util
 
-import com.pnam.watchingsocceronline.model.model.User
+import com.pnam.watchingsocceronline.domain.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -1,6 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.utils
 
-import com.pnam.watchingsocceronline.model.model.*
+import com.pnam.watchingsocceronline.domain.model.*
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -57,19 +57,6 @@ object FakeData {
                         1618219270000,
                         user
                     )
-                ),
-                Match(
-                    22,
-                    Team(
-                        121,
-                        "Barsa",
-                        2
-                    ),
-                    Team(
-                        232,
-                        "Alético",
-                        3
-                    )
                 )
             ),
         )
@@ -124,13 +111,6 @@ object FakeData {
 
     private val notification: MutableList<Notification> by lazy {
         mutableListOf(
-            Notification(
-                Random(Calendar.getInstance().timeInMillis).nextLong(),
-                videos[4].vid,
-                videos[4].title,
-                videos[4].thumbnail,
-                videos[4].showTime
-            ),
             Notification(
                 Random(Calendar.getInstance().timeInMillis).nextLong(),
                 videos[0].vid,

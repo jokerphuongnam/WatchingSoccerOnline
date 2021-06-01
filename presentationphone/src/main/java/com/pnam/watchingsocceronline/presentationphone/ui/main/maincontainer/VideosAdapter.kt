@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
-import com.pnam.watchingsocceronline.model.model.Video
+import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ItemVideoHomeBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseListAdapter

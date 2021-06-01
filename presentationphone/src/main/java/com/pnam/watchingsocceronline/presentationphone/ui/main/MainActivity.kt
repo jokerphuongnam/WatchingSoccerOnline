@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
