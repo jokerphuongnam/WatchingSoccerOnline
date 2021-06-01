@@ -7,17 +7,22 @@ import com.pnam.watchingsocceronline.model.model.SearchHistory
 import com.pnam.watchingsocceronline.model.model.User
 import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
+import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseCase
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class MainContainerViewModel : BaseViewModel() {
+abstract class MainContainerViewModel constructor(
+    private val useCase: MainContainerUseCase
+) : BaseViewModel() {
 
     internal val videosLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy {
         MutableLiveData()
@@ -63,6 +68,8 @@ abstract class MainContainerViewModel : BaseViewModel() {
     }
 
     internal fun downloadVideo(video: Video){
-
+        viewModelScope.launch(Dispatchers.Main) {
+            useCase.downloadVideo(video)
+        }
     }
 }

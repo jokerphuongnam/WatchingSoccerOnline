@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.model.util
 
+import com.pnam.watchingsocceronline.model.model.User
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -11,8 +12,14 @@ val Long.toCalendar: Calendar
         return calendar
     }
 
-fun Long.toDateTimeString(pattern: String): String{
+fun Long.toDateTimeString(pattern: String): String {
     val calendar: Calendar = toCalendar
     val sdf = SimpleDateFormat(pattern, Locale.getDefault())
     return sdf.format(calendar.time)
+}
+
+fun Boolean.toGender(): User.Gender = if (this) {
+    User.Gender.FEMALE
+} else {
+    User.Gender.MALE
 }

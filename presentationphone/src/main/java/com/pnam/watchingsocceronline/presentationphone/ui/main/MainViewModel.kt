@@ -10,14 +10,17 @@ import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class MainViewModel : BaseViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor() : BaseViewModel() {
     internal val userLiveData: MutableLiveData<Resource<User>> by lazy { MutableLiveData() }
     internal val videoLiveData: MutableLiveData<Resource<Video?>> by lazy { MutableLiveData() }
     internal val recommendLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy { MutableLiveData() }
@@ -36,7 +39,7 @@ class MainViewModel : BaseViewModel() {
         }
     }
 
-    internal fun openVideo(vid: Long) {
+    internal fun openVideo(vid: String) {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             val recommends = FakeData.getFakeVideos().toMutableList()

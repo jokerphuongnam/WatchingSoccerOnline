@@ -31,4 +31,6 @@
     <string name="recently">Recently</string>
     <string name="video">Video</string>
     <string name="sign_in">Sign in</string>
+    <string name="detail_no_internet">Watch downloaded videos or find new videos to download in your library</string>
+    <string name="go_to_downloads">Go to downloads</string>
 </resources>

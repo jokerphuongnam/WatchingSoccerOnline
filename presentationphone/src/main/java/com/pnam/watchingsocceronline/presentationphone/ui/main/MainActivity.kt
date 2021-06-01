@@ -15,11 +15,13 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFr
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 @ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     private val containerId: Int by lazy {
         R.id.container
@@ -105,7 +107,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override val viewModel: MainViewModel by viewModels()
 
-    private val openVideoBottomSheet: (Long) -> Unit by lazy {
+    private val openVideoBottomSheet: (String) -> Unit by lazy {
         { vid ->
             (binding.bottomNavigation.y + paddingBottom).let {
                 bottomSheetOutSideScreen = it

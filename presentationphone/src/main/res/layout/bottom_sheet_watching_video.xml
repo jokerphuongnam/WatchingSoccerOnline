@@ -218,13 +218,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/comments" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:text="@{(video.comments == null)?String.valueOf(0): String.valueOf(video.comments.size())}"
-                                tools:text="30" />
                         </LinearLayout>
 
                         <ImageView

@@ -138,7 +138,7 @@ class WatchVideoBottomSheet(
                             if (isRunVideo) {
                                 stopVideo()
                             }
-                            loadVideoFromUrl(video.data.video)
+                            loadVideoFromUrl(video.data.url)
                         } else {
                             behavior.state = STATE_EXPANDED
                         }

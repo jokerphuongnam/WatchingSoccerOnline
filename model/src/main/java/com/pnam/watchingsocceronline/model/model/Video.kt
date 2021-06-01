@@ -9,12 +9,15 @@ import java.util.*
 
 @Parcelize
 data class Video(
-    var vid: Long,
+    var vid: String,
     var title: String,
     var thumbnail: String,
-    var video: String,
+    var url: String,
     var view: Long,
     var showTime: Long,
+    var highLight1: String,
+    var highLight2: String,
+    var highLight3: String,
     var comments: MutableList<Comment>,
     var match: Match
 ) : Parcelable {

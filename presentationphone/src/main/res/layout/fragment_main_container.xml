@@ -27,6 +27,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="start"
+                        android:orientation="horizontal"
                         android:animateLayoutChanges="true">
 
                         <ImageView
@@ -69,7 +70,7 @@
 
                 <include
                     android:id="@+id/videos"
-                    layout="@layout/layout_recycler_view" />
+                    layout="@layout/layout_recycler_online_view" />
 
                 <include
                     android:id="@+id/library"
@@ -77,15 +78,15 @@
 
                 <include
                     android:id="@+id/search"
-                    layout="@layout/layout_recycler_view" />
+                    layout="@layout/layout_recycler_online_view" />
 
                 <include
                     android:id="@+id/search_results"
-                    layout="@layout/layout_recycler_view" />
+                    layout="@layout/layout_recycler_online_view" />
 
                 <include
                     android:id="@+id/notification"
-                    layout="@layout/layout_recycler_view" />
+                    layout="@layout/layout_recycler_online_view" />
             </ViewFlipper>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

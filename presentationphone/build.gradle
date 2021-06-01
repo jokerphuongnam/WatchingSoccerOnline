@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -45,10 +46,13 @@ dependencies {
     implementation project(path: ':data')
     implementation project(path: ':domain')
     implementation project(path: ':model')
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.android:flexbox:2.0.1'
+
+    hilt()
 
     motionLayout()
 
@@ -61,11 +65,16 @@ dependencies {
     coil()
 }
 
-private void motionLayout(){
+private void hilt() {
+    dependencies.implementation "com.google.dagger:hilt-android:$hilt_version"
+    dependencies.kapt "com.google.dagger:hilt-compiler:$hilt_version"
+}
+
+private void motionLayout() {
     dependencies.implementation "androidx.constraintlayout:constraintlayout:$motion_layout_version"
 }
 
-private void exoPlayer(){
+private void exoPlayer() {
     dependencies.implementation "com.google.android.exoplayer:exoplayer:$exo_player_version"
     dependencies.implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
     dependencies.implementation "com.google.android.exoplayer:exoplayer-dash:$exo_player_version"

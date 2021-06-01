@@ -17,7 +17,7 @@ import com.pnam.watchingsocceronline.model.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainContainerBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
-import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerViewBinding
+import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerOnlineViewBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
@@ -36,7 +36,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     private var _actionbar: ActionBar? = null
 
-    protected val videosBinding: LayoutRecyclerViewBinding by lazy {
+    protected val videosBinding: LayoutRecyclerOnlineViewBinding by lazy {
         binding.videos
     }
 
@@ -44,15 +44,15 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         binding.library
     }
 
-    private val searchBinding: LayoutRecyclerViewBinding by lazy {
+    private val searchBinding: LayoutRecyclerOnlineViewBinding by lazy {
         binding.search
     }
 
-    private val searchResultBinding: LayoutRecyclerViewBinding by lazy {
+    private val searchResultBinding: LayoutRecyclerOnlineViewBinding by lazy {
         binding.searchResults
     }
 
-    private val notificationBinding: LayoutRecyclerViewBinding by lazy {
+    private val notificationBinding: LayoutRecyclerOnlineViewBinding by lazy {
         binding.notification
     }
 
@@ -458,5 +458,5 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
-    internal lateinit var openVideoBottomSheet: (Long) -> Unit
+    internal lateinit var openVideoBottomSheet: (String) -> Unit
 }
