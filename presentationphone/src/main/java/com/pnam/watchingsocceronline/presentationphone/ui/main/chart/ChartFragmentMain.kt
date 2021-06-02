@@ -5,10 +5,12 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.Mai
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
+@InternalCoroutinesApi
+@ExperimentalCoroutinesApi
 class ChartFragmentMain : MainContainerFragment<ChartViewModelMain>() {
     override val viewModel: ChartViewModelMain by viewModels()
 

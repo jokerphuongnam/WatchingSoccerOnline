@@ -39,7 +39,7 @@ internal class VideosAdapter(
                 video = data
                 container.setOnClickListener { itemCallback?.onClick(data) }
                 moreOptionItem.setOnClickListener { moreOption ->
-                    @MenuRes val menuRes: Int = if (data.showTime > Calendar.getInstance()
+                    @MenuRes val menuRes: Int = if (data.date > Calendar.getInstance()
                             .apply { timeZone = TimeZone.getDefault() }.timeInMillis
                     ) {
                         R.menu.more_options_video_unplayed_menu

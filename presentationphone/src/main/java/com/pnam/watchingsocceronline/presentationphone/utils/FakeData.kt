@@ -116,7 +116,7 @@ object FakeData {
                 videos[0].vid,
                 videos[0].title,
                 videos[0].thumbnail,
-                videos[0].showTime
+                videos[0].date
             )
         )
     }

@@ -132,7 +132,7 @@
             app:srcCompat="@drawable/ic_close"
             app:tint="?attr/blackWhite" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -148,132 +148,145 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/watch_video">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:layout_height="match_parent">
                 <LinearLayout
+                    android:id="@+id/recommends_container"
                     android:layout_width="match_parent"
-                    android:layout_height="?android:attr/actionBarSize"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="@drawable/ripple"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:singleLine="false"
-                        android:text="@{video.title}"
-                        android:textColor="?attr/blackWhite"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        tools:text="Title" />
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
-                        app:tint="?attr/blackWhite" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/highlight"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:backgroundTint="@android:color/transparent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="@drawable/ripple"
-                    android:gravity="start|center"
-                    android:text="@string/highlight"
-                    android:textColor="?attr/blackWhite" />
-
-                <LinearLayout
-                    android:id="@+id/comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="@drawable/ripple"
-                    android:orientation="vertical"
-                    android:visibility="@{user == null?View.GONE:View.VISIBLE}">
-
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="?android:attr/actionBarSize"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@drawable/ripple"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/comments" />
-                        </LinearLayout>
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:singleLine="false"
+                            android:text="@{video.title}"
+                            android:textColor="?attr/blackWhite"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            tools:text="Title" />
 
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:adjustViewBounds="true"
-                            android:padding="8dp"
                             android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/ic_up_and_down"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
                             app:tint="?attr/blackWhite" />
-                    </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/highlight"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@drawable/ripple"
+                        android:gravity="start|center"
+                        android:text="@string/highlight"
+                        android:textColor="?attr/blackWhite" />
 
                     <LinearLayout
+                        android:id="@+id/comment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="@drawable/ripple"
+                        android:orientation="vertical"
+                        android:visibility="@{user == null?View.GONE:View.VISIBLE}">
 
-                        <ImageView
-                            android:id="@+id/avatar"
-                            image_builder="@{avatar_handle}"
-                            url_image="@{user.avatar}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:adjustViewBounds="true"
-                            android:background="@android:color/transparent"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:padding="8dp"
-                            android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/ic_home"
-                            tools:src="@drawable/ic_home" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/comments" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:adjustViewBounds="true"
+                                android:padding="8dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_up_and_down"
+                                app:tint="?attr/blackWhite" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="?attr/greyNightDark"
-                            android:gravity="start|center"
-                            android:text="@string/write_public_comment"
-                            android:textColor="?attr/greyAttr" />
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/avatar"
+                                image_builder="@{avatar_handle}"
+                                url_image="@{user.avatar}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:adjustViewBounds="true"
+                                android:background="@android:color/transparent"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="8dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_home"
+                                tools:src="@drawable/ic_home" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="8dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="?attr/greyNightDark"
+                                android:gravity="start|center"
+                                android:text="@string/write_public_comment"
+                                android:textColor="?attr/greyAttr" />
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recommends"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="vertical"
+                        android:scrollbars="none"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_video_home" />
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recommends"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    android:scrollbars="none"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_video_home" />
-            </LinearLayout>
-        </ScrollView>
-
+                <ProgressBar
+                    android:id="@+id/recommends_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:indeterminateTint="?attr/blackWhite"
+                    android:scaleType="fitCenter" />
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

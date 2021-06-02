@@ -11,27 +11,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.pnam.watchingsocceronline.domain.model.Notification
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.background.DownloadWorkManager
+import com.pnam.watchingsocceronline.presentationphone.background.DownloadVideoService
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainContainerBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerOnlineViewBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
+import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadResultReceiverCallback
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.videocallback.MoreOptionClick
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
 
+@InternalCoroutinesApi
 @FlowPreview
 @ExperimentalCoroutinesApi
 abstract class MainContainerFragment<VM : MainContainerViewModel> :
@@ -78,7 +78,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     private fun clickVideo(video: Video) {
         if (
-            video.showTime > Calendar.getInstance()
+            video.date > Calendar.getInstance()
                 .apply { timeZone = TimeZone.getDefault() }.timeInMillis
         ) {
             alertUnplayedVideo.setMessage(
@@ -102,19 +102,19 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
-    private val downloadWorkRequest: WorkRequest by lazy {
-        OneTimeWorkRequest.Builder(DownloadWorkManager::class.java).build()
-    }
-
-    private val workManager by lazy {
-        WorkManager.getInstance(requireContext())
+    private val resultReceiverCallBack: DownloadResultReceiverCallback by lazy {
+        DownloadResultReceiverCallback()
     }
 
     private val moreOptionClick: MoreOptionClick by lazy {
         object : MoreOptionClick {
             override fun download(video: Video) {
                 //open service
-                workManager.enqueue(downloadWorkRequest)
+                DownloadVideoService.startServiceToWithdraw(
+                    requireContext(),
+                    video,
+                    resultReceiverCallBack
+                )
             }
 
             override fun getNotification(video: Video) {
@@ -390,7 +390,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                         searchAdapter.submitList(it.data)
                     }
                     is Resource.Error -> {
-
+                        searchBinding.loading.isVisible = false
                     }
                 }
             }
@@ -404,7 +404,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                         searchResultsAdapter.submitList(it.data)
                     }
                     is Resource.Error -> {
-
+                        searchResultBinding.loading.isVisible = false
                     }
                 }
             }
@@ -418,7 +418,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                         notificationsAdapter.submitList(it.data)
                     }
                     is Resource.Error -> {
-
+                        notificationBinding.loading.isVisible = false
                     }
                 }
             }
@@ -433,7 +433,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                             videoAdapter.submitList(it.data)
                         }
                         is Resource.Error -> {
-
+                            videosBinding.loading.isVisible = false
                         }
                     }
                 }
@@ -473,4 +473,8 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     }
 
     internal lateinit var openVideoBottomSheet: (String) -> Unit
+
+    companion object {
+        const val SERVICE_DOWNLOAD_VIDEO: String = "SERVICE_DOWNLOAD_VIDEO"
+    }
 }

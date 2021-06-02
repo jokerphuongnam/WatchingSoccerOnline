@@ -1,6 +1,8 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main
 
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragmentMain
+import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
@@ -17,10 +20,12 @@ import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
+@InternalCoroutinesApi
+@ExperimentalCoroutinesApi
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
     private val containerId: Int by lazy {
         R.id.container
@@ -49,8 +54,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     private val libraryFragment: LibraryFragmentMain by lazy {
         LibraryFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+            openDownloadFragment = {
+                showFragment(downloadFragment)
+            }
         }
     }
+
+    private val downloadFragment: DownloadFragment get() = DownloadFragment()
 
     private val watchVideoBottomSheet: WatchVideoBottomSheet by lazy {
         WatchVideoBottomSheet(
@@ -155,19 +165,31 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         supportFragmentManager.findFragmentById(containerId)?.also {
-            (it as MainContainerFragment<*>).onCreateOptionsMenu(menu)
+            if (it is MainContainerFragment<*>) it.onCreateOptionsMenu(menu)
         }
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        supportFragmentManager.findFragmentById(containerId)?.also {
+            if (it is DownloadFragment) it.onOptionsItemSelected(item)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onBackPressed() {
-        if (!watchVideoBottomSheet.isShow) {
-            super.onBackPressed()
-        } else {
+        if (watchVideoBottomSheet.isShow) {
             if (watchVideoBottomSheet.collapseEvent()) {
                 super.onBackPressed()
             } else {
                 watchVideoBottomSheet.collapseEvent()
+            }
+        } else {
+            val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.container)
+            if (fragment != null && fragment is DownloadFragment) {
+                showFragment(mainFragments[2])
+            } else {
+                super.onBackPressed()
             }
         }
     }

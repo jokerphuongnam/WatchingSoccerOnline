@@ -33,4 +33,7 @@
     <string name="sign_in">Sign in</string>
     <string name="detail_no_internet">Watch downloaded videos or find new videos to download in your library</string>
     <string name="go_to_downloads">Go to downloads</string>
+    <string name="your_download">Your downloads</string>
+    <string name="ago">ago</string>
+    <string name="remove_from_download">Remove from download</string>
 </resources>

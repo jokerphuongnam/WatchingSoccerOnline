@@ -1,7 +1,13 @@
 package com.pnam.watchingsocceronline.data.di
 
-import android.app.DownloadManager
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.room.Room
+import com.pnam.watchingsocceronline.data.database.local.AppDatabase
+import com.pnam.watchingsocceronline.data.database.local.DownloadLocal
+import com.pnam.watchingsocceronline.data.utils.RoomUtils.DB_NAME
+import com.pnam.watchingsocceronline.data.utils.dataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +20,15 @@ import javax.inject.Singleton
 object AppProvidesModules {
     @Provides
     @Singleton
-    fun providerDownloadManger(@ApplicationContext context: Context): DownloadManager =
-        context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideDownloadLocal(database: AppDatabase): DownloadLocal = database.getDownloadDao()
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        context.dataStore
 }

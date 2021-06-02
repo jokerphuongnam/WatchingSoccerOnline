@@ -144,19 +144,24 @@ class WatchVideoBottomSheet(
                         }
                     }
                     is Resource.Error -> {
-
+                        binding.loading.isVisible = false
                     }
                 }
             }
             recommendLiveData.observe { videos ->
                 when (videos) {
                     is Resource.Loading -> {
+                        binding.recommendsLoading.isVisible = true
+                        binding.recommendsContainer.isVisible = false
                     }
                     is Resource.Success -> {
+                        binding.recommendsLoading.isVisible = false
+                        binding.recommendsContainer.isVisible = true
                         recommendAdapter.submitList(videos.data?.toMutableList())
                     }
                     is Resource.Error -> {
-
+                        binding.recommendsLoading.isVisible = false
+                        binding.recommendsContainer.isVisible = true
                     }
                 }
             }

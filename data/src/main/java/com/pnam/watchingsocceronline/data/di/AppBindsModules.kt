@@ -2,8 +2,8 @@ package com.pnam.watchingsocceronline.data.di
 
 import com.pnam.watchingsocceronline.data.database.local.DownloadVideo
 import com.pnam.watchingsocceronline.data.database.local.impl.DownloadManagerDownloadVideoImpl
-import com.pnam.watchingsocceronline.data.repository.DownloadRepository
-import com.pnam.watchingsocceronline.data.repository.impl.DefaultDownloadRepositoryImpl
+import com.pnam.watchingsocceronline.data.repository.VideoRepository
+import com.pnam.watchingsocceronline.data.repository.impl.DefaultVideoRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,5 +17,5 @@ abstract class AppBindsModules {
     abstract fun getDownloadVideo(downloadVideo: DownloadManagerDownloadVideoImpl): DownloadVideo
 
     @Binds
-    abstract fun getDownloadRepository(repository: DefaultDownloadRepositoryImpl): DownloadRepository
+    abstract fun getDownloadRepository(repository: DefaultVideoRepositoryImpl): VideoRepository
 }

@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.usecase
 
+import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.domain.model.Notification
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.Video
@@ -12,6 +13,5 @@ interface MainContainerUseCase {
     suspend fun getSearchResult(searchWord: String): MutableList<Video>
     suspend fun getNotifications(): MutableList<Notification>
     suspend fun getNotification(video: Video): Notification
-    fun downloadVideo(video: Video): Long
-    suspend fun saveVideoDownload(video: Video): Long
+    suspend fun saveVideoDownload(video: Download)
 }

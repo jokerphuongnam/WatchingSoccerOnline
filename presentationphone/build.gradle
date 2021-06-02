@@ -64,6 +64,8 @@ dependencies {
     coil()
 
     work()
+
+    circularProgressBar()
 }
 
 private void hilt() {
@@ -91,13 +93,17 @@ private void coroutine(){
     dependencies.implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 }
 
-private void coil(){
+private void coil() {
     dependencies.implementation "io.coil-kt:coil:$coil_version"
 }
 
-private void work(){
+private void work() {
     // Kotlin + coroutines
     dependencies.implementation "androidx.work:work-runtime:$work_version"
     // optional - Multiprocess support
     dependencies.implementation "androidx.work:work-multiprocess:$work_version"
+}
+
+private void circularProgressBar() {
+    dependencies.implementation "com.mikhaellopez:circularprogressbar:$circular_progress_bar_version"
 }

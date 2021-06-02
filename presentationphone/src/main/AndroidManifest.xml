@@ -12,6 +12,7 @@
         android:windowSoftInputMode="adjustResize|stateHidden"
         android:supportsRtl="true"
         android:theme="@style/Theme.WatchingSoccerOnline">
+        <service android:name=".background.DownloadVideoService"/>
         <activity android:name=".ui.user.UserActivity"/>
         <activity android:name=".ui.signin.SignInActivity"/>
         <activity android:name="com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity"

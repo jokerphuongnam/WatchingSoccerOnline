@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 
-abstract class BaseListAdapter<D : Parcelable, VH : BaseListAdapter.BaseViewHolder<*, D>>(config: DiffUtil.ItemCallback<D>) :
-    ListAdapter<D, VH>(config) {
+abstract class BaseListAdapter<D : Parcelable, VH : BaseListAdapter.BaseViewHolder<*, D>>(diff: DiffUtil.ItemCallback<D>) :
+    ListAdapter<D, VH>(diff) {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.onBind(getItem(position))

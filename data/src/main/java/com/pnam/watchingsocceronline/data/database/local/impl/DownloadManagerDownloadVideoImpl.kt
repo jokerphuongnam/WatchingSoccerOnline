@@ -1,13 +1,14 @@
 package com.pnam.watchingsocceronline.data.database.local.impl
 
-import android.app.DownloadManager
 import android.content.Context
+import android.net.Uri
 import com.pnam.watchingsocceronline.data.database.local.DownloadVideo
 import com.pnam.watchingsocceronline.domain.model.Video
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.BufferedInputStream
+import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.URL
@@ -15,13 +16,12 @@ import java.net.URLConnection
 import javax.inject.Inject
 
 class DownloadManagerDownloadVideoImpl @Inject constructor(
-    private val downloadManager: DownloadManager,
     @ApplicationContext private val context: Context
 ) : DownloadVideo {
     private var _url: URL? = null
     private val url: URL get() = _url!!
 
-    override fun downloadVideo(video: Video): Flow<Int> = flow {
+    override fun downloadVideo(video: Video, dir: (Uri) -> Unit): Flow<Int> = flow {
         _url = URL(video.url)
         val connection: URLConnection = url.openConnection()
         connection.connect()
@@ -30,6 +30,8 @@ class DownloadManagerDownloadVideoImpl @Inject constructor(
         // download the file
         val input: InputStream = BufferedInputStream(connection.getInputStream())
         val output: OutputStream = context.openFileOutput(video.vid, Context.MODE_PRIVATE)
+        val file = File(context.filesDir, video.vid)
+        dir(Uri.fromFile(file))
         val data = ByteArray(1024)
         var total: Long = 0
         var count: Int
@@ -51,6 +53,5 @@ class DownloadManagerDownloadVideoImpl @Inject constructor(
     }
 
     override fun cancelDownload(id: Long) {
-        downloadManager.remove(id)
     }
 }

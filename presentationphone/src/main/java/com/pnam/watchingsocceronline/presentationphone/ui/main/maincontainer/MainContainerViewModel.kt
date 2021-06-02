@@ -64,6 +64,4 @@ abstract class MainContainerViewModel constructor(
     internal fun getNotification(video: Video) {
 
     }
-
-    internal fun downloadVideo(video: Video): Long = useCase.downloadVideo(video)
 }

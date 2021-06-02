@@ -2,28 +2,31 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.library
 
 import androidx.fragment.app.viewModels
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
-import com.pnam.watchingsocceronline.presentationphone.usecase.LibraryMainUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import javax.inject.Inject
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
+@InternalCoroutinesApi
+@ExperimentalCoroutinesApi
 class LibraryFragmentMain  : MainContainerFragment<LibraryViewModelMain>() {
     override val viewModel: LibraryViewModelMain by viewModels()
 
     override fun onCreateContainerView() {
-
+        libraryBinding.download.setOnClickListener {
+            videoDownload()
+        }
     }
 
     internal fun history() {
 
     }
 
-    internal fun downloadVideo(){
+    internal lateinit var openDownloadFragment: () -> Unit
 
+    internal fun videoDownload() {
+        openDownloadFragment()
     }
 }
