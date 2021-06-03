@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.pnam.watchingsocceronline.data.database.local.AppDatabase
 import com.pnam.watchingsocceronline.data.database.local.DownloadLocal
+import com.pnam.watchingsocceronline.data.database.local.UserLocal
 import com.pnam.watchingsocceronline.data.utils.RoomUtils.DB_NAME
 import com.pnam.watchingsocceronline.data.utils.dataStore
 import dagger.Module
@@ -29,6 +30,9 @@ object AppProvidesModules {
 
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-        context.dataStore
+    fun provideUserLocal(database: AppDatabase): UserLocal = database.getUserDao()
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> = context.dataStore
 }

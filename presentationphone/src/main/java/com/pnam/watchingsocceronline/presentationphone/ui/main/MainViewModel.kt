@@ -8,7 +8,7 @@ import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
-import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
+import com.pnam.watchingsocceronline.presentationphone.usecase.impl.DefaultMainUseCaseImpl
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
-class MainViewModel @Inject constructor() : BaseViewModel() {
+@ExperimentalCoroutinesApi
+class MainViewModel @Inject constructor(
+    private val useCase: DefaultMainUseCaseImpl
+) : BaseViewModel() {
     internal val userLiveData: MutableLiveData<Resource<User>> by lazy { MutableLiveData() }
     internal val videoLiveData: MutableLiveData<Resource<Video?>> by lazy { MutableLiveData() }
     internal val recommendLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy { MutableLiveData() }
@@ -28,26 +30,33 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
     internal fun user() {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            userLiveData.postValue(Resource.Success(FakeData.getFakeUser()))
+            try {
+                userLiveData.postValue(Resource.Success(useCase.getUser()))
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                userLiveData.postValue(null)
+            }
         }
     }
 
     internal fun getRecommendVideo() {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            recommendLiveData.postValue(Resource.Success(FakeData.getFakeVideos().toMutableList()))
+            recommendLiveData.postValue(
+                Resource.Success(
+                    useCase.getRecommendVideo().toMutableList()
+                )
+            )
         }
     }
 
-    internal fun openVideo(vid: String) {
+    internal fun openVideo(vid: Long) {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            val recommends = FakeData.getFakeVideos().toMutableList()
-            for (video in recommends) {
-                if (video.vid == vid) {
-                    videoLiveData.postValue(Resource.Success(video))
-                    break
-                }
+            try {
+                videoLiveData.postValue(Resource.Success(useCase.getVideo(vid)))
+            } catch (e: Throwable) {
+                videoLiveData.postValue(Resource.Error(e))
             }
         }
     }

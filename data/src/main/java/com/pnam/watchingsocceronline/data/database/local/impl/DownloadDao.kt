@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.data.database.local.impl
 
 import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import com.pnam.watchingsocceronline.data.database.local.DownloadLocal
 import com.pnam.watchingsocceronline.data.database.local.dto.DownloadDto
 import com.pnam.watchingsocceronline.data.utils.toDto
@@ -11,29 +12,29 @@ import kotlinx.coroutines.flow.map
 @Dao
 interface DownloadDao : DownloadLocal {
     @Query("SELECT * FROM DOWNLOADS")
-    fun getDownloadsDto(): Flow<DownloadDto>
+    fun findDownloadsDto(): Flow<List<DownloadDto>>
 
-    override fun getDownloads(): Flow<Download> = getDownloadsDto().map {
-        it.toDownload()
+    override fun findDownloads(): Flow<List<Download>> = findDownloadsDto().map { downloads ->
+        downloads.map { download -> download.toDownload() }
     }
 
     @Query("SELECT * FROM DOWNLOADS WHERE video_id = :vid")
-    suspend fun getDownloadDto(vid: String): DownloadDto
+    suspend fun findDownloadDto(vid: Long): DownloadDto
 
-    override suspend fun getDownload(vid: String): Download = getDownloadDto(vid).toDownload()
+    override suspend fun findDownload(vid: Long): Download = findDownloadDto(vid).toDownload()
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     suspend fun insertDownloadDto(download: DownloadDto)
 
     override suspend fun insertDownload(download: Download) {
         insertDownloadDto(download.toDto())
     }
 
-    @Delete
-    suspend fun deleteDownloadDto(download: DownloadDto)
+    @Insert(onConflict = REPLACE)
+    fun insertDownloadDtoNoneSuspend(download: DownloadDto)
 
-    override suspend fun deleteDownload(download: Download) {
-        deleteDownloadDto(download.toDto())
+    override fun insertDownloadNoneSuspend(download: Download) {
+        insertDownloadDtoNoneSuspend(download.toDto())
     }
 
     @Update
@@ -41,5 +42,19 @@ interface DownloadDao : DownloadLocal {
 
     override suspend fun editDownload(download: Download) {
         editDownloadDto(download.toDto())
+    }
+
+    @Update
+    fun editDownloadDtoNoneSuspend(download: DownloadDto)
+
+    override fun editDownloadNoneSuspend(download: Download) {
+        editDownloadDtoNoneSuspend(download.toDto())
+    }
+
+    @Delete
+    suspend fun deleteDownloadDto(download: DownloadDto)
+
+    override suspend fun deleteDownload(download: Download) {
+        deleteDownloadDto(download.toDto())
     }
 }

@@ -102,19 +102,10 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
-    private val resultReceiverCallBack: DownloadResultReceiverCallback by lazy {
-        DownloadResultReceiverCallback()
-    }
-
     private val moreOptionClick: MoreOptionClick by lazy {
         object : MoreOptionClick {
             override fun download(video: Video) {
-                //open service
-                DownloadVideoService.startServiceToWithdraw(
-                    requireContext(),
-                    video,
-                    resultReceiverCallBack
-                )
+                viewModel.getVideoDownload(video)
             }
 
             override fun getNotification(video: Video) {
@@ -375,6 +366,10 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         setUpSearchItem()
     }
 
+    private val resultReceiverCallBack: DownloadResultReceiverCallback by lazy {
+        DownloadResultReceiverCallback()
+    }
+
     private fun viewModelObserve() {
         viewModel.apply {
             userLiveData.observe { user ->
@@ -437,6 +432,18 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                         }
                     }
                 }
+            viewModel.videoDownloadLiveData.observe { video ->
+                if (video != null) {
+                    showToast(R.string.download_start)
+                    DownloadVideoService.startServiceToWithdraw(
+                        requireContext(),
+                        video,
+                        resultReceiverCallBack
+                    )
+                } else {
+                    showToast(R.string.video_downloaded)
+                }
+            }
         }
     }
 
@@ -472,9 +479,5 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         viewModel.getVideos()
     }
 
-    internal lateinit var openVideoBottomSheet: (String) -> Unit
-
-    companion object {
-        const val SERVICE_DOWNLOAD_VIDEO: String = "SERVICE_DOWNLOAD_VIDEO"
-    }
+    internal lateinit var openVideoBottomSheet: (Long) -> Unit
 }

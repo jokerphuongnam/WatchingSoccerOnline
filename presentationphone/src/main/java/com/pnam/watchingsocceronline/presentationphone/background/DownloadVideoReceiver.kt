@@ -3,6 +3,7 @@ package com.pnam.watchingsocceronline.presentationphone.background
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
+import androidx.core.app.NotificationCompat
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadResultReceiverCallback
@@ -23,7 +24,6 @@ class DownloadVideoReceiver(
     }
 
     override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
-        super.onReceiveResult(resultCode, resultData)
         if (resultCode == RESULT_CODE_OK) {
             val download: Download = resultData.getParcelable(PARAM_RESULT)!!
             receiver.onSuccess(download)

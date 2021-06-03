@@ -1,10 +1,13 @@
 package com.pnam.watchingsocceronline.data.utils
 
 import com.pnam.watchingsocceronline.data.database.local.dto.DownloadDto
+import com.pnam.watchingsocceronline.data.database.local.dto.UserDto
 import com.pnam.watchingsocceronline.domain.model.Download
+import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
 
-fun Download.toDto(): DownloadDto = DownloadDto(vid, title, thumbnail, url, view, downloadTime)
+fun Download.toDto(): DownloadDto =
+    DownloadDto(vid, title, thumbnail, url, view, downloadTime, downloadProcess)
 
 fun Download.toVideo(video: Video): Video = Video(
     vid,
@@ -27,4 +30,15 @@ fun Video.toDownload(): Download = Download(
     view,
     System.currentTimeMillis(),
     0
+)
+
+fun User.toDto(): UserDto = UserDto(
+    uid,
+    avatar,
+    email,
+    password,
+    firstName,
+    lastName,
+    birthDay,
+    gender.toBoolean()
 )

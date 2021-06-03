@@ -9,7 +9,7 @@ import java.util.*
 
 @Parcelize
 data class Video(
-    var vid: String,
+    var vid: Long,
     var title: String,
     var thumbnail: String,
     var url: String,

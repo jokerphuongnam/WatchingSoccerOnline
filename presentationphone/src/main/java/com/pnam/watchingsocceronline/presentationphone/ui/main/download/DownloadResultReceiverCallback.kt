@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.download
 
+import android.util.Log
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.presentationphone.utils.ResultReceiverCallback
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,6 +19,8 @@ class DownloadResultReceiverCallback : ResultReceiverCallback<Download> {
     private var weakFragment: WeakReference<DownloadFragment>? = null
 
     override fun onSuccess(data: Download) {
+        Log.e("ccccccccccccccc", weakFragment.toString())
+        Log.e("ccccccccccccccc", data.toString())
         weakFragment?.get()?.setProgressCallback(data)
     }
 

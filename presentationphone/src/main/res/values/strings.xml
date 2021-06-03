@@ -36,4 +36,9 @@
     <string name="your_download">Your downloads</string>
     <string name="ago">ago</string>
     <string name="remove_from_download">Remove from download</string>
+    <string name="download_start">Download start</string>
+    <string name="download_error">Has error when download</string>
+    <string name="video_downloaded">Video downloaded</string>
+    <string name="delete_download_success">Delete download success</string>
+    <string name="delete_download_error">Has error when delete download</string>
 </resources>

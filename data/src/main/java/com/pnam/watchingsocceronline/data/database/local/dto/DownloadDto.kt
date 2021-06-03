@@ -9,7 +9,7 @@ import com.pnam.watchingsocceronline.domain.model.Download
 data class DownloadDto(
     @PrimaryKey
     @ColumnInfo(name = "video_id")
-    var vid: String,
+    var vid: Long,
     @ColumnInfo(name = "title")
     var title: String,
     @ColumnInfo(name = "thumbnail")
@@ -19,9 +19,11 @@ data class DownloadDto(
     @ColumnInfo(name = "view")
     var view: Long,
     @ColumnInfo(name = "download_time")
-    var downloadTime: Long
+    var downloadTime: Long,
+    @ColumnInfo(name = "download_process")
+    var downloadProcess: Int
 ) {
     fun toDownload(): Download {
-        return Download(vid, title, thumbnail, url, view, downloadTime, 100)
+        return Download(vid, title, thumbnail, url, view, downloadTime, downloadProcess)
     }
 }

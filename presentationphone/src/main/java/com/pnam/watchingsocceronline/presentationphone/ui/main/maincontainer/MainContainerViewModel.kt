@@ -8,15 +8,12 @@ import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseCase
-import com.pnam.watchingsocceronline.presentationphone.utils.FakeData
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.FlowCollector
 
 @FlowPreview
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 abstract class MainContainerViewModel constructor(
     private val useCase: MainContainerUseCase
@@ -35,9 +32,12 @@ abstract class MainContainerViewModel constructor(
     internal fun search(searchWord: String? = null) {
         searchLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            FakeData.getFakeSearchHistory(searchWord).collect {
-                searchLiveData.postValue(Resource.Success(it))
-            }
+            useCase.getSearchHistory(searchWord)
+                .collect(object : FlowCollector<MutableList<SearchHistory>> {
+                    override suspend fun emit(value: MutableList<SearchHistory>) {
+                        searchLiveData.postValue(Resource.Success(value))
+                    }
+                })
         }
     }
 
@@ -46,9 +46,7 @@ abstract class MainContainerViewModel constructor(
     internal fun searchResult(searchWord: String) {
         searchResultLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            val searchResult =
-                FakeData.getFakeVideos().filter { it.title.contains(searchWord) }.toMutableList()
-            searchResultLiveData.postValue(Resource.Success(searchResult))
+            searchResultLiveData.postValue(Resource.Success(useCase.getSearchResult(searchWord)))
         }
     }
 
@@ -57,11 +55,26 @@ abstract class MainContainerViewModel constructor(
     internal fun notification() {
         notificationsLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
-            notificationsLiveData.postValue(Resource.Success(FakeData.getFakeNotification()))
+            notificationsLiveData.postValue(Resource.Success(useCase.getNotifications()))
         }
     }
 
     internal fun getNotification(video: Video) {
 
+    }
+
+    internal val videoDownloadLiveData: MutableLiveData<Video> by lazy {
+        MutableLiveData()
+    }
+
+    internal fun getVideoDownload(video: Video) {
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                useCase.getVideoDownload(video)
+                videoDownloadLiveData.postValue(null)
+            } catch (ex: Exception) {
+                videoDownloadLiveData.postValue(video)
+            }
+        }
     }
 }

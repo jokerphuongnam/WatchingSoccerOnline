@@ -6,18 +6,16 @@ import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 @FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
+@InternalCoroutinesApi
+@ExperimentalCoroutinesApi
 class LibraryViewModelMain @Inject constructor(
     private val useCase: LibraryMainUseCase,
     mainContainerUseCase: MainContainerUseCase
 ) : MainContainerViewModel(mainContainerUseCase) {
     override fun getVideos() {}
-
-    fun getDownloadVideo() {
-
-    }
 }

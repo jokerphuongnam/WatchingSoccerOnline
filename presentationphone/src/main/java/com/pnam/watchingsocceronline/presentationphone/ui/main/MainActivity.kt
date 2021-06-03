@@ -1,11 +1,11 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main
 
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainBinding
@@ -60,7 +60,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         }
     }
 
-    private val downloadFragment: DownloadFragment get() = DownloadFragment()
+    private val downloadFragment: DownloadFragment
+        get() = DownloadFragment().apply {
+            openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+        }
 
     private val watchVideoBottomSheet: WatchVideoBottomSheet by lazy {
         WatchVideoBottomSheet(
@@ -75,6 +78,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     private val onNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener by lazy {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            supportFragmentManager.findFragmentById(R.id.container)
+                .takeIf { it is DownloadFragment }?.let {
+                    supportFragmentManager.commit {
+                        remove(it)
+                    }
+                    supportFragmentManager.popBackStack()
+                }
             val fragment = when (item.itemId) {
                 R.id.home -> {
                     mainFragments[0]
@@ -116,7 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override val viewModel: MainViewModel by viewModels()
 
-    private val openVideoBottomSheet: (String) -> Unit by lazy {
+    private val openVideoBottomSheet: (Long) -> Unit by lazy {
         { vid ->
             (binding.bottomNavigation.y + paddingBottom).let {
                 bottomSheetOutSideScreen = it

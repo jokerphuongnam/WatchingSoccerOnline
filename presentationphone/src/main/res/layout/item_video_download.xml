@@ -11,8 +11,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="150dp">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -123,6 +124,7 @@
                 android:paddingTop="16dp">
 
                 <ImageView
+                    android:id="@+id/more_option_item"
                     android:layout_width="16dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"

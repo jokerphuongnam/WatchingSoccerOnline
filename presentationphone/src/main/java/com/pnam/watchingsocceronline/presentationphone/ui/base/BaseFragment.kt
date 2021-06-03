@@ -1,5 +1,9 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.base
 
+import android.app.ActivityManager
+import android.app.Service
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -11,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import kotlin.jvm.Throws
 
 abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel, AVM : BaseViewModel>(
     @LayoutRes override val layoutRes: Int
@@ -41,6 +47,27 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel, AVM : Base
         _binding = null
     }
 
+    @Throws(Resources.NotFoundException::class)
+    protected inline fun <reified S : Service> getService(): S {
+        val activityManager: ActivityManager =
+            requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        @Suppress("DEPRECATION") val runningServices: List<ActivityManager.RunningServiceInfo> =
+            activityManager.getRunningServices(Integer.MAX_VALUE)
+        for (serviceRunning in runningServices) {
+            if (serviceRunning is S) {
+                return serviceRunning
+            }
+        }
+        throw Resources.NotFoundException()
+    }
+
+    protected fun removeThisFragmentFromBackStack(){
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.commit {
+            remove(this@BaseFragment)
+        }
+        fragmentManager.popBackStack()
+    }
 
     protected val actionBarSize: Int
         get() {

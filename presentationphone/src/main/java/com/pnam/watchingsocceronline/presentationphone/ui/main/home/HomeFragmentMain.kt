@@ -15,5 +15,6 @@ class HomeFragmentMain : MainContainerFragment<HomeViewModelMain>() {
     override val viewModel: HomeViewModelMain by viewModels()
 
     override fun onCreateContainerView() {
+        binding.className = "Home"
     }
 }

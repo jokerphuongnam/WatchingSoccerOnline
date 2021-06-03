@@ -10,7 +10,7 @@ import java.util.*
 @Parcelize
 class Notification(
     var nid: Long,
-    var vid: String,
+    var vid: Long,
     var title: String,
     var thumbnail: String,
     var showTime: Long

@@ -9,7 +9,7 @@ import java.util.*
 
 @Parcelize
 data class User(
-    var uid: String,
+    var uid: Long,
     var avatar: String,
     var email: String,
     var password: String,

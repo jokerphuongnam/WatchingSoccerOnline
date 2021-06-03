@@ -1,14 +1,11 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.download
 
-import android.app.ActivityManager
-import android.app.Service
-import android.content.Context
+import android.content.res.Resources
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.presentationphone.R
@@ -18,12 +15,13 @@ import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
-import com.pnam.watchingsocceronline.presentationphone.utils.ResultReceiverCallback
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
+@AndroidEntryPoint
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 class DownloadFragment :
@@ -32,7 +30,7 @@ class DownloadFragment :
     override val viewModel: DownloadViewModel by viewModels()
 
     private val downloadsAdapter: DownloadsAdapter by lazy {
-        DownloadsAdapter(itemCallback)
+        DownloadsAdapter(itemCallback, downloadOptionMenuCallback)
     }
 
     private val itemCallback: ContainerItemCallback<Download> by lazy {
@@ -41,6 +39,14 @@ class DownloadFragment :
             }
 
             override fun onClick(data: Download) {
+            }
+        }
+    }
+
+    private val downloadOptionMenuCallback: DownloadsAdapter.DownloadOptionMenuCallback by lazy {
+        object : DownloadsAdapter.DownloadOptionMenuCallback {
+            override fun removeDownload(video: Download) {
+                viewModel.removeDownload(video)
             }
         }
     }
@@ -57,10 +63,23 @@ class DownloadFragment :
                 }
                 is Resource.Success -> {
                     binding.loading.isVisible = false
-//                    downloadsAdapter.submitList(it.data)
+                    downloadsAdapter.submitList(it.data!!.toMutableList())
                 }
                 is Resource.Error -> {
                     binding.loading.isVisible = false
+                }
+            }
+        }
+        viewModel.removeDownload.observe {
+            when (it) {
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+                    showToast(R.string.delete_download_success)
+                }
+                is Resource.Success -> {
+                    showToast(R.string.delete_download_error)
                 }
             }
         }
@@ -75,47 +94,40 @@ class DownloadFragment :
         appbar.setDisplayHomeAsUpEnabled(true)
     }
 
+    private fun setUpRecyclerView() {
+        binding.downloads.adapter = downloadsAdapter
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                val fragmentManager = requireActivity().supportFragmentManager
-                fragmentManager.commit {
-                    remove(this@DownloadFragment)
-                }
-                fragmentManager.popBackStack()
+                removeThisFragmentFromBackStack()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    inline fun <reified S : Service> getService(): S? {
-        val activityManager: ActivityManager =
-            requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        @Suppress("DEPRECATION") val runningServices: List<ActivityManager.RunningServiceInfo> =
-            activityManager.getRunningServices(Integer.MAX_VALUE)
-        for (serviceRunning in runningServices) {
-            if (serviceRunning is S) {
-                return serviceRunning
-            }
-        }
-        return null
-    }
-
-    private val resultReceiverCallback: DownloadResultReceiverCallback by lazy {
-        DownloadResultReceiverCallback()
-    }
-
-
     override fun onCreateView() {
         setViewModelObserve()
         setUpAppbar()
+        setUpRecyclerView()
     }
 
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModel.getVideoDownloads()
-        val service: DownloadVideoService? = getService()
-        service?.setFragmentForResultReceiverCallback(this)
+        try {
+            getService<DownloadVideoService>().setFragmentForResultReceiverCallback(this)
+        } catch (ex: Resources.NotFoundException) {
+
+        }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeThisFragmentFromBackStack()
+    }
+
+    internal lateinit var openVideoBottomSheet: (Long) -> Unit
 }
