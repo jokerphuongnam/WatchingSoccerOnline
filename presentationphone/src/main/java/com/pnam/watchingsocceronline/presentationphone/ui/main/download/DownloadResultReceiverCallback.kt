@@ -20,7 +20,7 @@ class DownloadResultReceiverCallback : ResultReceiverCallback<Download> {
 
     override fun onSuccess(data: Download) {
         Log.e("ccccccccccccccc", weakFragment.toString())
-        Log.e("ccccccccccccccc", data.toString())
+        Log.e("ccccccccccccccc", data.downloadProcess.toString())
         weakFragment?.get()?.setProgressCallback(data)
     }
 

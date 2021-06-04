@@ -39,6 +39,7 @@ class DownloadFragment :
             }
 
             override fun onClick(data: Download) {
+                openVideoBottomSheet.invoke(data.vid)
             }
         }
     }

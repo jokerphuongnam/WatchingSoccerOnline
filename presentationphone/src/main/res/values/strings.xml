@@ -41,4 +41,5 @@
     <string name="video_downloaded">Video downloaded</string>
     <string name="delete_download_success">Delete download success</string>
     <string name="delete_download_error">Has error when delete download</string>
+    <string name="video_deleted">Video deleted</string>
 </resources>

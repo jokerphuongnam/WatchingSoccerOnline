@@ -4,7 +4,9 @@ import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.view.View
 import android.view.WindowManager
+import android.webkit.URLUtil
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
@@ -19,10 +21,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import com.google.android.exoplayer2.upstream.BandwidthMeter
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
-import com.google.android.exoplayer2.upstream.HttpDataSource
+import com.google.android.exoplayer2.upstream.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
@@ -138,7 +137,7 @@ class WatchVideoBottomSheet(
                             if (isRunVideo) {
                                 stopVideo()
                             }
-                            loadVideoFromUrl(video.data.url)
+                            loadVideo(video.data.url)
                         } else {
                             behavior.state = STATE_EXPANDED
                         }
@@ -207,11 +206,23 @@ class WatchVideoBottomSheet(
             behavior.state = STATE_COLLAPSED
         } ?: true
 
-    private fun loadVideoFromUrl(url: String) {
-        loadVideo(Uri.parse(url))
+    private fun loadVideo(url: String) {
+        initVideo()
+        try {
+            val mediaSource: MediaSource = with(Uri.parse(url)) {
+                if (URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url)) {
+                    loadVideoFromUrl(this)
+                } else {
+                    loadVideoFromFile(this)
+                }
+            }
+            playVideo(mediaSource)
+        } catch (e: FileDataSource.FileDataSourceException) {
+            Toast.makeText(activity, R.string.video_deleted, Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun loadVideo(uri: Uri) {
+    private fun initVideo() {
         isRunVideo = true
         val loadControl = DefaultLoadControl()
         val bandwidthMeter: BandwidthMeter = DefaultBandwidthMeter()
@@ -221,11 +232,37 @@ class WatchVideoBottomSheet(
         _exoPlayer = ExoPlayerFactory.newSimpleInstance(
             activity, trackSelector, loadControl
         )
+    }
+
+    @Throws(FileDataSource.FileDataSourceException::class)
+    private fun loadVideoFromFile(uri: Uri): MediaSource {
+        val dataSpec = DataSpec(uri)
+        val fileDataSource = FileDataSource()
+        fileDataSource.open(dataSpec)
+        val factory: DataSource.Factory = DataSource.Factory { fileDataSource }
+        val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
+        return ExtractorMediaSource(
+            fileDataSource.uri,
+            factory,
+            extractorsFactory,
+            null,
+            null
+        )
+    }
+
+    private fun loadVideoFromUrl(uri: Uri): MediaSource {
         val factory: HttpDataSource.Factory = DefaultHttpDataSourceFactory("exoplayer_video")
         val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
-        val mediaSource: MediaSource = ExtractorMediaSource(
-            uri, factory, extractorsFactory, null, null
+        return ExtractorMediaSource(
+            uri,
+            factory,
+            extractorsFactory,
+            null,
+            null
         )
+    }
+
+    private fun playVideo(mediaSource: MediaSource) {
         binding.videoView.player = _exoPlayer
         binding.videoView.keepScreenOn = true
         exoPlayer.prepare(mediaSource)

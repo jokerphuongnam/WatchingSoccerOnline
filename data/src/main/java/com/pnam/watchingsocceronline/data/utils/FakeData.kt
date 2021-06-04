@@ -52,6 +52,25 @@ private val videos: MutableList<Video> by lazy {
                 )
             )
         ),
+        Video(
+            5231,
+            "Gym test video",
+            "https://image.freepik.com/free-psd/intense-fitness-exercise-youtube-channel-thumbnail-web-banner_124868-205.jpg",
+            "https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4",
+            500,
+            1618219260000,
+            "N/A",
+            "N/A",
+            "N/A",
+            mutableListOf(
+                Comment(
+                    2342,
+                    "Trận đấu hay quá",
+                    1618219270000,
+                    user
+                )
+            )
+        )
     )
 }
 
