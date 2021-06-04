@@ -34,6 +34,14 @@
                     android:scaleType="fitCenter"
                     app:tint="?attr/blackWhite"
                     app:srcCompat="@drawable/ic_close" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/user"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/blackWhite"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 

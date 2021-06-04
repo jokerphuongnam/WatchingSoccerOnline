@@ -173,6 +173,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         watchVideoBottomSheet.onInit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.user()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         supportFragmentManager.findFragmentById(containerId)?.also {
             if (it is MainContainerFragment<*>) it.onCreateOptionsMenu(menu)

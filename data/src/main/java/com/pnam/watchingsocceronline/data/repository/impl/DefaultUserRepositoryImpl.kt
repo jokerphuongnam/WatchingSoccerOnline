@@ -24,10 +24,12 @@ class DefaultUserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(email: String, password: String): User {
-        return userNetwork.login(email, password).also {
-            userLocal.insertUser(it)
-            currentUser.changeCurrentUser(it.uid)
-        }
+        return userNetwork.login(email, password)
+    }
+
+    override suspend fun saveUser(user: User) {
+        userLocal.insertUser(user)
+        currentUser.changeCurrentUser(user.uid)
     }
 
     override suspend fun edit(user: User) {

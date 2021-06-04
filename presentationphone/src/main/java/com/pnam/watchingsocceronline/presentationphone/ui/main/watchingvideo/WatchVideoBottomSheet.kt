@@ -28,7 +28,7 @@ import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
-import com.pnam.watchingsocceronline.presentationphone.ui.main.comment.CommentFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.comments.CommentFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
@@ -94,7 +94,7 @@ class WatchVideoBottomSheet(
                 exoPlayer.playWhenReady = !exoPlayer.playWhenReady
             }
             comment.setOnClickListener {
-                CommentFragment().apply {
+                CommentFragment(activity).apply {
                     show(
                         this@WatchVideoBottomSheet.activity.supportFragmentManager,
                         CommentFragment::class.java.simpleName

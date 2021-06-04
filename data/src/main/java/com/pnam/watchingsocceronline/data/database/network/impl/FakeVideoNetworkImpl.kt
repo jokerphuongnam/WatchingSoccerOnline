@@ -2,9 +2,7 @@ package com.pnam.watchingsocceronline.data.database.network.impl
 
 import android.content.res.Resources
 import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
-import com.pnam.watchingsocceronline.data.utils.Filter
-import com.pnam.watchingsocceronline.data.utils.getFakeFilterVideo
-import com.pnam.watchingsocceronline.data.utils.getFakeVideos
+import com.pnam.watchingsocceronline.data.utils.*
 import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.domain.model.Video
 import javax.inject.Inject
@@ -26,7 +24,7 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
     }
 
     @Throws(Resources.NotFoundException::class)
-    override suspend fun fetchComment(vid: Long): MutableList<Comment> {
+    override suspend fun fetchComments(vid: Long): List<Comment> {
         val fakeVideos = getFakeVideos()
         for (fakeVideo in fakeVideos) {
             if (fakeVideo.vid == vid) {
@@ -36,11 +34,17 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
         throw Resources.NotFoundException()
     }
 
-    override suspend fun fetchChart(filter: Filter): MutableList<Video> {
+    override suspend fun writeComment(content: String, vid: Long, uid: Long?) {
+        writeFakeComment(content, vid, uid).takeUnless { it }?.let {
+            throw Resources.NotFoundException()
+        }
+    }
+
+    override suspend fun fetchChart(filter: Filter): List<Video> {
         return getFakeVideos()
     }
 
-    override suspend fun fetchFilterVideo(searchWord: String?): MutableList<Video> {
+    override suspend fun fetchFilterVideo(searchWord: String?): List<Video> {
         return getFakeFilterVideo(searchWord)
     }
 }

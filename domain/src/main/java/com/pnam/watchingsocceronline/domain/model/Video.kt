@@ -18,7 +18,7 @@ data class Video(
     var highLight1: String,
     var highLight2: String,
     var highLight3: String,
-    var comments: MutableList<Comment>
+    var comments: List<Comment>
 ) : Parcelable {
     var showTimeDate: String
         get() = date.toDateTimeString(DateUtils.HH_MM_DD_MM_YYYY)

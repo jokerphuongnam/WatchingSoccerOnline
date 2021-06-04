@@ -28,7 +28,7 @@ class DefaultMainContainerUseCaseImpl @Inject constructor(
             searchHistory
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun getSearchResult(searchWord: String): MutableList<Video> =
+    override suspend fun getSearchResult(searchWord: String): List<Video> =
         videoRepository.getFilterVideos(searchWord)
 
     override suspend fun getNotifications(): MutableList<Notification> =

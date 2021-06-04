@@ -32,13 +32,4 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             R.anim.slide_out_bottom
         )
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

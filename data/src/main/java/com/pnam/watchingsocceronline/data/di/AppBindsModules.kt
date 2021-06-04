@@ -10,9 +10,11 @@ import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
 import com.pnam.watchingsocceronline.data.database.network.impl.FakeSearchNetworkImpl
 import com.pnam.watchingsocceronline.data.database.network.impl.FakeUserNetworkImpl
 import com.pnam.watchingsocceronline.data.database.network.impl.FakeVideoNetworkImpl
+import com.pnam.watchingsocceronline.data.repository.CommentsRepository
 import com.pnam.watchingsocceronline.data.repository.SearchRepository
 import com.pnam.watchingsocceronline.data.repository.UserRepository
 import com.pnam.watchingsocceronline.data.repository.VideoRepository
+import com.pnam.watchingsocceronline.data.repository.impl.DefaultCommentsRepositoryImpl
 import com.pnam.watchingsocceronline.data.repository.impl.DefaultSearchRepositoryImpl
 import com.pnam.watchingsocceronline.data.repository.impl.DefaultUserRepositoryImpl
 import com.pnam.watchingsocceronline.data.repository.impl.DefaultVideoRepositoryImpl
@@ -48,4 +50,7 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getUserRepository(repository: DefaultUserRepositoryImpl): UserRepository
+
+    @Binds
+    abstract fun getCommentRepository(repository: DefaultCommentsRepositoryImpl): CommentsRepository
 }

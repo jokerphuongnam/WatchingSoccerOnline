@@ -6,6 +6,7 @@ import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
 import com.pnam.watchingsocceronline.data.repository.VideoRepository
 import com.pnam.watchingsocceronline.data.utils.Filter
 import com.pnam.watchingsocceronline.data.utils.toVideo
+import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.domain.model.Video
 import kotlinx.coroutines.flow.Flow
@@ -57,11 +58,15 @@ class DefaultVideoRepositoryImpl @Inject constructor(
         return downloadLocal.findDownloads()
     }
 
-    override suspend fun getChart(filter: Filter): MutableList<Video> {
+    override suspend fun getChart(filter: Filter): List<Video> {
         return videoNetwork.fetchChart(filter)
     }
 
-    override suspend fun getFilterVideos(searchWord: String?): MutableList<Video> {
+    override suspend fun getFilterVideos(searchWord: String?): List<Video> {
         return videoNetwork.fetchFilterVideo(searchWord)
+    }
+
+    override suspend fun getComments(vid: Long): List<Comment> {
+        return videoNetwork.fetchComments(vid)
     }
 }

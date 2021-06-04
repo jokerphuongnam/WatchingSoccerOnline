@@ -1,0 +1,14 @@
+package com.pnam.watchingsocceronline.presentationphone.usecase.impl
+
+import com.pnam.watchingsocceronline.data.repository.CommentsRepository
+import com.pnam.watchingsocceronline.domain.model.Comment
+import com.pnam.watchingsocceronline.presentationphone.usecase.CommentsUseCase
+import javax.inject.Inject
+
+class DefaultCommentsUseCaseImpl @Inject constructor(
+    override val commentRepository: CommentsRepository
+) : CommentsUseCase {
+    override suspend fun getComments(vid: Long): List<Comment> {
+        return commentRepository.getComments(vid)
+    }
+}

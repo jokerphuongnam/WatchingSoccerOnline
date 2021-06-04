@@ -206,8 +206,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="@drawable/ripple"
-                        android:orientation="vertical"
-                        android:visibility="@{user == null?View.GONE:View.VISIBLE}">
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

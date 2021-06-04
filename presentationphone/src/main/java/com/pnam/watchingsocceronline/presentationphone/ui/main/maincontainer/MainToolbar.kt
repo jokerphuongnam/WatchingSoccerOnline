@@ -38,17 +38,13 @@ class MainToolbar(private val activity: FragmentActivity) {
         }
     }
 
-    private val userIntent: Intent by lazy {
-        Intent(activity, UserActivity::class.java)
-    }
-
     private val avatarClick: View.OnClickListener by lazy {
         View.OnClickListener {
             /**
              * open user activity
              * */
             activity.apply {
-                startActivity(userIntent)
+                startActivity(Intent(activity, UserActivity::class.java))
                 overridePendingTransition(
                     R.anim.slide_in_bottom,
                     R.anim.slide_out_top
@@ -57,17 +53,13 @@ class MainToolbar(private val activity: FragmentActivity) {
         }
     }
 
-    private val signInIntent: Intent by lazy {
-        Intent(activity, SignInActivity::class.java)
-    }
-
     private val signInClick: View.OnClickListener by lazy {
         View.OnClickListener {
             /**
              * open sign in activity
              * */
             activity.apply {
-                startActivity(signInIntent)
+                startActivity(Intent(activity, SignInActivity::class.java))
                 overridePendingTransition(
                     R.anim.slide_in_bottom,
                     R.anim.slide_out_top

@@ -10,20 +10,22 @@ private fun <T> CancellableContinuation<T>.resume(t: T) {
     resume(t) {}
 }
 
-suspend fun getFakeUser(): User? = suspendCancellableCoroutine {
-    it.resume(user)
+suspend fun getFakeUsers(): List<User> = suspendCancellableCoroutine {
+    it.resume(users)
 }
 
-private val user: User by lazy {
-    User(
-        1323,
-        "https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/117337543_1232748220451392_486736325028794565_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=bywnYaEFxvcAX82QrFi&_nc_ht=scontent-hkg4-2.xx&oh=889feaf4525a0c09e6d416ed05a81359&oe=60D73032",
-        "phuongnam@gmail.com",
-        "phuongnam123",
-        "Phạm",
-        "Phương Nam",
-        916678800000,
-        User.Gender.MALE
+private val users: List<User> by lazy {
+    mutableListOf(
+        User(
+            1323,
+            "https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/117337543_1232748220451392_486736325028794565_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=bywnYaEFxvcAX82QrFi&_nc_ht=scontent-hkg4-2.xx&oh=889feaf4525a0c09e6d416ed05a81359&oe=60D73032",
+            "phuongnam@gmail.com",
+            "phuongnam123",
+            "Phạm",
+            "Phương Nam",
+            916678800000,
+            User.Gender.MALE
+        )
     )
 }
 
@@ -48,7 +50,7 @@ private val videos: MutableList<Video> by lazy {
                     2342,
                     "Trận đấu hay quá",
                     1618219270000,
-                    user
+                    users[0]
                 )
             )
         ),
@@ -67,11 +69,34 @@ private val videos: MutableList<Video> by lazy {
                     2342,
                     "Trận đấu hay quá",
                     1618219270000,
-                    user
+                    users[0]
                 )
             )
         )
     )
+}
+
+fun writeFakeComment(content: String, vid: Long, uid: Long? = null): Boolean {
+    for (fakeVideo in videos) {
+        if (fakeVideo.vid == vid) {
+            val comments = fakeVideo.comments.toMutableList()
+            for (user in users) {
+                if (user.uid == uid) {
+                    comments.add(
+                        Comment(
+                            System.currentTimeMillis(),
+                            content,
+                            System.currentTimeMillis(),
+                            user
+                        )
+                    )
+                    fakeVideo.comments = comments
+                }
+            }
+            return true
+        }
+    }
+    return false
 }
 
 suspend fun getFakeSearchHistory(searchWord: String? = null): MutableList<SearchHistory> =

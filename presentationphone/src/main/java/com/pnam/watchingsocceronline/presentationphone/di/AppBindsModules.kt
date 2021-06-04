@@ -27,4 +27,13 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getChartUseCase(useCase: DefaultChartUseCaseImpl): ChartUseCase
+
+    @Binds
+    abstract fun getCommentsUseCase(useCase: DefaultCommentsUseCaseImpl): CommentsUseCase
+
+    @Binds
+    abstract fun getSignInUseCase(useCase: DefaultSignInUseCaseImpl): SignInUseCase
+
+    @Binds
+    abstract fun getWriteCommentUseCase(useCase: DefaultWriteCommentUseCaseImpl): WriteCommentUseCase
 }

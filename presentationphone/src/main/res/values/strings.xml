@@ -42,4 +42,12 @@
     <string name="delete_download_success">Delete download success</string>
     <string name="delete_download_error">Has error when delete download</string>
     <string name="video_deleted">Video deleted</string>
+    <string name="login">Login</string>
+    <string name="user">User</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="wrong_username_or_passowrd">Wrong username or passowrd</string>
+    <string name="register">Register</string>
+    <string name="loading_dialog">Loading. Please wait...</string>
+    <string name="has_error_when_save_user">Has error when save user</string>
 </resources>

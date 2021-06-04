@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.main.comment
+package com.pnam.watchingsocceronline.presentationphone.ui.main.comments
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

@@ -19,7 +19,7 @@ abstract class MainContainerViewModel constructor(
     private val useCase: MainContainerUseCase
 ) : BaseViewModel() {
 
-    internal val videosLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy {
+    internal val videosLiveData: MutableLiveData<Resource<List<Video>>> by lazy {
         MutableLiveData()
     }
 
@@ -41,7 +41,7 @@ abstract class MainContainerViewModel constructor(
         }
     }
 
-    internal val searchResultLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy { MutableLiveData() }
+    internal val searchResultLiveData: MutableLiveData<Resource<List<Video>>> by lazy { MutableLiveData() }
 
     internal fun searchResult(searchWord: String) {
         searchResultLiveData.postValue(Resource.Loading())
