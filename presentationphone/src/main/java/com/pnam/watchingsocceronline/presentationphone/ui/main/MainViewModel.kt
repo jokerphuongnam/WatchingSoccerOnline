@@ -73,6 +73,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * for work load user with each MainContainerFragment
+     * */
     internal val userObservers: MutableList<(User?) -> Unit> by lazy {
         mutableListOf()
     }

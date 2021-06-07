@@ -1,7 +1,7 @@
 package com.pnam.watchingsocceronline.domain.model
 
 import android.os.Parcelable
-import com.pnam.watchingsocceronline.domain.util.DateUtils
+import com.pnam.watchingsocceronline.domain.util.HH_MM_DD_MM_YYYY
 import com.pnam.watchingsocceronline.domain.util.toCalendar
 import com.pnam.watchingsocceronline.domain.util.toDateTimeString
 import kotlinx.parcelize.Parcelize
@@ -27,7 +27,7 @@ class Notification(
         val currentTime: Calendar = Calendar.getInstance()
         currentTime.timeZone = TimeZone.getDefault()
         return "$due " + if (timeVideoShow.timeInMillis < currentTime.timeInMillis) {
-            showTime.toDateTimeString(DateUtils.HH_MM_DD_MM_YYYY)
+            showTime.toDateTimeString(HH_MM_DD_MM_YYYY)
         } else {
             val year =
                 timeVideoShow.get(Calendar.YEAR) - currentTime.get(Calendar.YEAR)

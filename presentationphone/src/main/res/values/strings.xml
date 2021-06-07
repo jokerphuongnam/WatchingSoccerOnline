@@ -52,4 +52,11 @@
     <string name="has_error_when_save_user">Has error when save user</string>
     <string name="sign_out">Sign out</string>
     <string name="has_error_when_sign_out">Has error when sign out</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="birthday">Birthday</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>

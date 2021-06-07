@@ -25,21 +25,20 @@
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="12dp">
+        android:padding="8dp">
 
-        <TextView
+        <Button
             android:id="@+id/sign_in"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/outline_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:gravity="center"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/sign_in"
+            android:textAllCaps="false"
             android:textColor="@color/pink"
+            app:strokeColor="@color/pink"
             android:textStyle="bold"
             android:visibility="@{user == null?View.VISIBLE:View.GONE}" />
 
