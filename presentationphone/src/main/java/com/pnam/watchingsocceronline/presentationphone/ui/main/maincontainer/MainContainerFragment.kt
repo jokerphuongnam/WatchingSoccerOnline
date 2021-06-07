@@ -370,7 +370,13 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         DownloadResultReceiverCallback()
     }
 
-    private fun viewModelObserve() {
+    private fun setUpToolbar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        toolbar.onCreate()
+        toolbar.setOpenUserActivityForResult(openUserActivityForResult)
+    }
+
+    private fun setUpViewModel() {
         viewModel.apply {
             userLiveData.observe { user ->
                 toolbar.setUser(user)
@@ -455,10 +461,9 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     override fun onCreateView() {
         setUpRecycler()
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        toolbar.onCreate()
+        setUpToolbar()
         setUpActivityViewModel()
-        viewModelObserve()
+        setUpViewModel()
         actionBar.title = ""
         onCreateContainerView()
     }
@@ -480,4 +485,6 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     }
 
     internal lateinit var openVideoBottomSheet: (Long) -> Unit
+
+    internal lateinit var openUserActivityForResult: () -> Unit
 }

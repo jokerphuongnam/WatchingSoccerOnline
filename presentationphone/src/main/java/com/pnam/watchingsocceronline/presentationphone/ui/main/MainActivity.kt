@@ -1,8 +1,12 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -16,6 +20,7 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
+import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,18 +47,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     private val homeFragment: HomeFragmentMain by lazy {
         HomeFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+            openUserActivityForResult = this@MainActivity.openUserActivityFroResult
         }
     }
 
     private val chartFragment: ChartFragmentMain by lazy {
         ChartFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+            openUserActivityForResult = this@MainActivity.openUserActivityFroResult
         }
     }
 
     private val libraryFragment: LibraryFragmentMain by lazy {
         LibraryFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+            openUserActivityForResult = this@MainActivity.openUserActivityFroResult
             openDownloadFragment = {
                 showFragment(downloadFragment)
             }
@@ -146,6 +154,23 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         }
     }
 
+    private val userActivityForResult: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.takeIf { result.resultCode == Activity.RESULT_OK }?.data?.let {
+                viewModel.user()
+            }
+        }
+
+    private val openUserActivityFroResult: () -> Unit by lazy {
+        {
+            userActivityForResult.launch(Intent(Intent(this, UserActivity::class.java)))
+            overridePendingTransition(
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_top
+            )
+        }
+    }
+
     private fun setUpViewModel() {
         viewModel.userLiveData.observe {
             when (it) {
@@ -154,11 +179,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
                 }
                 is Resource.Success -> {
                     viewModel.userObservers.forEach { observers ->
-                        it.data?.let { user -> observers.invoke(user) }
+                        observers.invoke(it.data)
                     }
                 }
                 is Resource.Error -> {
-
+                    viewModel.userObservers.forEach { observers ->
+                        observers.invoke(it.data)
+                    }
                 }
             }
         }

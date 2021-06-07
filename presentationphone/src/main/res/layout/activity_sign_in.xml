@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.login.SignInActivity">
 
     <data>
 
@@ -107,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/wrong_username_or_passowrd"
+                    android:text="@string/wrong_username_or_password"
                     android:textColor="@color/design_default_color_error"
                     android:visibility="gone"
                     tools:visibility="visible" />

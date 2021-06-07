@@ -1,4 +1,4 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.signin
+package com.pnam.watchingsocceronline.presentationphone.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

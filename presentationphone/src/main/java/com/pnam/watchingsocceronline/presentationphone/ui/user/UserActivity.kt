@@ -1,11 +1,14 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.user
 
-import android.view.MenuItem
+import android.app.ProgressDialog
 import androidx.activity.viewModels
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityUserBinding
+import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
+import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
     override val viewModel: UserViewModel by viewModels()
 
@@ -16,12 +19,36 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         actionBar.title = null
     }
 
-    private fun setUpEvent(){
-        binding.backButton.setOnClickListener { onBackPressed() }
+    private lateinit var show: ProgressDialog
+
+    private fun setUpViewModel() {
+        viewModel.signOutLiveData.observe {
+            when (it) {
+                is Resource.Loading -> {
+                    show = ProgressDialog.show(this, "", getString(R.string.loading_dialog))
+                }
+                is Resource.Success -> {
+                    finish()
+                    show.cancel()
+                }
+                is Resource.Error -> {
+                    show.cancel()
+                    showToast(R.string.has_error_when_sign_out)
+                }
+            }
+        }
+    }
+
+    private fun setUpEvent() {
+        binding.apply {
+            back.setOnClickListener { onBackPressed() }
+            signOut.setOnClickListener { viewModel.signOut() }
+        }
     }
 
     override fun onCreateView() {
         setUpActionBar()
+        setUpViewModel()
         setUpEvent()
     }
 

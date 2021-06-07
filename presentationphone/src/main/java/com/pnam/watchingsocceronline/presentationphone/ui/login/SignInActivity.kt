@@ -1,12 +1,14 @@
-package com.pnam.watchingsocceronline.presentationphone.ui.signin
+package com.pnam.watchingsocceronline.presentationphone.ui.login
 
 import android.app.ProgressDialog
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivitySignInBinding
 import com.pnam.watchingsocceronline.presentationphone.extension.text
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
+import com.pnam.watchingsocceronline.presentationphone.ui.register.SignUpActivity
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +39,7 @@ class SignInActivity :
                 }
                 is Resource.Error -> {
                     binding.error.apply {
-                        setText(R.string.wrong_username_or_passowrd)
+                        setText(R.string.wrong_username_or_password)
                         isVisible = true
                     }
                     show.cancel()
@@ -59,7 +61,9 @@ class SignInActivity :
             login.setOnClickListener {
                 viewModel.login(email.text, password.text)
             }
-            register.setOnClickListener { }
+            register.setOnClickListener {
+                startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
+            }
         }
     }
 

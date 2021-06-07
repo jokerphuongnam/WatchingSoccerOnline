@@ -36,4 +36,7 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getWriteCommentUseCase(useCase: DefaultWriteCommentUseCaseImpl): WriteCommentUseCase
+
+    @Binds
+    abstract fun getUserUseCase(useCase: DefaultUserUseCaseImpl): UserUseCase
 }

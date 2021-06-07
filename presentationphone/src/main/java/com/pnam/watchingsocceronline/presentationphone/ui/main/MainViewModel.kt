@@ -34,7 +34,7 @@ class MainViewModel @Inject constructor(
                 userLiveData.postValue(Resource.Success(useCase.getUser()))
             } catch (e: Throwable) {
                 e.printStackTrace()
-                userLiveData.postValue(null)
+                userLiveData.postValue(Resource.Error(e))
             }
         }
     }
@@ -73,7 +73,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    internal val userObservers: MutableList<(User) -> Unit> by lazy {
+    internal val userObservers: MutableList<(User?) -> Unit> by lazy {
         mutableListOf()
     }
 }

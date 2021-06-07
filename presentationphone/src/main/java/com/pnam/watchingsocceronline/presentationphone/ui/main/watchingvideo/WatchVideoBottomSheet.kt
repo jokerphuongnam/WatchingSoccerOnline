@@ -367,7 +367,7 @@ class WatchVideoBottomSheet(
         }
     }
 
-    private fun userObserver(user: User) {
+    private fun userObserver(user: User?) {
         binding.user = user
     }
 

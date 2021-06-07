@@ -8,7 +8,7 @@ import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarBinding
-import com.pnam.watchingsocceronline.presentationphone.ui.signin.SignInActivity
+import com.pnam.watchingsocceronline.presentationphone.ui.login.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 
 class MainToolbar(private val activity: FragmentActivity) {
@@ -24,18 +24,9 @@ class MainToolbar(private val activity: FragmentActivity) {
         binding.signIn.apply {
             setOnClickListener(signInClick)
         }
-        binding.avatarHandle = avatarHandle
     }
 
     internal fun onCreate() {
-    }
-
-    private val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
-        {
-            it.transformations(CircleCropTransformation())
-            it.crossfade(true)
-            it.placeholder(R.drawable.ic_error)
-        }
     }
 
     private val avatarClick: View.OnClickListener by lazy {
@@ -44,11 +35,7 @@ class MainToolbar(private val activity: FragmentActivity) {
              * open user activity
              * */
             activity.apply {
-                startActivity(Intent(activity, UserActivity::class.java))
-                overridePendingTransition(
-                    R.anim.slide_in_bottom,
-                    R.anim.slide_out_top
-                )
+                openUserActivityForResult()
             }
         }
     }
@@ -76,4 +63,10 @@ class MainToolbar(private val activity: FragmentActivity) {
     internal fun setUser(user: User?) {
         binding.user = user
     }
+
+    fun setOpenUserActivityForResult(openUserActivityForResult: () -> Unit) {
+        this.openUserActivityForResult = openUserActivityForResult
+    }
+
+    private lateinit var openUserActivityForResult : () -> Unit
 }

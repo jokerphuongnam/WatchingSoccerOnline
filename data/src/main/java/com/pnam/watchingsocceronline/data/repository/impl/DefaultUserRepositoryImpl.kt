@@ -37,7 +37,7 @@ class DefaultUserRepositoryImpl @Inject constructor(
         userLocal.editUser(user)
     }
 
-    override suspend fun logOut() {
+    override suspend fun signOut() {
         currentUser.signOut()
     }
 }
