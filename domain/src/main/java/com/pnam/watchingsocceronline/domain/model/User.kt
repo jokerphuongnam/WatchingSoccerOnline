@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.domain.model
 
+import android.content.Context
 import android.os.Parcelable
 import com.pnam.watchingsocceronline.domain.util.DD_MM_YYYY
 import com.pnam.watchingsocceronline.domain.util.toDateTimeString
@@ -30,15 +31,17 @@ data class User(
         }
 
     enum class Gender {
-        MALE, FEMALE;
+        MALE {
+            override fun toBoolean(): Boolean {
+                return false
+            }
+        },
+        FEMALE {
+            override fun toBoolean(): Boolean {
+                return true
+            }
+        };
 
-        fun toBoolean(): Boolean = when(this){
-            MALE ->{
-                false
-            }
-            FEMALE->{
-                true
-            }
-        }
+        abstract fun toBoolean(): Boolean
     }
 }

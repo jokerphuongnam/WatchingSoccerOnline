@@ -70,4 +70,6 @@
     <string name="name_empty">Name cannot be empty</string>
     <string name="name_length">Name need than 1 word</string>
     <string name="birthday_need_before_present_time">Birthday needs before the present time</string>
+    <string name="name">Name</string>
+    <string name="edit_profile">Edit profile</string>
 </resources>

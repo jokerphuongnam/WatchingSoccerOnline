@@ -2,6 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.user
 
 import android.app.ProgressDialog
 import androidx.activity.viewModels
+import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityUserBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
@@ -11,6 +12,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
     override val viewModel: UserViewModel by viewModels()
+
+    private fun setUpData() {
+//        intent.getParcelableExtra<User>(USER)?.let {
+//            viewModel.userLiveData.postValue(Resource.Success(it))
+//            binding.user = it
+//        }
+    }
 
     private fun setUpActionBar() {
         setSupportActionBar(binding.toolbar)
@@ -64,6 +72,8 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     }
 
     override fun onCreateView() {
+        viewModel.user()
+        setUpData()
         setUpActionBar()
         setUpViewModel()
         setUpEvent()
@@ -75,5 +85,9 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             R.anim.slide_in_top,
             R.anim.slide_out_bottom
         )
+    }
+
+    companion object {
+        const val USER: String = "user"
     }
 }

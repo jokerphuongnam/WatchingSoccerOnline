@@ -22,6 +22,7 @@ import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFr
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
+import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity.Companion.USER
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -164,7 +165,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     private val openUserActivityFroResult: (ActivityOptionsCompat) -> Unit by lazy {
         {
-            userActivityForResult.launch(Intent(Intent(this, UserActivity::class.java)), it)
+            userActivityForResult.launch(
+                Intent(this, UserActivity::class.java),
+                it
+            )
             overridePendingTransition(
                 R.anim.slide_in_bottom,
                 R.anim.slide_out_top
