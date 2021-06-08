@@ -36,7 +36,7 @@ class DefaultVideoRepositoryImpl @Inject constructor(
         return videoNetwork.fetchVideos()
     }
 
-    override suspend fun getVideo(vid: Long, uid: Long?): Video {
+    override suspend fun getVideo(vid: String, uid: String?): Video {
         val videoFromNetwork: Video = videoNetwork.fetchVideo(vid, uid)
         return try {
             val videoFromDisk: Download = downloadLocal.findDownload(vid)
@@ -66,7 +66,7 @@ class DefaultVideoRepositoryImpl @Inject constructor(
         return videoNetwork.fetchFilterVideo(searchWord)
     }
 
-    override suspend fun getComments(vid: Long): List<Comment> {
+    override suspend fun getComments(vid: String): List<Comment> {
         return videoNetwork.fetchComments(vid)
     }
 }

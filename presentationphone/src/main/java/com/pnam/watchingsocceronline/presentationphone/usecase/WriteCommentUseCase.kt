@@ -7,5 +7,5 @@ import javax.inject.Singleton
 interface WriteCommentUseCase {
     val commentRepository: CommentsRepository
 
-    suspend fun writeComment(comment: String, vid: Long, uid: Long? = null)
+    suspend fun writeComment(comment: String, vid: String, uid: String? = null)
 }

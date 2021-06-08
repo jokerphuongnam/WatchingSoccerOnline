@@ -161,7 +161,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
             override fun onClick(data: Notification) {
                 if (data.showTime < Calendar.getInstance().timeInMillis) {
-                    openVideoBottomSheet(data.vid)
+                    openVideoBottomSheet(data.nid)
                 } else {
                     showToast(R.string.match_has_not_happened_yet)
                 }
@@ -484,7 +484,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         viewModel.getVideos()
     }
 
-    internal lateinit var openVideoBottomSheet: (Long) -> Unit
+    internal lateinit var openVideoBottomSheet: (String) -> Unit
 
     internal lateinit var openUserActivityForResult: () -> Unit
 }

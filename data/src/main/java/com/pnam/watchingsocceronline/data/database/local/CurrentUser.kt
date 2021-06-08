@@ -4,7 +4,7 @@ import javax.inject.Singleton
 
 @Singleton
 interface CurrentUser {
-    suspend fun findUid(): Long?
-    suspend fun changeCurrentUser(uid: Long)
+    suspend fun findUid(): String?
+    suspend fun changeCurrentUser(uid: String)
     suspend fun signOut()
 }

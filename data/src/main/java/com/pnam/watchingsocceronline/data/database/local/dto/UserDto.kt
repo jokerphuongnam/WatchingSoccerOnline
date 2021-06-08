@@ -10,7 +10,7 @@ import com.pnam.watchingsocceronline.domain.util.toGender
 data class UserDto(
     @PrimaryKey
     @ColumnInfo(name = "user_id")
-    var uid: Long,
+    var uid: String,
     @ColumnInfo(name = "avatar")
     var avatar: String,
     @ColumnInfo(name = "email")

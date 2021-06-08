@@ -9,7 +9,7 @@ import java.util.*
 
 @Parcelize
 data class User(
-    var uid: Long,
+    var uid: String,
     var avatar: String,
     var email: String,
     var password: String,
@@ -19,7 +19,7 @@ data class User(
     var gender: Gender
 ) : Parcelable {
 
-    constructor() : this(0, "", "", "", "", "", 916678800000, Gender.MALE)
+    constructor() : this("", "", "", "", "", "", 916678800000, Gender.MALE)
 
     var showBirthDay: String
         get() = birthDay.toDateTimeString(DD_MM_YYYY)

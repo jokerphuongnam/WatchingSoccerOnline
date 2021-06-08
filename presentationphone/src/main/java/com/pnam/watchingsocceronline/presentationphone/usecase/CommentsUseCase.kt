@@ -8,5 +8,5 @@ import javax.inject.Singleton
 interface CommentsUseCase {
     val commentRepository: CommentsRepository
 
-    suspend fun getComments(vid: Long): List<Comment>
+    suspend fun getComments(vid: String): List<Comment>
 }

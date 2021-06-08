@@ -14,12 +14,12 @@ class DefaultUserRepositoryImpl @Inject constructor(
     override val userNetwork: UserNetwork
 ) : UserRepository {
 
-    override suspend fun getUid(): Long? {
+    override suspend fun getUid(): String? {
         return currentUser.findUid()
     }
 
     override suspend fun getUser(): User {
-        val uid: Long = currentUser.findUid() ?: throw Resources.NotFoundException()
+        val uid: String = currentUser.findUid() ?: throw Resources.NotFoundException()
         return userLocal.findUser(uid)
     }
 
@@ -30,6 +30,10 @@ class DefaultUserRepositoryImpl @Inject constructor(
     override suspend fun saveUser(user: User) {
         userLocal.insertUser(user)
         currentUser.changeCurrentUser(user.uid)
+    }
+
+    override suspend fun register(user: User) {
+        userNetwork.register(user)
     }
 
     override suspend fun edit(user: User) {

@@ -11,6 +11,6 @@ interface MainUseCase {
     val videoRepository: VideoRepository
     val userRepository: UserRepository
     suspend fun getRecommendVideo(): MutableList<Video>
-    suspend fun getVideo(vid: Long): Video
+    suspend fun getVideo(vid: String): Video
     suspend fun getUser(): User
 }

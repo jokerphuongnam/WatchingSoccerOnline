@@ -2,7 +2,10 @@ package com.pnam.watchingsocceronline.data.database.network.impl
 
 import android.content.res.Resources
 import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
-import com.pnam.watchingsocceronline.data.utils.*
+import com.pnam.watchingsocceronline.data.utils.Filter
+import com.pnam.watchingsocceronline.data.utils.getFakeFilterVideo
+import com.pnam.watchingsocceronline.data.utils.getFakeVideos
+import com.pnam.watchingsocceronline.data.utils.writeFakeComment
 import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.domain.model.Video
 import javax.inject.Inject
@@ -13,7 +16,7 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
     }
 
     @Throws(Resources.NotFoundException::class)
-    override suspend fun fetchVideo(vid: Long, uid: Long?): Video {
+    override suspend fun fetchVideo(vid: String, uid: String?): Video {
         val fakeVideos = getFakeVideos()
         for (fakeVideo in fakeVideos) {
             if (fakeVideo.vid == vid) {
@@ -24,7 +27,7 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
     }
 
     @Throws(Resources.NotFoundException::class)
-    override suspend fun fetchComments(vid: Long): List<Comment> {
+    override suspend fun fetchComments(vid: String): List<Comment> {
         val fakeVideos = getFakeVideos()
         for (fakeVideo in fakeVideos) {
             if (fakeVideo.vid == vid) {
@@ -34,7 +37,7 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
         throw Resources.NotFoundException()
     }
 
-    override suspend fun writeComment(content: String, vid: Long, uid: Long?) {
+    override suspend fun writeComment(content: String, vid: String, uid: String?) {
         writeFakeComment(content, vid, uid).takeUnless { it }?.let {
             throw Resources.NotFoundException()
         }

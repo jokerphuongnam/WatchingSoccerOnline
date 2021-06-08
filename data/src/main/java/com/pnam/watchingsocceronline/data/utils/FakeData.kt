@@ -17,7 +17,7 @@ suspend fun getFakeUsers(): List<User> = suspendCancellableCoroutine {
 private val users: List<User> by lazy {
     mutableListOf(
         User(
-            1323,
+            1323.toString(),
             "https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/117337543_1232748220451392_486736325028794565_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=bywnYaEFxvcAX82QrFi&_nc_ht=scontent-hkg4-2.xx&oh=889feaf4525a0c09e6d416ed05a81359&oe=60D73032",
             "phuongnam@gmail.com",
             "phuongnam123",
@@ -36,7 +36,7 @@ suspend fun getFakeVideos(): MutableList<Video> = suspendCancellableCoroutine {
 private val videos: MutableList<Video> by lazy {
     mutableListOf(
         Video(
-            3424,
+            3424.toString(),
             "Barsa vs Alético",
             "https://scontent-sin6-3.xx.fbcdn.net/v/t1.15752-9/106685602_744950729587468_192808375200785458_n.png?_nc_cat=104&ccb=1-3&_nc_sid=ae9488&_nc_ohc=exA_2GFYpNsAX9u-mip&_nc_ht=scontent-sin6-3.xx&oh=ea274389e21d3f32e98ca55f194e9318&oe=60CCE96B",
             "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
@@ -47,7 +47,7 @@ private val videos: MutableList<Video> by lazy {
             "N/A",
             mutableListOf(
                 Comment(
-                    2342,
+                    2342.toString(),
                     "Trận đấu hay quá",
                     1618219270000,
                     users[0]
@@ -55,7 +55,7 @@ private val videos: MutableList<Video> by lazy {
             )
         ),
         Video(
-            5231,
+            5231.toString(),
             "Gym test video",
             "https://image.freepik.com/free-psd/intense-fitness-exercise-youtube-channel-thumbnail-web-banner_124868-205.jpg",
             "https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4",
@@ -66,7 +66,7 @@ private val videos: MutableList<Video> by lazy {
             "N/A",
             mutableListOf(
                 Comment(
-                    2342,
+                    2342.toString(),
                     "Trận đấu hay quá",
                     1618219270000,
                     users[0]
@@ -76,7 +76,7 @@ private val videos: MutableList<Video> by lazy {
     )
 }
 
-fun writeFakeComment(content: String, vid: Long, uid: Long? = null): Boolean {
+fun writeFakeComment(content: String, vid: String, uid: String? = null): Boolean {
     for (fakeVideo in videos) {
         if (fakeVideo.vid == vid) {
             val comments = fakeVideo.comments.toMutableList()
@@ -84,7 +84,7 @@ fun writeFakeComment(content: String, vid: Long, uid: Long? = null): Boolean {
                 if (user.uid == uid) {
                     comments.add(
                         Comment(
-                            System.currentTimeMillis(),
+                            System.currentTimeMillis().toString(),
                             content,
                             System.currentTimeMillis(),
                             user
@@ -122,13 +122,13 @@ suspend fun getFakeFilterVideo(searchWord: String? = null): MutableList<Video> =
 private val search: MutableList<SearchHistory> by lazy {
     mutableListOf(
         SearchHistory(
-            Random(Calendar.getInstance().timeInMillis).nextLong(),
+            Random(Calendar.getInstance().timeInMillis).nextLong().toString(),
             "Barca",
             1620018660000,
             SearchHistory.SearchType.HISTORY
         ),
         SearchHistory(
-            Random(Calendar.getInstance().timeInMillis).nextLong(),
+            Random(Calendar.getInstance().timeInMillis).nextLong().toString(),
             "Real",
             1620018660000,
             SearchHistory.SearchType.HISTORY
@@ -143,7 +143,6 @@ suspend fun getFakeNotification(): MutableList<Notification> = suspendCancellabl
 private val notification: MutableList<Notification> by lazy {
     mutableListOf(
         Notification(
-            Random(Calendar.getInstance().timeInMillis).nextLong(),
             videos[0].vid,
             videos[0].title,
             videos[0].thumbnail,

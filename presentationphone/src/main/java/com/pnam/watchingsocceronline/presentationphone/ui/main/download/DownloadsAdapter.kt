@@ -23,7 +23,7 @@ class DownloadsAdapter(
         }
     }
 
-    private val processCallbacks: MutableMap<Long, ((Download) -> Unit)> by lazy { mutableMapOf() }
+    private val processCallbacks: MutableMap<String, ((Download) -> Unit)> by lazy { mutableMapOf() }
 
     override fun onBindViewHolder(holder: DownloadViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

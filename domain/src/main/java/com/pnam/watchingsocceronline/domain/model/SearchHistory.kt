@@ -9,7 +9,7 @@ import java.util.*
 
 @Parcelize
 data class SearchHistory(
-    var sid: Long = 0,
+    var sid: String = "",
     var searchWord: String,
     var searchTime: Long,
     var searchType: SearchType

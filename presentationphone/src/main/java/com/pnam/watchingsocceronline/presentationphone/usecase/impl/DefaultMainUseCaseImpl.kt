@@ -15,7 +15,7 @@ class DefaultMainUseCaseImpl @Inject constructor(
         return videoRepository.getVideos()
     }
 
-    override suspend fun getVideo(vid: Long): Video {
+    override suspend fun getVideo(vid: String): Video {
         return videoRepository.getVideo(vid, userRepository.getUid())
     }
 

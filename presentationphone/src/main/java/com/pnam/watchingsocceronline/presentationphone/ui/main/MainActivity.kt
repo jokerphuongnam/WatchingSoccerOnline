@@ -134,7 +134,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
 
     override val viewModel: MainViewModel by viewModels()
 
-    private val openVideoBottomSheet: (Long) -> Unit by lazy {
+    private val openVideoBottomSheet: (String) -> Unit by lazy {
         { vid ->
             (binding.bottomNavigation.y + paddingBottom).let {
                 bottomSheetOutSideScreen = it

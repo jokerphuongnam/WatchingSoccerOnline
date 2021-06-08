@@ -10,7 +10,7 @@ import java.util.*
 
 @Parcelize
 data class Download(
-    var vid: Long,
+    var vid: String,
     var title: String,
     var thumbnail: String,
     var url: String,

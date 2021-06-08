@@ -17,10 +17,10 @@ interface VideoRepository {
     suspend fun saveDownload(video: Download)
     suspend fun removeDownload(video: Download)
     suspend fun getVideos(): MutableList<Video>
-    suspend fun getVideo(vid: Long, uid: Long? = null): Video
+    suspend fun getVideo(vid: String, uid: String? = null): Video
     suspend fun getVideoDownload(video: Video): Download
     fun getDownloads(): Flow<List<Download>>
     suspend fun getChart(filter: Filter): List<Video>
     suspend fun getFilterVideos(searchWord: String? = null): List<Video>
-    suspend fun getComments(vid: Long): List<Comment>
+    suspend fun getComments(vid: String): List<Comment>
 }

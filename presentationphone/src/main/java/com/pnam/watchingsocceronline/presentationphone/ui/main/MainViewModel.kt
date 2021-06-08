@@ -50,7 +50,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    internal fun openVideo(vid: Long) {
+    internal fun openVideo(vid: String) {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             try {

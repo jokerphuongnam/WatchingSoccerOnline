@@ -11,11 +11,11 @@ interface VideoNetwork {
     suspend fun fetchVideos(): MutableList<Video>
 
     @Throws(Resources.NotFoundException::class)
-    suspend fun fetchVideo(vid: Long, uid: Long? = null): Video
+    suspend fun fetchVideo(vid: String, uid: String? = null): Video
 
     @Throws(Resources.NotFoundException::class)
-    suspend fun fetchComments(vid: Long): List<Comment>
-    suspend fun writeComment(content: String, vid: Long, uid: Long? = null)
+    suspend fun fetchComments(vid: String): List<Comment>
+    suspend fun writeComment(content: String, vid: String, uid: String? = null)
     suspend fun fetchChart(filter: Filter): List<Video>
     suspend fun fetchFilterVideo(searchWord: String? = null): List<Video>
 }

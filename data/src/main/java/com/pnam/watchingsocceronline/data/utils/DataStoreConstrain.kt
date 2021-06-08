@@ -3,11 +3,11 @@ package com.pnam.watchingsocceronline.data.utils
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 
-val CURRENT_ID: Preferences.Key<Long> by lazy {
-    longPreferencesKey("uid")
+val CURRENT_ID: Preferences.Key<String> by lazy {
+    stringPreferencesKey("uid")
 }
 
 const val DATA_STORE_NAME = "settings_pref"

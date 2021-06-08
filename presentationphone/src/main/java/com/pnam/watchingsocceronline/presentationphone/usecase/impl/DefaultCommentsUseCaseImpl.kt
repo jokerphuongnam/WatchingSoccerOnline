@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DefaultCommentsUseCaseImpl @Inject constructor(
     override val commentRepository: CommentsRepository
 ) : CommentsUseCase {
-    override suspend fun getComments(vid: Long): List<Comment> {
+    override suspend fun getComments(vid: String): List<Comment> {
         return commentRepository.getComments(vid)
     }
 }

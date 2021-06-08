@@ -130,5 +130,5 @@ class DownloadFragment :
         removeThisFragmentFromBackStack()
     }
 
-    internal lateinit var openVideoBottomSheet: (Long) -> Unit
+    internal lateinit var openVideoBottomSheet: (String) -> Unit
 }

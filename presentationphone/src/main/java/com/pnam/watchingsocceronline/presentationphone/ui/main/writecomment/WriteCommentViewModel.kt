@@ -17,7 +17,7 @@ class WriteCommentViewModel @Inject constructor(
         MutableLiveData()
     }
 
-    internal fun writeComment(comment: String, vid: Long, uid: Long? = null) {
+    internal fun writeComment(comment: String, vid: String, uid: String? = null) {
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 useCase.writeComment(comment, vid, uid)

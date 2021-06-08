@@ -19,9 +19,9 @@ interface DownloadDao : DownloadLocal {
     }
 
     @Query("SELECT * FROM DOWNLOADS WHERE video_id = :vid")
-    suspend fun findDownloadDto(vid: Long): DownloadDto
+    suspend fun findDownloadDto(vid: String): DownloadDto
 
-    override suspend fun findDownload(vid: Long): Download = findDownloadDto(vid).toDownload()
+    override suspend fun findDownload(vid: String): Download = findDownloadDto(vid).toDownload()
 
     @Insert(onConflict = REPLACE)
     suspend fun insertDownloadDto(download: DownloadDto)

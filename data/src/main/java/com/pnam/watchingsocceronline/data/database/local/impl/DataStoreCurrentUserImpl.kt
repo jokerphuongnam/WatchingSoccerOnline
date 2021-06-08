@@ -14,13 +14,13 @@ class DataStoreCurrentUserImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : CurrentUser {
 
-    override suspend fun findUid(): Long? {
+    override suspend fun findUid(): String? {
         return context.dataStore.data.map { preferences ->
             preferences[CURRENT_ID]
-        }.first()
+        }.first().takeUnless { it == null || it.isEmpty() }
     }
 
-    override suspend fun changeCurrentUser(uid: Long) {
+    override suspend fun changeCurrentUser(uid: String) {
         context.dataStore.edit { setting ->
             setting[CURRENT_ID] = uid
         }
@@ -28,7 +28,7 @@ class DataStoreCurrentUserImpl @Inject constructor(
 
     override suspend fun signOut() {
         context.dataStore.edit { setting ->
-            setting[CURRENT_ID] = -1
+            setting[CURRENT_ID] = ""
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.*
 
 @Parcelize
 data class Comment(
-    var cid: Long,
+    var cid: String,
     var content: String,
     var time: Long,
     var user: User

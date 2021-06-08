@@ -19,7 +19,7 @@ class CommentsViewModel @Inject constructor(
         MutableLiveData()
     }
 
-    internal fun getComment(vid: Long) {
+    internal fun getComment(vid: String) {
         commentLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             try {

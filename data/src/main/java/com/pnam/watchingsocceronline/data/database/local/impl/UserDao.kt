@@ -17,9 +17,9 @@ interface UserDao : UserLocal {
     }
 
     @Query("SELECT * FROM USERS WHERE user_id = :uid")
-    suspend fun findUserDto(uid: Long): UserDto
+    suspend fun findUserDto(uid: String): UserDto
 
-    override suspend fun findUser(uid: Long): User {
+    override suspend fun findUser(uid: String): User {
         return findUserDto(uid).toUser()
     }
 

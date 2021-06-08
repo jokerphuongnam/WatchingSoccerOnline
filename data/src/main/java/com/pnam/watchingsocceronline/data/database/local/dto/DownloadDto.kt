@@ -9,7 +9,7 @@ import com.pnam.watchingsocceronline.domain.model.Download
 data class DownloadDto(
     @PrimaryKey
     @ColumnInfo(name = "video_id")
-    var vid: Long,
+    var vid: String,
     @ColumnInfo(name = "title")
     var title: String,
     @ColumnInfo(name = "thumbnail")
