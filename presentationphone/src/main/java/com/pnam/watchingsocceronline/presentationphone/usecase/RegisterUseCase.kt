@@ -5,8 +5,8 @@ import com.pnam.watchingsocceronline.domain.model.User
 import javax.inject.Singleton
 
 @Singleton
-interface UserUseCase {
+interface RegisterUseCase {
     val userRepository: UserRepository
-    suspend fun getUser(): User
-    suspend fun signOut()
+
+    suspend fun register(user: User)
 }

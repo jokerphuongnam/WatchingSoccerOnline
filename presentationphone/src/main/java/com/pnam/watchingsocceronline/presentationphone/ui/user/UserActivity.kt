@@ -22,18 +22,35 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     private lateinit var show: ProgressDialog
 
     private fun setUpViewModel() {
-        viewModel.signOutLiveData.observe {
-            when (it) {
-                is Resource.Loading -> {
-                    show = ProgressDialog.show(this, "", getString(R.string.loading_dialog))
+        viewModel.apply {
+            userLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        binding.user = it.data
+                    }
+                    is Resource.Error -> {
+                    }
                 }
-                is Resource.Success -> {
-                    finish()
-                    show.cancel()
-                }
-                is Resource.Error -> {
-                    show.cancel()
-                    showToast(R.string.has_error_when_sign_out)
+            }
+            signOutLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                        show = ProgressDialog.show(
+                            this@UserActivity,
+                            "",
+                            getString(R.string.loading_dialog)
+                        )
+                    }
+                    is Resource.Success -> {
+                        finish()
+                        show.cancel()
+                    }
+                    is Resource.Error -> {
+                        show.cancel()
+                        showToast(R.string.has_error_when_sign_out)
+                    }
                 }
             }
         }

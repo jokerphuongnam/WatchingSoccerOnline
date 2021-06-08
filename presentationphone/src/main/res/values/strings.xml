@@ -59,4 +59,15 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="repeat_password_need_same_password">Repeat password need same password</string>
+    <string name="email_need_at">Email need @</string>
+    <string name="email_empty">Email cannot be empty</string>
+    <string name="email_length">Email need than 6 word</string>
+    <string name="email_cannot_be_spaces">Email cannot be spaces</string>
+    <string name="password_empty">Password cannot be empty</string>
+    <string name="password_length">Password need than 6 word</string>
+    <string name="password_cannot_be_spaces">Password cannot be spaces</string>
+    <string name="name_empty">Name cannot be empty</string>
+    <string name="name_length">Name need than 1 word</string>
+    <string name="birthday_need_before_present_time">Birthday needs before the present time</string>
 </resources>

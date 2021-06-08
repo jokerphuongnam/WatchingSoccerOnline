@@ -14,7 +14,12 @@ suspend fun getFakeUsers(): List<User> = suspendCancellableCoroutine {
     it.resume(users)
 }
 
-private val users: List<User> by lazy {
+fun addUser(user: User) {
+    user.uid = Random(System.currentTimeMillis()).nextLong().toString()
+    users.add(user)
+}
+
+private val users: MutableList<User> by lazy {
     mutableListOf(
         User(
             1323.toString(),

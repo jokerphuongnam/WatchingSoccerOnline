@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.pnam.watchingsocceronline.domain.model.Notification
@@ -486,5 +487,5 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     internal lateinit var openVideoBottomSheet: (String) -> Unit
 
-    internal lateinit var openUserActivityForResult: () -> Unit
+    internal lateinit var openUserActivityForResult: (ActivityOptionsCompat) -> Unit
 }

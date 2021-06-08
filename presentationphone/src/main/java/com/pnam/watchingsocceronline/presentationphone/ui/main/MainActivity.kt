@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -161,9 +162,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             }
         }
 
-    private val openUserActivityFroResult: () -> Unit by lazy {
+    private val openUserActivityFroResult: (ActivityOptionsCompat) -> Unit by lazy {
         {
-            userActivityForResult.launch(Intent(Intent(this, UserActivity::class.java)))
+            userActivityForResult.launch(Intent(Intent(this, UserActivity::class.java)), it)
             overridePendingTransition(
                 R.anim.slide_in_bottom,
                 R.anim.slide_out_top

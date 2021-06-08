@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
+        <variable
+            name="user"
+            type="com.pnam.watchingsocceronline.domain.model.User" />
+
+        <import type="coil.request.ImageRequest.Builder" />
+
+        <import type="kotlin.Unit" />
+
+        <import type="kotlin.jvm.functions.Function1" />
+
+        <variable
+            name="avatar_handle"
+            type="Function1&lt;Builder, Unit>" />
     </data>
 
     <LinearLayout
@@ -65,5 +79,29 @@
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    image_builder="@{avatar_handle}"
+                    user_url_image="@{user.avatar}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:adjustViewBounds="true"
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:transitionName="avatar"/>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </layout>

@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     internal val recommendLiveData: MutableLiveData<Resource<MutableList<Video>>> by lazy { MutableLiveData() }
 
     internal fun user() {
-        recommendLiveData.postValue(Resource.Loading())
+        userLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 userLiveData.postValue(Resource.Success(useCase.getUser()))

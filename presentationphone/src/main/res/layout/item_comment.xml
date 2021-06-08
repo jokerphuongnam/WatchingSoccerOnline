@@ -30,7 +30,7 @@
         <ImageView
             android:id="@+id/avatar"
             image_builder="@{avatar_handle}"
-            url_image="@{comment.user.avatar}"
+            user_url_image="@{comment.user.avatar}"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"
             android:adjustViewBounds="true"

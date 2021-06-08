@@ -46,6 +46,7 @@
                     android:text="@string/login"
                     android:textColor="?attr/blackWhite"
                     android:textSize="24sp"
+                    android:transitionName="@string/login"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -127,6 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/register"
+                        android:transitionName="@string/register"
                         android:textAllCaps="false" />
                 </RelativeLayout>
 

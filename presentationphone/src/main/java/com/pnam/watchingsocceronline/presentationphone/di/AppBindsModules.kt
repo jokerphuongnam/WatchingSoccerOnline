@@ -39,4 +39,7 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getUserUseCase(useCase: DefaultUserUseCaseImpl): UserUseCase
+
+    @Binds
+    abstract fun getRegisterUseCase(useCase: DefaultRegisterUseCaseImpl): RegisterUseCase
 }

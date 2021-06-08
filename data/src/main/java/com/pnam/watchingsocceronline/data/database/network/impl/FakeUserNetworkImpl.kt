@@ -4,6 +4,7 @@ import android.content.res.Resources
 import com.pnam.watchingsocceronline.data.database.network.UserNetwork
 import com.pnam.watchingsocceronline.data.throwable.NotFoundException
 import com.pnam.watchingsocceronline.data.throwable.WrongException
+import com.pnam.watchingsocceronline.data.utils.addUser
 import com.pnam.watchingsocceronline.data.utils.getFakeUsers
 import com.pnam.watchingsocceronline.domain.model.User
 import javax.inject.Inject
@@ -29,10 +30,13 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
         val fakeUsers = getFakeUsers()
         var tempUser: User? = null
         fakeUsers.forEach {
-            if(it.email == user.email){
+            if (it.email == user.email) {
                 tempUser == it
             }
         }
-        tempUser?: throw WrongException()
+        tempUser?.let {
+            WrongException()
+        }
+        addUser(user)
     }
 }

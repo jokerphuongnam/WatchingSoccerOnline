@@ -2,14 +2,14 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
 import android.content.Intent
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.FragmentActivity
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutAvatarBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.login.SignInActivity
-import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
 
 class MainToolbar(private val activity: FragmentActivity) {
 
@@ -35,7 +35,13 @@ class MainToolbar(private val activity: FragmentActivity) {
              * open user activity
              * */
             activity.apply {
-                openUserActivityForResult()
+                val options: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity,
+                        it,
+                        ViewCompat.getTransitionName(it)!!
+                    )
+                openUserActivityForResult(options)
             }
         }
     }
@@ -45,9 +51,18 @@ class MainToolbar(private val activity: FragmentActivity) {
             /**
              * open sign in activity
              * */
-            activity.apply {
-                startActivity(Intent(activity, SignInActivity::class.java))
-                overridePendingTransition(
+            binding.apply {
+                val options: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        activity,
+                        signIn,
+                        ViewCompat.getTransitionName(signIn)!!
+                    )
+                activity.startActivity(
+                    Intent(activity, SignInActivity::class.java),
+                    options.toBundle()
+                )
+                activity.overridePendingTransition(
                     R.anim.slide_in_bottom,
                     R.anim.slide_out_top
                 )
@@ -64,9 +79,9 @@ class MainToolbar(private val activity: FragmentActivity) {
         binding.user = user
     }
 
-    fun setOpenUserActivityForResult(openUserActivityForResult: () -> Unit) {
+    fun setOpenUserActivityForResult(openUserActivityForResult: (ActivityOptionsCompat) -> Unit) {
         this.openUserActivityForResult = openUserActivityForResult
     }
 
-    private lateinit var openUserActivityForResult : () -> Unit
+    private lateinit var openUserActivityForResult: (ActivityOptionsCompat) -> Unit
 }

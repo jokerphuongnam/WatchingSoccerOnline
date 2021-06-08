@@ -19,7 +19,7 @@ data class User(
     var gender: Gender
 ) : Parcelable {
 
-    constructor() : this("", "", "", "", "", "", 916678800000, Gender.MALE)
+    constructor() : this("", "N/A", "", "", "", "", 916678800000, Gender.MALE)
 
     var showBirthDay: String
         get() = birthDay.toDateTimeString(DD_MM_YYYY)

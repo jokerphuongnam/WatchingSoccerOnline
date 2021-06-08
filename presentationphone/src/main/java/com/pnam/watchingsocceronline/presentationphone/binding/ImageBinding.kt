@@ -7,14 +7,41 @@ import coil.request.ImageRequest
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.presentationphone.R
 
+@BindingAdapter(value = ["user_url_image", "image_builder"], requireAll = false)
+fun setUserImageFromUrl(
+    imageView: ImageView,
+    url: String?,
+    builder: (ImageRequest.Builder.() -> Unit)? = null
+) {
+    url ?: return
+    if (url.equals("N/A", ignoreCase = true)) {
+        if (builder == null) {
+            imageView.load(R.drawable.ic_user)
+        } else {
+            imageView.load(R.drawable.ic_user, builder = builder)
+        }
+    } else {
+        if (builder == null) {
+            imageView.load(url)
+        } else {
+            imageView.load(url, builder = builder)
+        }
+    }
+}
+
 @BindingAdapter(value = ["url_image", "image_builder"], requireAll = false)
 fun setImageFromUrl(
     imageView: ImageView,
     url: String?,
     builder: (ImageRequest.Builder.() -> Unit)? = null
 ) {
-    if (url == null) {
-        imageView.setImageResource(R.drawable.ic_user)
+    url ?: return
+    if (url.equals("N/A", ignoreCase = true)) {
+        if (builder == null) {
+            imageView.load(R.drawable.ic_empty)
+        } else {
+            imageView.load(R.drawable.ic_empty, builder = builder)
+        }
     } else {
         if (builder == null) {
             imageView.load(url)
@@ -25,13 +52,13 @@ fun setImageFromUrl(
 }
 
 @BindingAdapter("search_type")
-fun historyOrSearch(imageView: ImageView, searchType: SearchHistory.SearchType){
+fun historyOrSearch(imageView: ImageView, searchType: SearchHistory.SearchType) {
     imageView.context.apply {
-        when (searchType){
-            SearchHistory.SearchType.HISTORY->{
+        when (searchType) {
+            SearchHistory.SearchType.HISTORY -> {
                 imageView.setImageResource(R.drawable.ic_history)
             }
-            SearchHistory.SearchType.SUGGESTION->{
+            SearchHistory.SearchType.SUGGESTION -> {
                 imageView.setImageResource(R.drawable.ic_search)
             }
         }

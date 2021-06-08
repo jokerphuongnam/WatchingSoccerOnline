@@ -2,7 +2,10 @@ package com.pnam.watchingsocceronline.presentationphone.ui.login
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivitySignInBinding
@@ -62,7 +65,16 @@ class SignInActivity :
                 viewModel.login(email.text, password.text)
             }
             register.setOnClickListener {
-                startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+                val options: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this@SignInActivity,
+                        register, ViewCompat.getTransitionName(register)!!
+                    )
+                startActivity(
+                    Intent(this@SignInActivity, SignUpActivity::class.java),
+                    options.toBundle()
+                )
             }
         }
     }
