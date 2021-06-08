@@ -249,10 +249,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="center"
-                    android:text="TextView"
                     android:textColor="@color/design_default_color_error"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    tools:text="Test error"/>
 
                 <Button
                     android:id="@+id/register"
@@ -269,6 +269,5 @@
                     app:strokeColor="@color/pink" />
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 </layout>

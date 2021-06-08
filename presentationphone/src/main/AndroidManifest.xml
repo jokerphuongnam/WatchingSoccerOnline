@@ -12,11 +12,17 @@
         android:windowSoftInputMode="adjustResize|stateHidden"
         android:supportsRtl="true"
         android:theme="@style/Theme.WatchingSoccerOnline">
-        <service android:name=".background.DownloadVideoService"/>
-        <activity android:name=".ui.user.UserActivity"/>
-        <activity android:name=".ui.login.SignInActivity"/>
-        <activity android:name=".ui.register.SignUpActivity"/>
-        <activity android:name="com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity"
+        <service android:name=".background.DownloadVideoService" />
+
+        <activity android:name=".ui.user.UserActivity" />
+        <activity android:name=".ui.login.SignInActivity" />
+        <activity android:name=".ui.register.SignUpActivity" />
+        <activity
+            android:name=".ui.editprofile.EditProfileActivity"
+            android:label="" />
+        <activity android:name=".ui.changepassword.ChangePasswordActivity" />
+        <activity
+            android:name="com.pnam.watchingsocceronline.presentationphone.ui.main.MainActivity"
             android:configChanges="orientation|screenSize|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

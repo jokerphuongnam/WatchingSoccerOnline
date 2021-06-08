@@ -72,4 +72,7 @@
     <string name="birthday_need_before_present_time">Birthday needs before the present time</string>
     <string name="name">Name</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="change_password">Change password</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="new_password">New password</string>
 </resources>

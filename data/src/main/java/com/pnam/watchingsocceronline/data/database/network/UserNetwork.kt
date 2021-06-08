@@ -10,6 +10,10 @@ interface UserNetwork {
     @Throws(NotFoundException::class)
     suspend fun login(email: String, password: String): User
     suspend fun editUser(user: User)
+    suspend fun changePassword(user: User)
+
+    @Throws(NotFoundException::class)
+    suspend fun fetchUser(uid: String): User
 
     @Throws(WrongException::class)
     suspend fun register(user: User)

@@ -22,7 +22,35 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
     }
 
     override suspend fun editUser(user: User) {
+        val fakeUsers: List<User> = getFakeUsers()
+        for (fakeUser in fakeUsers) {
+            if (fakeUser.uid.equals(user.uid)) {
+                fakeUser.firstName = user.firstName
+                fakeUser.lastName = user.lastName
+                fakeUser.gender = user.gender
+                fakeUser.birthDay = user.birthDay
+            }
+        }
+    }
 
+    override suspend fun changePassword(user: User) {
+        val fakeUsers: List<User> = getFakeUsers()
+        for (fakeUser in fakeUsers) {
+            if (fakeUser.uid.equals(user.uid)) {
+                fakeUser.password = user.password
+            }
+        }
+    }
+
+    @Throws(NotFoundException::class)
+    override suspend fun fetchUser(uid: String): User {
+        val fakeUsers: List<User> = getFakeUsers()
+        for (fakeUser in fakeUsers) {
+            if (fakeUser.uid.equals(uid)) {
+                return fakeUser
+            }
+        }
+        throw NotFoundException()
     }
 
     @Throws(WrongException::class)

@@ -42,4 +42,10 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getRegisterUseCase(useCase: DefaultRegisterUseCaseImpl): RegisterUseCase
+
+    @Binds
+    abstract fun getEditProfileUseCase(useCase: DefaultEditProfileUseCaseImpl): EditProfileUseCase
+
+    @Binds
+    abstract fun getChangePassword(useCase: DefaultChangePasswordUseCaseImpl): ChangePasswordUseCase
 }

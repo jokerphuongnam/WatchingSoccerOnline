@@ -3,6 +3,7 @@ package com.pnam.watchingsocceronline.presentationphone.ui.register
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputLayout
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.util.DD_MM_YYYY
@@ -121,17 +122,24 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding, SignUpViewModel>(R.lay
     private lateinit var show: ProgressDialog
 
     private fun setUpViewModel() {
-        viewModel.registerLiveData.observe {
-            when (it) {
-                is Resource.Loading -> {
-                    show = ProgressDialog.show(this, "", getString(R.string.loading_dialog))
-                }
-                is Resource.Success -> {
-                    show.cancel()
-                    finish()
-                }
-                is Resource.Error -> {
-                    show.cancel()
+        viewModel.apply {
+            registerLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                        show = ProgressDialog.show(
+                            this@SignUpActivity,
+                            "",
+                            getString(R.string.loading_dialog)
+                        )
+                        binding.registerError.isVisible = false
+                    }
+                    is Resource.Success -> {
+                        show.cancel()
+                        finish()
+                    }
+                    is Resource.Error -> {
+                        show.cancel()
+                    }
                 }
             }
         }
