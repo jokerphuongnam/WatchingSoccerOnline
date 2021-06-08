@@ -9,6 +9,7 @@ import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseCase
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
+import com.pnam.watchingsocceronline.presentationphone.utils.toNotification
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.FlowCollector
 
@@ -50,7 +51,7 @@ abstract class MainContainerViewModel constructor(
         }
     }
 
-    internal val notificationsLiveData: MutableLiveData<Resource<MutableList<Notification>>> by lazy { MutableLiveData() }
+    internal val notificationsLiveData: MutableLiveData<Resource<List<Notification>>> by lazy { MutableLiveData() }
 
     internal fun notification() {
         notificationsLiveData.postValue(Resource.Loading())
@@ -59,8 +60,33 @@ abstract class MainContainerViewModel constructor(
         }
     }
 
-    internal fun getNotification(video: Video) {
+    internal val getNotificationForVideo: MutableLiveData<Resource<Notification>> by lazy { MutableLiveData() }
 
+    internal fun getNotification(video: Video) {
+        getNotificationForVideo.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                useCase.getNotification(video)
+                getNotificationForVideo.postValue(Resource.Success(video.toNotification()))
+            } catch (e: Exception) {
+                getNotificationForVideo.postValue(Resource.Error(e))
+            }
+        }
+    }
+
+
+    internal val removeNotificationLiveData: MutableLiveData<Resource<Boolean>> by lazy { MutableLiveData() }
+
+    fun removeNotification(notification: Notification) {
+        removeNotificationLiveData.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                useCase.removeNotification(notification)
+                removeNotificationLiveData.postValue(Resource.Success(true))
+            } catch (e: Exception) {
+                removeNotificationLiveData.postValue(Resource.Error(e))
+            }
+        }
     }
 
     internal val videoDownloadLiveData: MutableLiveData<Video> by lazy {

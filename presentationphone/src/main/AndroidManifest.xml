@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WatchingSoccerOnline">
         <service android:name=".background.DownloadVideoService" />
+        <receiver android:name=".background.NotificationBroadCast"/>
 
         <activity android:name=".ui.user.UserActivity" />
         <activity android:name=".ui.login.SignInActivity" />

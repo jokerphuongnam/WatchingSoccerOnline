@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.usecase.impl
 
+import com.pnam.watchingsocceronline.data.repository.NotificationRepository
 import com.pnam.watchingsocceronline.data.repository.SearchRepository
 import com.pnam.watchingsocceronline.data.repository.VideoRepository
 import com.pnam.watchingsocceronline.domain.model.Download
@@ -10,12 +11,12 @@ import com.pnam.watchingsocceronline.presentationphone.usecase.MainContainerUseC
 import com.pnam.watchingsocceronline.presentationphone.utils.toSearch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 
 class DefaultMainContainerUseCaseImpl @Inject constructor(
     override val videoRepository: VideoRepository,
     override val searchRepository: SearchRepository,
+    override val notificationRepository: NotificationRepository
 ) : MainContainerUseCase {
 
     override fun getSearchHistory(searchWord: String?): Flow<MutableList<SearchHistory>> =
@@ -31,13 +32,15 @@ class DefaultMainContainerUseCaseImpl @Inject constructor(
     override suspend fun getSearchResult(searchWord: String): List<Video> =
         videoRepository.getFilterVideos(searchWord)
 
-    override suspend fun getNotifications(): MutableList<Notification> =
-        suspendCancellableCoroutine {
+    override suspend fun getNotifications(): List<Notification> =
+        notificationRepository.getNotifications()
 
-        }
+    override suspend fun getNotification(video: Video) {
+        notificationRepository.getNotification(video)
+    }
 
-    override suspend fun getNotification(video: Video): Notification = suspendCancellableCoroutine {
-
+    override suspend fun removeNotification(notification: Notification) {
+        notificationRepository.deleteNotification(notification)
     }
 
     override suspend fun saveVideoDownload(video: Download) = videoRepository.saveDownload(video)

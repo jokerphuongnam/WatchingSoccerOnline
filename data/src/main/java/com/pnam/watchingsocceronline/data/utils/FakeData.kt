@@ -1,6 +1,9 @@
 package com.pnam.watchingsocceronline.data.utils
 
-import com.pnam.watchingsocceronline.domain.model.*
+import com.pnam.watchingsocceronline.domain.model.Comment
+import com.pnam.watchingsocceronline.domain.model.SearchHistory
+import com.pnam.watchingsocceronline.domain.model.User
+import com.pnam.watchingsocceronline.domain.model.Video
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
@@ -77,6 +80,30 @@ private val videos: MutableList<Video> by lazy {
                     users[0]
                 )
             )
+        ),
+        Video(
+            33152.toString(),
+            "Notification test video",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Football_iu_1996.jpg/1200px-Football_iu_1996.jpg",
+            "",
+            100,
+            1628614800000,
+            "N/A",
+            "N/A",
+            "N/A",
+            mutableListOf()
+        ),
+        Video(
+            75675.toString(),
+            "Notification test video",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Football_iu_1996.jpg/1200px-Football_iu_1996.jpg",
+            "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
+            100,
+            1623207600000,
+            "N/A",
+            "N/A",
+            "N/A",
+            mutableListOf()
         )
     )
 }
@@ -138,20 +165,5 @@ private val search: MutableList<SearchHistory> by lazy {
             1620018660000,
             SearchHistory.SearchType.HISTORY
         ),
-    )
-}
-
-suspend fun getFakeNotification(): MutableList<Notification> = suspendCancellableCoroutine {
-    it.resume(notification)
-}
-
-private val notification: MutableList<Notification> by lazy {
-    mutableListOf(
-        Notification(
-            videos[0].vid,
-            videos[0].title,
-            videos[0].thumbnail,
-            videos[0].date
-        )
     )
 }

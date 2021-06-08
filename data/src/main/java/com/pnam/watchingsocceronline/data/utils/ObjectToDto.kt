@@ -1,8 +1,10 @@
 package com.pnam.watchingsocceronline.data.utils
 
 import com.pnam.watchingsocceronline.data.database.local.dto.DownloadDto
+import com.pnam.watchingsocceronline.data.database.local.dto.NotificationDto
 import com.pnam.watchingsocceronline.data.database.local.dto.UserDto
 import com.pnam.watchingsocceronline.domain.model.Download
+import com.pnam.watchingsocceronline.domain.model.Notification
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
 
@@ -41,4 +43,20 @@ fun User.toDto(): UserDto = UserDto(
     lastName,
     birthDay,
     gender.toBoolean()
+)
+
+fun Video.toNotificationDto(): NotificationDto = NotificationDto(
+    vid,
+    title,
+    thumbnail,
+    System.currentTimeMillis(),
+    date
+)
+
+fun Notification.toDto(): NotificationDto = NotificationDto(
+    nid,
+    title,
+    thumbnail,
+    getTime,
+    notificationTime
 )

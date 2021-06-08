@@ -1,5 +1,9 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,6 +21,8 @@ import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.background.DownloadVideoService
+import com.pnam.watchingsocceronline.presentationphone.background.NotificationBroadCast
+import com.pnam.watchingsocceronline.presentationphone.background.NotificationBroadCast.Companion.NOTIFICATION
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentMainContainerBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutLibraryBinding
 import com.pnam.watchingsocceronline.presentationphone.databinding.LayoutRecyclerOnlineViewBinding
@@ -161,7 +167,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
             }
 
             override fun onClick(data: Notification) {
-                if (data.showTime < Calendar.getInstance().timeInMillis) {
+                if (data.notificationTime < Calendar.getInstance().timeInMillis) {
                     openVideoBottomSheet(data.nid)
                 } else {
                     showToast(R.string.match_has_not_happened_yet)
@@ -170,8 +176,16 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
+    private val moreOptionsNotification: NotificationsAdapter.MoreOptionsNotification by lazy {
+        object : NotificationsAdapter.MoreOptionsNotification {
+            override fun removeNotification(data: Notification) {
+                viewModel.removeNotification(data)
+            }
+        }
+    }
+
     private val notificationsAdapter: NotificationsAdapter by lazy {
-        NotificationsAdapter(notificationVideo)
+        NotificationsAdapter(notificationVideo, moreOptionsNotification)
     }
 
     private fun setUpRecycler() {
@@ -377,6 +391,28 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         toolbar.setOpenUserActivityForResult(openUserActivityForResult)
     }
 
+    private val alarmManager: AlarmManager by lazy {
+        requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
+
+    private fun getNotification(notification: Notification) {
+        alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            notification.notificationTime,
+            PendingIntent.getBroadcast(
+                requireContext(),
+                notification.notificationTime.toInt(),
+                Intent(
+                    requireContext(),
+                    NotificationBroadCast::class.java
+                ).apply {
+                    putParcelableExtra(NOTIFICATION, notification)
+                },
+                0
+            )
+        )
+    }
+
     private fun setUpViewModel() {
         viewModel.apply {
             userLiveData.observe { user ->
@@ -421,6 +457,26 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     }
                     is Resource.Error -> {
                         notificationBinding.loading.isVisible = false
+                    }
+                }
+            }
+            getNotificationForVideo.observe {
+                when (it) {
+                    is Resource.Success -> {
+                        getNotification(it.data!!)
+                    }
+                }
+            }
+            removeNotificationLiveData.observe {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        showToast(R.string.remove_notification_success)
+                        viewModel.notification()
+                    }
+                    is Resource.Error -> {
+
                     }
                 }
             }

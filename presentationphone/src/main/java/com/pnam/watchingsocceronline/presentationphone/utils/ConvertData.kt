@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.presentationphone.utils
 
 import androidx.annotation.StringRes
+import com.pnam.watchingsocceronline.domain.model.Notification
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
@@ -11,6 +12,14 @@ fun Video.toSearch(): SearchHistory = SearchHistory(
     title,
     0,
     SearchHistory.SearchType.SUGGESTION
+)
+
+fun Video.toNotification(): Notification = Notification(
+    vid,
+    title,
+    thumbnail,
+    System.currentTimeMillis(),
+    date
 )
 
 @StringRes

@@ -12,7 +12,8 @@ class Notification(
     var nid: String,
     var title: String,
     var thumbnail: String,
-    var showTime: Long
+    var getTime: Long,
+    var notificationTime: Long
 ) : Parcelable {
     fun nearTimeDate(
         due: String,
@@ -22,11 +23,11 @@ class Notification(
         hourLb: String,
         minuteLb: String
     ): String {
-        val timeVideoShow: Calendar = showTime.toCalendar
+        val timeVideoShow: Calendar = notificationTime.toCalendar
         val currentTime: Calendar = Calendar.getInstance()
         currentTime.timeZone = TimeZone.getDefault()
         return "$due " + if (timeVideoShow.timeInMillis < currentTime.timeInMillis) {
-            showTime.toDateTimeString(HH_MM_DD_MM_YYYY)
+            notificationTime.toDateTimeString(HH_MM_DD_MM_YYYY)
         } else {
             val year =
                 timeVideoShow.get(Calendar.YEAR) - currentTime.get(Calendar.YEAR)
