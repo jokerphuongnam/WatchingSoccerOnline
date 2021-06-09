@@ -17,12 +17,12 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityMainB
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.chart.ChartFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadResultReceiverCallback
 import com.pnam.watchingsocceronline.presentationphone.ui.main.home.HomeFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.library.LibraryFragmentMain
 import com.pnam.watchingsocceronline.presentationphone.ui.main.maincontainer.MainContainerFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo.WatchVideoBottomSheet
 import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity
-import com.pnam.watchingsocceronline.presentationphone.ui.user.UserActivity.Companion.USER
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,10 +46,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         )
     }
 
+    private val resultReceiverCallBack: DownloadResultReceiverCallback by lazy {
+        DownloadResultReceiverCallback()
+    }
+
     private val homeFragment: HomeFragmentMain by lazy {
         HomeFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
             openUserActivityForResult = this@MainActivity.openUserActivityFroResult
+            resultReceiverCallBack = this@MainActivity.resultReceiverCallBack
         }
     }
 
@@ -57,6 +62,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         ChartFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
             openUserActivityForResult = this@MainActivity.openUserActivityFroResult
+            resultReceiverCallBack = this@MainActivity.resultReceiverCallBack
         }
     }
 
@@ -64,6 +70,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         LibraryFragmentMain().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
             openUserActivityForResult = this@MainActivity.openUserActivityFroResult
+            resultReceiverCallBack = this@MainActivity.resultReceiverCallBack
             openDownloadFragment = {
                 showFragment(downloadFragment)
             }
@@ -73,6 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     private val downloadFragment: DownloadFragment
         get() = DownloadFragment().apply {
             openVideoBottomSheet = this@MainActivity.openVideoBottomSheet
+            resultReceiverCallBack = this@MainActivity.resultReceiverCallBack
         }
 
     private val watchVideoBottomSheet: WatchVideoBottomSheet by lazy {
@@ -83,6 +91,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             paddingBottom
         ).apply {
             motionProgressChanged = this@MainActivity.motionProgressChanged
+            resultReceiverCallBack = this@MainActivity.resultReceiverCallBack
         }
     }
 

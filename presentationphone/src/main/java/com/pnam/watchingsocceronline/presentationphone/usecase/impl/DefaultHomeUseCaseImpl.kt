@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DefaultHomeUseCaseImpl @Inject constructor(
     override val videoRepository: VideoRepository
 ) : HomeUseCase {
-    override suspend fun getVideos(): MutableList<Video> {
+    override suspend fun getVideos(): List<Video> {
         return videoRepository.getVideos()
     }
 }

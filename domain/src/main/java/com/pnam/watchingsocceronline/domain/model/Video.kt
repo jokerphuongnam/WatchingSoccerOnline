@@ -14,11 +14,14 @@ data class Video(
     var thumbnail: String,
     var url: String,
     var view: Long,
+    var likes: Long,
+    var dislikes: Long,
     var date: Long,
     var highLight1: String,
     var highLight2: String,
     var highLight3: String,
-    var comments: List<Comment>
+    var comments: List<Comment>,
+    var reactVideo: ReactVideo = ReactVideo.NONE
 ) : Parcelable {
     var showTimeDate: String
         get() = date.toDateTimeString(HH_MM_DD_MM_YYYY)
@@ -27,4 +30,8 @@ data class Video(
             dateFormat.timeZone = TimeZone.getDefault()
             date = dateFormat.parse(value)!!.time
         }
+
+    enum class ReactVideo {
+        LIKE, DISLIKE, NONE
+    }
 }

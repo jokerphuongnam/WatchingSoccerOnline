@@ -7,4 +7,7 @@ object RetrofitUtils {
     internal const val CREATE: Int = 201
     internal const val BAD_REQUEST: Int = 400
     internal const val NOT_FOUND: Int = 404
+    internal const val LIKE: String = "like"
+    internal const val DISLIKE: String = "dislike"
+    internal const val NONE: String = "none"
 }

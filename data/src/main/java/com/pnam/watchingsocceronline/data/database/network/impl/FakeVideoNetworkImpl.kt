@@ -11,7 +11,7 @@ import com.pnam.watchingsocceronline.domain.model.Video
 import javax.inject.Inject
 
 class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
-    override suspend fun fetchVideos(): MutableList<Video> {
+    override suspend fun fetchVideos(): List<Video> {
         return getFakeVideos()
     }
 
@@ -49,5 +49,13 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
 
     override suspend fun fetchFilterVideo(searchWord: String?): List<Video> {
         return getFakeFilterVideo(searchWord)
+    }
+
+    override suspend fun fetchSearchResultVideos(uid: String, searchWord: String): List<Video> {
+        return getFakeFilterVideo(searchWord)
+    }
+
+    override suspend fun fetchRecommendVideos(): List<Video> {
+        return getFakeVideos()
     }
 }

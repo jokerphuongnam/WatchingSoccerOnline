@@ -9,7 +9,10 @@ class DefaultSearchRepositoryImpl @Inject constructor(
     override val searchNetwork: SearchNetwork
 ) : SearchRepository {
 
-    override suspend fun getSearchHistory(searchWord: String?): MutableList<SearchHistory> {
-        return searchNetwork.fetchSearchHistory(searchWord)
+    override suspend fun getSearchHistory(
+        uid: String,
+        searchWord: String?
+    ): List<SearchHistory> {
+        return searchNetwork.fetchSearchHistory(uid, searchWord)
     }
 }

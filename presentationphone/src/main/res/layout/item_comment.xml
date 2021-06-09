@@ -30,7 +30,7 @@
         <ImageView
             android:id="@+id/avatar"
             image_builder="@{avatar_handle}"
-            user_url_image="@{comment.user.avatar}"
+            user_url_image="@{comment.avatar}"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"
             android:adjustViewBounds="true"
@@ -60,7 +60,7 @@
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="?attr/greyNightDark"
                     android:gravity="start|center"
-                    android:text="@{comment.user.firstName}"
+                    android:text="@{comment.firstName}"
                     android:textColor="?attr/greyAttr"
                     android:textSize="18sp"
                     tools:text="Phạm" />
@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="?attr/greyNightDark"
                     android:gravity="start|center"
-                    android:text="@{comment.user.lastName}"
+                    android:text="@{comment.lastName}"
                     android:textColor="?attr/greyAttr"
                     android:textSize="18sp"
                     tools:text="Phương Nam" />

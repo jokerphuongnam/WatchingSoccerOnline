@@ -39,12 +39,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    internal fun getRecommendVideo() {
+    internal fun getRecommendVideos() {
         recommendLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             recommendLiveData.postValue(
                 Resource.Success(
-                    useCase.getRecommendVideo().toMutableList()
+                    useCase.getRecommendVideos().toMutableList()
                 )
             )
         }
@@ -57,6 +57,21 @@ class MainViewModel @Inject constructor(
                 videoLiveData.postValue(Resource.Success(useCase.getVideo(vid)))
             } catch (e: Throwable) {
                 videoLiveData.postValue(Resource.Error(e))
+            }
+        }
+    }
+
+    internal val videoDownloadLiveData: MutableLiveData<Video> by lazy {
+        MutableLiveData()
+    }
+
+    internal fun getVideoDownload(video: Video) {
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                useCase.getVideoDownload(video)
+                videoDownloadLiveData.postValue(null)
+            } catch (ex: Exception) {
+                videoDownloadLiveData.postValue(video)
             }
         }
     }

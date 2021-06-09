@@ -7,9 +7,9 @@ import com.pnam.watchingsocceronline.data.database.local.impl.DownloadManagerDow
 import com.pnam.watchingsocceronline.data.database.network.SearchNetwork
 import com.pnam.watchingsocceronline.data.database.network.UserNetwork
 import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
-import com.pnam.watchingsocceronline.data.database.network.impl.FakeSearchNetworkImpl
-import com.pnam.watchingsocceronline.data.database.network.impl.FakeVideoNetworkImpl
+import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitSearchNetworkImpl
 import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitUserNetworkImpl
+import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitVideoNetworkImpl
 import com.pnam.watchingsocceronline.data.repository.*
 import com.pnam.watchingsocceronline.data.repository.impl.*
 import dagger.Binds
@@ -22,10 +22,10 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class AppBindsModules {
     @Binds
-    abstract fun getDownloadNetwork(videoNetwork: FakeVideoNetworkImpl): VideoNetwork
+    abstract fun getVideoNetwork(videoNetwork: RetrofitVideoNetworkImpl): VideoNetwork
 
     @Binds
-    abstract fun getSearchNetwork(searchNetwork: FakeSearchNetworkImpl): SearchNetwork
+    abstract fun getSearchNetwork(searchNetwork: RetrofitSearchNetworkImpl): SearchNetwork
 
     @Binds
     abstract fun getUserNetwork(userNetwork: RetrofitUserNetworkImpl): UserNetwork

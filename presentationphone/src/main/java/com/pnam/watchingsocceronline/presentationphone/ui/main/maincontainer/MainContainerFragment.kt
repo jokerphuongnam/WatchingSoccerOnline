@@ -302,10 +302,14 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     private val searchQuery: SearchView.OnQueryTextListener by lazy {
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.recyclerContainer.displayedChild = 2
-                viewModel.searchResult(query)
-                searchView.clearFocus()
-                return true
+                return if (query.isEmpty()) {
+                    false
+                } else {
+                    binding.recyclerContainer.displayedChild = 2
+                    viewModel.searchResult(query)
+                    searchView.clearFocus()
+                    true
+                }
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
@@ -381,9 +385,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         setUpSearchItem()
     }
 
-    private val resultReceiverCallBack: DownloadResultReceiverCallback by lazy {
-        DownloadResultReceiverCallback()
-    }
+    internal lateinit var resultReceiverCallBack: DownloadResultReceiverCallback
 
     private fun setUpToolbar() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
@@ -429,6 +431,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     is Resource.Success -> {
                         searchBinding.loading.isVisible = false
                         searchAdapter.submitList(it.data)
+                        binding.search.refresh.isRefreshing = false
                     }
                     is Resource.Error -> {
                         searchBinding.loading.isVisible = false
@@ -443,6 +446,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     is Resource.Success -> {
                         searchResultBinding.loading.isVisible = false
                         searchResultsAdapter.submitList(it.data)
+                        binding.searchResults.refresh.isRefreshing = false
                     }
                     is Resource.Error -> {
                         searchResultBinding.loading.isVisible = false
@@ -457,6 +461,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     is Resource.Success -> {
                         notificationBinding.loading.isVisible = false
                         notificationsAdapter.submitList(it.data)
+                        binding.notification.refresh.isRefreshing = false
                     }
                     is Resource.Error -> {
                         notificationBinding.loading.isVisible = false
@@ -483,7 +488,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     }
                 }
             }
-            viewModel.videosLiveData.takeUnless { tag.toString() == LibraryFragmentMain::class.java.simpleName }
+            videosLiveData.takeUnless { tag.toString() == LibraryFragmentMain::class.java.simpleName }
                 ?.observe {
                     when (it) {
                         is Resource.Loading -> {
@@ -492,13 +497,14 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                         is Resource.Success -> {
                             videosBinding.loading.isVisible = false
                             videoAdapter.submitList(it.data)
+                            binding.videos.refresh.isRefreshing = false
                         }
                         is Resource.Error -> {
                             videosBinding.loading.isVisible = false
                         }
                     }
                 }
-            viewModel.videoDownloadLiveData.observe { video ->
+            videoDownloadLiveData.observe { video ->
                 if (video != null) {
                     showToast(R.string.download_start)
                     DownloadVideoService.startServiceToWithdraw(
@@ -519,6 +525,23 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         }
     }
 
+    private fun setUpRefresh() {
+        binding.apply {
+            videos.refresh.setOnRefreshListener {
+                viewModel.getVideos()
+            }
+            search.refresh.setOnRefreshListener {
+                search.refresh.isRefreshing = false
+            }
+            searchResults.refresh.setOnRefreshListener {
+                search.refresh.isRefreshing = false
+            }
+            notification.refresh.setOnRefreshListener {
+                viewModel.notification()
+            }
+        }
+    }
+
     override fun onCreateView() {
         setUpRecycler()
         setUpToolbar()
@@ -526,6 +549,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
         setUpViewModel()
         actionBar.title = ""
         onCreateContainerView()
+        setUpRefresh()
     }
 
     abstract fun onCreateContainerView()

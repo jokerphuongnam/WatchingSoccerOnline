@@ -5,5 +5,5 @@ import javax.inject.Singleton
 
 @Singleton
 interface SearchNetwork {
-   suspend fun fetchSearchHistory(searchWord: String? = null): MutableList<SearchHistory>
+   suspend fun fetchSearchHistory(uid: String, searchWord: String? = null): List<SearchHistory>
 }

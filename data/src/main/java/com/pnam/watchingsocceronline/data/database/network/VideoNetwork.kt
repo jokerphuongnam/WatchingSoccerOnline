@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 interface VideoNetwork {
-    suspend fun fetchVideos(): MutableList<Video>
+    suspend fun fetchVideos(): List<Video>
 
     @Throws(Resources.NotFoundException::class)
     suspend fun fetchVideo(vid: String, uid: String? = null): Video
@@ -18,4 +18,6 @@ interface VideoNetwork {
     suspend fun writeComment(content: String, vid: String, uid: String? = null)
     suspend fun fetchChart(filter: Filter): List<Video>
     suspend fun fetchFilterVideo(searchWord: String? = null): List<Video>
+    suspend fun fetchSearchResultVideos(uid: String, searchWord: String): List<Video>
+    suspend fun fetchRecommendVideos(): List<Video>
 }

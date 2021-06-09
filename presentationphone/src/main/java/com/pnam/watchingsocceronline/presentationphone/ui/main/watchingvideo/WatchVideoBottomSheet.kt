@@ -26,17 +26,21 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
+import com.pnam.watchingsocceronline.presentationphone.background.DownloadVideoService
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.comments.CommentFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
+import com.pnam.watchingsocceronline.presentationphone.ui.main.download.DownloadResultReceiverCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.ContainerItemCallback
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 
 
 @FlowPreview
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Suppress("DEPRECATION")
 class WatchVideoBottomSheet(
@@ -101,6 +105,11 @@ class WatchVideoBottomSheet(
                     )
                 }
             }
+            download.setOnClickListener {
+                video?.let { videoNotNull ->
+                    viewModel.getVideoDownload(videoNotNull)
+                }
+            }
         }
     }
 
@@ -117,6 +126,8 @@ class WatchVideoBottomSheet(
     private fun <D> MutableLiveData<D>.observe(observer: Observer<D>) {
         observe(activity, observer)
     }
+
+    internal lateinit var resultReceiverCallBack: DownloadResultReceiverCallback
 
     private fun onCreateViewModel() {
         viewModel.apply {
@@ -162,6 +173,18 @@ class WatchVideoBottomSheet(
                         binding.recommendsLoading.isVisible = false
                         binding.recommendsContainer.isVisible = true
                     }
+                }
+            }
+            videoDownloadLiveData.observe { video ->
+                if (video != null) {
+                    Toast.makeText(activity, R.string.download_start, Toast.LENGTH_SHORT).show()
+                    DownloadVideoService.startServiceToWithdraw(
+                        activity,
+                        video,
+                        resultReceiverCallBack
+                    )
+                } else {
+                    Toast.makeText(activity, R.string.video_downloaded, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -375,7 +398,7 @@ class WatchVideoBottomSheet(
         behavior.state = STATE_EXPANDED
         binding.container.isVisible = true
         binding.scroll.fullScroll(ScrollView.FOCUS_UP)
-        viewModel.getRecommendVideo()
+        viewModel.getRecommendVideos()
         binding.container.setPadding(0, 0, 0, 0)
     }
 

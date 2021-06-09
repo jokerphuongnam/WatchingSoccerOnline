@@ -12,7 +12,9 @@ data class Comment(
     var cid: String,
     var content: String,
     var time: Long,
-    var user: User
+    var avatar: String,
+    var firstName: String,
+    var lastName: String,
 ) : Parcelable {
     var showTimeDate: String
         get() = time.toDateTimeString(HH_MM_DD_MM_YYYY)

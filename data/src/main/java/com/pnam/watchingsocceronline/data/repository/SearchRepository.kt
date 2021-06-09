@@ -8,5 +8,8 @@ import javax.inject.Singleton
 interface SearchRepository {
     val searchNetwork: SearchNetwork
 
-    suspend fun getSearchHistory(searchWord: String? = null): MutableList<SearchHistory>
+    suspend fun getSearchHistory(
+        uid: String,
+        searchWord: String? = null
+    ): List<SearchHistory>
 }

@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View" />
+        <import type="com.pnam.watchingsocceronline.domain.model.Video.ReactVideo" />
 
         <variable
             name="video"
@@ -184,7 +185,6 @@
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
                             app:tint="?attr/blackWhite" />
-
                     </LinearLayout>
 
                     <TextView
@@ -198,6 +198,75 @@
                         android:gravity="start|center"
                         android:text="@string/highlight"
                         android:textColor="?attr/blackWhite" />
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/like"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    is_like="@{video.reactVideo}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="48dp"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitCenter"
+                                    app:tint="?attr/blackWhite"
+                                    tools:srcCompat="@drawable/ic_like" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{String.valueOf(video.likes)}"
+                                    android:textColor="?attr/blackWhite"
+                                    tools:text="300" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/dislike"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    is_dislike="@{video.reactVideo}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="48dp"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitCenter"
+                                    app:tint="?attr/blackWhite"
+                                    tools:srcCompat="@drawable/ic_dislike" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{String.valueOf(video.dislikes)}"
+                                    android:textColor="?attr/blackWhite"
+                                    tools:text="300" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/download"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="16dp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_download" />
+                        </LinearLayout>
+                    </ScrollView>
 
                     <LinearLayout
                         android:id="@+id/comment"

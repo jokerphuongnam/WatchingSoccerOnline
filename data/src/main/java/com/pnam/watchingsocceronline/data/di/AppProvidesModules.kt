@@ -9,7 +9,9 @@ import com.pnam.watchingsocceronline.data.database.local.DownloadLocal
 import com.pnam.watchingsocceronline.data.database.local.NotificationLocal
 import com.pnam.watchingsocceronline.data.database.local.UserLocal
 import com.pnam.watchingsocceronline.data.database.network.NetworkConnectionInterceptor
+import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitSearchNetworkImpl
 import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitUserNetworkImpl
+import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitVideoNetworkImpl
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.BASE_URL
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.TIMEOUT
 import com.pnam.watchingsocceronline.data.utils.RoomUtils.DB_NAME
@@ -90,4 +92,14 @@ object AppProvidesModules {
     @Singleton
     fun providerUserService(retrofit: Retrofit): RetrofitUserNetworkImpl.UserService =
         retrofit.create(RetrofitUserNetworkImpl.UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun providerVideoService(retrofit: Retrofit): RetrofitVideoNetworkImpl.VideoService =
+        retrofit.create(RetrofitVideoNetworkImpl.VideoService::class.java)
+
+    @Provides
+    @Singleton
+    fun providerSearchService(retrofit: Retrofit): RetrofitSearchNetworkImpl.SearchService =
+        retrofit.create(RetrofitSearchNetworkImpl.SearchService::class.java)
 }

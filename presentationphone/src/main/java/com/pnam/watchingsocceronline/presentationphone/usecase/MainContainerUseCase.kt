@@ -2,6 +2,7 @@ package com.pnam.watchingsocceronline.presentationphone.usecase
 
 import com.pnam.watchingsocceronline.data.repository.NotificationRepository
 import com.pnam.watchingsocceronline.data.repository.SearchRepository
+import com.pnam.watchingsocceronline.data.repository.UserRepository
 import com.pnam.watchingsocceronline.data.repository.VideoRepository
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.domain.model.Notification
@@ -15,7 +16,8 @@ interface MainContainerUseCase {
     val videoRepository: VideoRepository
     val searchRepository: SearchRepository
     val notificationRepository: NotificationRepository
-    fun getSearchHistory(searchWord: String? = null): Flow<MutableList<SearchHistory>>
+    val userRepository: UserRepository
+    fun getSearchHistory(searchWord: String? = null): Flow<List<SearchHistory>>
     suspend fun getSearchResult(searchWord: String): List<Video>
     suspend fun getNotifications(): List<Notification>
     suspend fun getNotification(video: Video)

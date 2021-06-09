@@ -32,8 +32,12 @@ class DefaultVideoRepositoryImpl @Inject constructor(
         return downloadLocal.deleteDownload(video)
     }
 
-    override suspend fun getVideos(): MutableList<Video> {
+    override suspend fun getVideos(): List<Video> {
         return videoNetwork.fetchVideos()
+    }
+
+    override suspend fun getRecommendVideos(): List<Video> {
+        return videoNetwork.fetchRecommendVideos()
     }
 
     override suspend fun getVideo(vid: String, uid: String?): Video {
@@ -64,6 +68,10 @@ class DefaultVideoRepositoryImpl @Inject constructor(
 
     override suspend fun getFilterVideos(searchWord: String?): List<Video> {
         return videoNetwork.fetchFilterVideo(searchWord)
+    }
+
+    override suspend fun getSearchResultVideos(uid: String, searchWord: String): List<Video> {
+        return videoNetwork.fetchSearchResultVideos(uid, searchWord)
     }
 
     override suspend fun getComments(vid: String): List<Comment> {

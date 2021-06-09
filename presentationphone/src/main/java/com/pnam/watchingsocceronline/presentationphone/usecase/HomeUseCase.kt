@@ -7,5 +7,5 @@ import javax.inject.Singleton
 @Singleton
 interface HomeUseCase {
     val videoRepository: VideoRepository
-    suspend fun getVideos(): MutableList<Video>
+    suspend fun getVideos(): List<Video>
 }

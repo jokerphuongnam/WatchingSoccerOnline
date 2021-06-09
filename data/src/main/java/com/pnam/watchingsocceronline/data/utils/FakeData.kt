@@ -50,6 +50,8 @@ private val videos: MutableList<Video> by lazy {
             "https://scontent-sin6-3.xx.fbcdn.net/v/t1.15752-9/106685602_744950729587468_192808375200785458_n.png?_nc_cat=104&ccb=1-3&_nc_sid=ae9488&_nc_ohc=exA_2GFYpNsAX9u-mip&_nc_ht=scontent-sin6-3.xx&oh=ea274389e21d3f32e98ca55f194e9318&oe=60CCE96B",
             "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
             700,
+            33,
+            33,
             1618219260000,
             "N/A",
             "N/A",
@@ -59,7 +61,9 @@ private val videos: MutableList<Video> by lazy {
                     2342.toString(),
                     "Trận đấu hay quá",
                     1618219270000,
-                    users[0]
+                    users[0].avatar,
+                    users[0].firstName,
+                    users[0].lastName,
                 )
             )
         ),
@@ -69,6 +73,8 @@ private val videos: MutableList<Video> by lazy {
             "https://image.freepik.com/free-psd/intense-fitness-exercise-youtube-channel-thumbnail-web-banner_124868-205.jpg",
             "https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4",
             500,
+            33,
+            33,
             1618219260000,
             "N/A",
             "N/A",
@@ -78,7 +84,9 @@ private val videos: MutableList<Video> by lazy {
                     2342.toString(),
                     "Trận đấu hay quá",
                     1618219270000,
-                    users[0]
+                    users[0].avatar,
+                    users[0].firstName,
+                    users[0].lastName,
                 )
             )
         ),
@@ -88,6 +96,8 @@ private val videos: MutableList<Video> by lazy {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Football_iu_1996.jpg/1200px-Football_iu_1996.jpg",
             "",
             100,
+            33,
+            33,
             1628614800000,
             "N/A",
             "N/A",
@@ -100,6 +110,8 @@ private val videos: MutableList<Video> by lazy {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Football_iu_1996.jpg/1200px-Football_iu_1996.jpg",
             "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
             100,
+            33,
+            33,
             1623218400000,
             "N/A",
             "N/A",
@@ -120,7 +132,9 @@ fun writeFakeComment(content: String, vid: String, uid: String? = null): Boolean
                             System.currentTimeMillis().toString(),
                             content,
                             System.currentTimeMillis(),
-                            user
+                            user.avatar,
+                            user.firstName,
+                            user.lastName
                         )
                     )
                     fakeVideo.comments = comments

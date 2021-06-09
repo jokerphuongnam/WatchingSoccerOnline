@@ -28,14 +28,14 @@ abstract class MainContainerViewModel constructor(
 
     internal val userLiveData: MutableLiveData<User?> by lazy { MutableLiveData() }
 
-    internal val searchLiveData: MutableLiveData<Resource<MutableList<SearchHistory>>> by lazy { MutableLiveData() }
+    internal val searchLiveData: MutableLiveData<Resource<List<SearchHistory>>> by lazy { MutableLiveData() }
 
     internal fun search(searchWord: String? = null) {
         searchLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             useCase.getSearchHistory(searchWord)
-                .collect(object : FlowCollector<MutableList<SearchHistory>> {
-                    override suspend fun emit(value: MutableList<SearchHistory>) {
+                .collect(object : FlowCollector<List<SearchHistory>> {
+                    override suspend fun emit(value: List<SearchHistory>) {
                         searchLiveData.postValue(Resource.Success(value))
                     }
                 })

@@ -1,6 +1,5 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.download
 
-import android.content.res.Resources
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.pnam.watchingsocceronline.domain.model.Download
 import com.pnam.watchingsocceronline.presentationphone.R
-import com.pnam.watchingsocceronline.presentationphone.background.DownloadVideoService
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentDownloadBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
@@ -117,18 +115,15 @@ class DownloadFragment :
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        viewModel.getVideoDownloads()
-        try {
-            getService<DownloadVideoService>().setFragmentForResultReceiverCallback(this)
-        } catch (ex: Resources.NotFoundException) {
-
-        }
+        resultReceiverCallBack.setFragment(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         removeThisFragmentFromBackStack()
     }
+
+    internal lateinit var resultReceiverCallBack: DownloadResultReceiverCallback
 
     internal lateinit var openVideoBottomSheet: (String) -> Unit
 }

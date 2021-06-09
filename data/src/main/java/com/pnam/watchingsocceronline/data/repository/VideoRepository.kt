@@ -16,11 +16,13 @@ interface VideoRepository {
     fun cancelDownload(id: Long)
     suspend fun saveDownload(video: Download)
     suspend fun removeDownload(video: Download)
-    suspend fun getVideos(): MutableList<Video>
+    suspend fun getVideos(): List<Video>
+    suspend fun getRecommendVideos(): List<Video>
     suspend fun getVideo(vid: String, uid: String? = null): Video
     suspend fun getVideoDownload(video: Video): Download
     fun getDownloads(): Flow<List<Download>>
     suspend fun getChart(filter: Filter): List<Video>
     suspend fun getFilterVideos(searchWord: String? = null): List<Video>
+    suspend fun getSearchResultVideos(uid: String,searchWord: String): List<Video>
     suspend fun getComments(vid: String): List<Comment>
 }
