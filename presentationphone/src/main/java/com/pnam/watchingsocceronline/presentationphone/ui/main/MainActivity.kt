@@ -240,4 +240,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             }
         }
     }
+
+    override fun finish() {
+        finishAffinity()
+    }
 }

@@ -388,7 +388,9 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
     private fun setUpToolbar() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         toolbar.onCreate()
-        toolbar.setOpenUserActivityForResult(openUserActivityForResult)
+        openUserActivityForResult?.let {
+            toolbar.setOpenUserActivityForResult(it)
+        }
     }
 
     private val alarmManager: AlarmManager by lazy {
@@ -406,6 +408,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
                     requireContext(),
                     NotificationBroadCast::class.java
                 ).apply {
+                    action = NOTIFICATION
                     putParcelableExtra(NOTIFICATION, notification)
                 },
                 0
@@ -543,5 +546,5 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     internal lateinit var openVideoBottomSheet: (String) -> Unit
 
-    internal lateinit var openUserActivityForResult: (ActivityOptionsCompat) -> Unit
+    internal var openUserActivityForResult: ((ActivityOptionsCompat) -> Unit)? = null
 }

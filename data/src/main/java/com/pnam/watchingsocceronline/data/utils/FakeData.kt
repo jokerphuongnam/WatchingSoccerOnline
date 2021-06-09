@@ -17,9 +17,10 @@ suspend fun getFakeUsers(): List<User> = suspendCancellableCoroutine {
     it.resume(users)
 }
 
-fun addUser(user: User) {
+fun addUser(user: User): User {
     user.uid = Random(System.currentTimeMillis()).nextLong().toString()
     users.add(user)
+    return user
 }
 
 private val users: MutableList<User> by lazy {
@@ -99,7 +100,7 @@ private val videos: MutableList<Video> by lazy {
             "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Football_iu_1996.jpg/1200px-Football_iu_1996.jpg",
             "https://soccerbats.b-cdn.net/BARCA%20vs%20REAL%20MADRID.mp4",
             100,
-            1623207600000,
+            1623218400000,
             "N/A",
             "N/A",
             "N/A",

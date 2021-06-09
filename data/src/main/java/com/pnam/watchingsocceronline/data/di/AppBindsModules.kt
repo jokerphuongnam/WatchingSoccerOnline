@@ -8,8 +8,8 @@ import com.pnam.watchingsocceronline.data.database.network.SearchNetwork
 import com.pnam.watchingsocceronline.data.database.network.UserNetwork
 import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
 import com.pnam.watchingsocceronline.data.database.network.impl.FakeSearchNetworkImpl
-import com.pnam.watchingsocceronline.data.database.network.impl.FakeUserNetworkImpl
 import com.pnam.watchingsocceronline.data.database.network.impl.FakeVideoNetworkImpl
+import com.pnam.watchingsocceronline.data.database.network.impl.RetrofitUserNetworkImpl
 import com.pnam.watchingsocceronline.data.repository.*
 import com.pnam.watchingsocceronline.data.repository.impl.*
 import dagger.Binds
@@ -22,22 +22,22 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class AppBindsModules {
     @Binds
-    abstract fun getDownloadVideo(downloadVideo: DownloadManagerDownloadVideoImpl): DownloadVideo
-
-    @Binds
     abstract fun getDownloadNetwork(videoNetwork: FakeVideoNetworkImpl): VideoNetwork
 
     @Binds
     abstract fun getSearchNetwork(searchNetwork: FakeSearchNetworkImpl): SearchNetwork
 
     @Binds
-    abstract fun getSearchRepository(repository: DefaultSearchRepositoryImpl): SearchRepository
+    abstract fun getUserNetwork(userNetwork: RetrofitUserNetworkImpl): UserNetwork
 
     @Binds
-    abstract fun getUserNetwork(userNetwork: FakeUserNetworkImpl): UserNetwork
+    abstract fun getDownloadVideo(downloadVideo: DownloadManagerDownloadVideoImpl): DownloadVideo
 
     @Binds
     abstract fun getCurrentUser(currentUser: DataStoreCurrentUserImpl): CurrentUser
+
+    @Binds
+    abstract fun getSearchRepository(repository: DefaultSearchRepositoryImpl): SearchRepository
 
     @Binds
     abstract fun getDownloadRepository(repository: DefaultVideoRepositoryImpl): VideoRepository

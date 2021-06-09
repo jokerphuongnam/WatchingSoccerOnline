@@ -14,6 +14,7 @@ import com.pnam.watchingsocceronline.presentationphone.utils.NoErrorException
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import com.pnam.watchingsocceronline.presentationphone.utils.passwordRegex
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.SocketTimeoutException
 
 @AndroidEntryPoint
 class ChangePasswordActivity :
@@ -92,6 +93,14 @@ class ChangePasswordActivity :
                         }
                     }
                     is Resource.Error -> {
+                        when(it.error){
+                            is SocketTimeoutException ->{
+                                binding.changePasswordError.apply {
+                                    isVisible = true
+                                    setText(R.string.timeout)
+                                }
+                            }
+                        }
                         show.cancel()
                     }
                 }
@@ -105,6 +114,14 @@ class ChangePasswordActivity :
                         finish()
                     }
                     is Resource.Error -> {
+                        when(it.error){
+                            is SocketTimeoutException ->{
+                                binding.changePasswordError.apply {
+                                    isVisible = true
+                                    setText(R.string.timeout)
+                                }
+                            }
+                        }
                         show.cancel()
                     }
                 }

@@ -29,6 +29,7 @@ class SignInViewModel @Inject constructor(
             try {
                 userLiveData.postValue(Resource.Success(useCase.login(email, password)))
             } catch (e: Exception) {
+                e.printStackTrace()
                 userLiveData.postValue(Resource.Error(e))
             }
         }

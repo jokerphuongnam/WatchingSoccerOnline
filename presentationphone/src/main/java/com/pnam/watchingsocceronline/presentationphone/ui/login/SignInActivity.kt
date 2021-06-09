@@ -4,9 +4,12 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import com.pnam.watchingsocceronline.data.throwable.NoConnectivityException
+import com.pnam.watchingsocceronline.data.throwable.NotFoundException
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.ActivitySignInBinding
 import com.pnam.watchingsocceronline.presentationphone.extension.text
@@ -41,8 +44,19 @@ class SignInActivity :
                     show.cancel()
                 }
                 is Resource.Error -> {
+                    @StringRes val errorRes = when (it.error) {
+                        is NotFoundException -> {
+                            R.string.wrong_username_or_password
+                        }
+                        is NoConnectivityException -> {
+                            R.string.no_internet
+                        }
+                        else -> {
+                            0
+                        }
+                    }
                     binding.error.apply {
-                        setText(R.string.wrong_username_or_password)
+                        setText(errorRes)
                         isVisible = true
                     }
                     show.cancel()

@@ -15,6 +15,7 @@ class DefaultChangePasswordUseCaseImpl @Inject constructor(
         return userRepository.getUser(uid)
     }
 
+    @Throws(NotFoundException::class)
     override suspend fun changePassword(user: User) {
         userRepository.changePassword(user)
     }

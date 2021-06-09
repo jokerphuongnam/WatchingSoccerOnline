@@ -5,6 +5,8 @@ import android.app.ProgressDialog
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputLayout
+import com.pnam.watchingsocceronline.data.throwable.EmailInvalid
+import com.pnam.watchingsocceronline.data.throwable.NotFoundException
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.util.DD_MM_YYYY
 import com.pnam.watchingsocceronline.domain.util.toCalendar
@@ -15,6 +17,7 @@ import com.pnam.watchingsocceronline.presentationphone.extension.text
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.SocketTimeoutException
 import java.util.*
 
 @AndroidEntryPoint
@@ -139,6 +142,23 @@ class SignUpActivity: BaseActivity<ActivitySignUpBinding, SignUpViewModel>(R.lay
                     }
                     is Resource.Error -> {
                         show.cancel()
+                        when (it.error) {
+                            is EmailInvalid -> {
+                                binding.email.error = getString(R.string.email_invalid)
+                            }
+                            is NotFoundException -> {
+                                binding.registerError.apply {
+                                    text = getString(R.string.has_error_when_register)
+                                    isVisible = true
+                                }
+                            }
+                            is SocketTimeoutException -> {
+                                binding.registerError.apply {
+                                    text = getString(R.string.timeout)
+                                    isVisible = true
+                                }
+                            }
+                        }
                     }
                 }
             }

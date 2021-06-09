@@ -9,6 +9,7 @@ import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +24,8 @@ class ChangePasswordViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 userLiveData.postValue(Resource.Success(useCase.getUser(user.uid)))
-            } catch (e: Exception) {
+            }
+            catch (e: Exception) {
                 userLiveData.postValue(Resource.Error(e))
             }
         }

@@ -2,8 +2,8 @@ package com.pnam.watchingsocceronline.data.database.network.impl
 
 import android.content.res.Resources
 import com.pnam.watchingsocceronline.data.database.network.UserNetwork
+import com.pnam.watchingsocceronline.data.throwable.EmailInvalid
 import com.pnam.watchingsocceronline.data.throwable.NotFoundException
-import com.pnam.watchingsocceronline.data.throwable.WrongException
 import com.pnam.watchingsocceronline.data.utils.addUser
 import com.pnam.watchingsocceronline.data.utils.getFakeUsers
 import com.pnam.watchingsocceronline.domain.model.User
@@ -21,7 +21,8 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
         throw Resources.NotFoundException()
     }
 
-    override suspend fun editUser(user: User) {
+    @Throws(NotFoundException::class)
+    override suspend fun editUser(user: User): User {
         val fakeUsers: List<User> = getFakeUsers()
         for (fakeUser in fakeUsers) {
             if (fakeUser.uid.equals(user.uid)) {
@@ -30,16 +31,21 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
                 fakeUser.gender = user.gender
                 fakeUser.birthDay = user.birthDay
             }
+            return fakeUser
         }
+        throw NotFoundException()
     }
 
-    override suspend fun changePassword(user: User) {
+    @Throws(NotFoundException::class)
+    override suspend fun changePassword(user: User): User {
         val fakeUsers: List<User> = getFakeUsers()
         for (fakeUser in fakeUsers) {
             if (fakeUser.uid.equals(user.uid)) {
                 fakeUser.password = user.password
             }
+            return fakeUser
         }
+        throw NotFoundException()
     }
 
     @Throws(NotFoundException::class)
@@ -53,8 +59,8 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
         throw NotFoundException()
     }
 
-    @Throws(WrongException::class)
-    override suspend fun register(user: User) {
+    @Throws(NotFoundException::class, EmailInvalid::class)
+    override suspend fun register(user: User): User {
         val fakeUsers = getFakeUsers()
         var tempUser: User? = null
         fakeUsers.forEach {
@@ -63,8 +69,8 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
             }
         }
         tempUser?.let {
-            WrongException()
+            EmailInvalid()
         }
-        addUser(user)
+        return addUser(user)
     }
 }

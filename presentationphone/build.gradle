@@ -66,6 +66,8 @@ dependencies {
     work()
 
     circularProgressBar()
+
+    retrofit()
 }
 
 private void hilt() {
@@ -106,4 +108,11 @@ private void work() {
 
 private void circularProgressBar() {
     dependencies.implementation "com.mikhaellopez:circularprogressbar:$circular_progress_bar_version"
+}
+
+private void retrofit(){
+    dependencies.implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    dependencies.implementation "com.google.code.gson:gson:$gson_version"
+    dependencies.implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
+    dependencies.implementation "com.squareup.okhttp3:logging-interceptor:$logging_version"
 }

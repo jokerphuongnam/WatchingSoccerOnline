@@ -1,6 +1,5 @@
 package com.pnam.watchingsocceronline.domain.model
 
-import android.content.Context
 import android.os.Parcelable
 import com.pnam.watchingsocceronline.domain.util.DD_MM_YYYY
 import com.pnam.watchingsocceronline.domain.util.toDateTimeString

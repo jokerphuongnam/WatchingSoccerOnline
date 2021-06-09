@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.pnam.watchingsocceronline.domain.model.Notification
@@ -15,6 +16,10 @@ class NotificationBroadCast : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         createNotificationChannel(context)
+        Log.e(
+            "cccccccccccccccccccc",
+            intent.getParcelableExtra<Notification>(NOTIFICATION).toString()
+        )
         intent.getParcelableExtra<Notification>(NOTIFICATION)?.let { notification ->
             val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION).apply {
                 setDefaults(NotificationCompat.DEFAULT_ALL)

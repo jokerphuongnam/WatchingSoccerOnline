@@ -27,6 +27,7 @@ class SignUpViewModel @Inject constructor(
                 useCase.register(user)
                 registerLiveData.postValue(Resource.Success(true))
             }catch (e: Exception){
+                e.printStackTrace()
                 registerLiveData.postValue(Resource.Error(e))
             }
         }

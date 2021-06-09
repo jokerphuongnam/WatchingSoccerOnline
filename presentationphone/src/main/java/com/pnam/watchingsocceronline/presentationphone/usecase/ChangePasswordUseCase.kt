@@ -11,5 +11,7 @@ interface ChangePasswordUseCase {
 
     @Throws(NotFoundException::class)
     suspend fun getUser(uid: String): User
+
+    @Throws(NotFoundException::class)
     suspend fun changePassword(user: User)
 }

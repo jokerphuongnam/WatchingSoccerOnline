@@ -146,6 +146,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/first_name"
                             android:singleLine="true"
+                            android:inputType="textPersonName"
                             android:text="@={user.firstName}"
                             android:textCursorDrawable="@drawable/color_cursor" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -168,6 +169,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/last_name"
                             android:singleLine="true"
+                            android:inputType="textPersonName"
                             android:text="@={user.lastName}"
                             android:textCursorDrawable="@drawable/color_cursor" />
                     </com.google.android.material.textfield.TextInputLayout>

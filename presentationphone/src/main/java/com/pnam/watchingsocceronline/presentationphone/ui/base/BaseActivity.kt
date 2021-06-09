@@ -57,6 +57,7 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
             transactionViews?.forEach { transactionView ->
                 addSharedElement(transactionView, transactionView.transitionName)
             }
+            setReorderingAllowed(true)
             if (fragmentFindByTag == null) {
                 add(container, fragment, tag)
             } else {
@@ -64,7 +65,6 @@ abstract class BaseActivity<BD : ViewDataBinding, VM : BaseViewModel>(
                     hide(it)
                 }
                 show(fragment)
-                setPrimaryNavigationFragment(fragment)
             }
         }
     }

@@ -17,6 +17,10 @@ buildscript {
         work_version = "2.5.0"
         circular_progress_bar_version = "1.0.0"
         data_store_version = "1.0.0-beta01"
+        retrofit_version = "2.9.0"
+        gson_version = "2.8.5"
+        gson_converter_version = "2.5.0"
+        logging_version = "3.12.0"
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.3"

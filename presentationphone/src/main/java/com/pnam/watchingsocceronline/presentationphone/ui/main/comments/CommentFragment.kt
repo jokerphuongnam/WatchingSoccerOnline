@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentCommentsBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseBottomSheetDialogFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.login.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.writecomment.WriteCommentFragment
-import com.pnam.watchingsocceronline.presentationphone.ui.login.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
