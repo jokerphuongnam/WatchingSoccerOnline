@@ -70,7 +70,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="@{String.valueOf(video.view)}"
+                            android:text="@{String.valueOf(video.views)}"
                             android:textColor="?attr/greyAttr"
                             tools:text="200" />
 
@@ -79,7 +79,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="4dp"
                             android:gravity="center"
-                            android:text="@string/view"
+                            android:text="@string/views"
                             android:textColor="?attr/greyAttr" />
 
                         <ImageView

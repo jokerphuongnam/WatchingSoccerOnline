@@ -5,7 +5,7 @@
     <string name="setting">Setting</string>
     <string name="no_internet">No internet</string>
     <string name="mess_when_click_back_btn">Press again back button to exit</string>
-    <string name="view">view</string>
+    <string name="views">views</string>
     <string name="library">Library</string>
     <string name="watching">Watching</string>
     <string name="highlight">Highlight</string>
@@ -87,4 +87,9 @@
     <string name="upload_avatar">Upload avatar</string>
     <string name="upload_avatar_success">Upload avatar success</string>
     <string name="unlogin">Please login to continue</string>
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
+    <string name="view">View</string>
+    <string name="has_video_due">Has video due</string>
+    <string name="download_success">Download success</string>
 </resources>

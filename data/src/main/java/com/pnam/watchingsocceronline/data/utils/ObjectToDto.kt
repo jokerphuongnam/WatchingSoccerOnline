@@ -18,7 +18,7 @@ fun Download.toVideo(video: Video): Video = Video(
     title.trim(),
     thumbnail.trim(),
     url.trim(),
-    video.view,
+    video.views,
     video.likes,
     video.dislikes,
     video.date,
@@ -30,10 +30,10 @@ fun Download.toVideo(video: Video): Video = Video(
 )
 
 fun String.toReactVideo(): Video.ReactVideo = when {
-    equals(LIKE, false) -> {
+    equals(LIKE, true) -> {
         Video.ReactVideo.LIKE
     }
-    equals(DISLIKE, false) -> {
+    equals(DISLIKE, true) -> {
         Video.ReactVideo.DISLIKE
     }
     else -> {
@@ -46,7 +46,7 @@ fun Video.toDownload(): Download = Download(
     title.trim(),
     thumbnail.trim(),
     "",
-    view,
+    views,
     System.currentTimeMillis(),
     0
 )

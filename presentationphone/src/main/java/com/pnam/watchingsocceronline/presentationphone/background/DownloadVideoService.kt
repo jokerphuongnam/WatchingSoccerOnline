@@ -1,9 +1,12 @@
 package com.pnam.watchingsocceronline.presentationphone.background
 
 import android.app.IntentService
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.ResultReceiver
@@ -39,10 +42,6 @@ class DownloadVideoService : IntentService("DownloadVideoService") {
         VIDEO, RESULT_RECEIVER
     }
 
-    internal fun setFragmentForResultReceiverCallback(fragment: DownloadFragment) {
-        (resultReceiver as DownloadVideoReceiver).setFragment(fragment)
-    }
-
     private lateinit var resultReceiver: ResultReceiver
 
     private val notificationBuilder: NotificationCompat.Builder by lazy {
@@ -58,6 +57,7 @@ class DownloadVideoService : IntentService("DownloadVideoService") {
         val video: Video = intent?.getParcelableExtra(Params.VIDEO.name)!!
         resultReceiver = intent.getParcelableExtra(Params.RESULT_RECEIVER.name)!!
         val download = video.toDownload()
+        createNotificationChannel(applicationContext)
 
         downloadVideo.downloadVideo(video, object : DownloadVideo.DownloadVideoCallback {
             override fun uri(uri: Uri) {
@@ -72,19 +72,56 @@ class DownloadVideoService : IntentService("DownloadVideoService") {
             override fun process(process: Int) {
                 notificationBuilder.apply {
                     setProgress(100, process, false)
-                    setContentTitle(video.title)
+                    setContentTitle("${video.title} - ${process}%")
                 }
+
                 download.downloadProcess = process
-                NotificationManagerCompat.from(applicationContext)
-                    .notify(DOWNLOAD_NOTIFICATION_ID, notificationBuilder.build())
+
+                with(NotificationManagerCompat.from(applicationContext)){
+                    notify(DOWNLOAD_NOTIFICATION_ID, notificationBuilder.build())
+                }
+
                 resultReceiver.send(RESULT_CODE_OK, Bundle().apply {
                     putParcelable(PARAM_RESULT, download)
                 })
                 if (download.downloadProcess == 100) {
                     videoLocal.editDownloadNoneSuspend(download)
+                    notificationBuilder.apply {
+                        setProgress(0, 0, false)
+                        setContentTitle("${video.title} - ${applicationContext.getString(R.string.download_success)}")
+                        setSmallIcon(R.drawable.ic_check)
+                    }
+
+                    with(NotificationManagerCompat.from(applicationContext)){
+                        notify(DOWNLOAD_NOTIFICATION_ID, notificationBuilder.build())
+                    }
                 }
             }
         })
+    }
+
+
+    private fun createNotificationChannel(context: Context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = DOWNLOAD_CHANNEL
+            // Register the channel with the system
+            val notificationManager: NotificationManager? =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+            notificationManager?.getNotificationChannel(name).let {
+                if (it == null) {
+                    notificationManager?.createNotificationChannel(
+                        NotificationChannel(
+                            DOWNLOAD_CHANNEL,
+                            name,
+                            NotificationManager.IMPORTANCE_LOW
+                        ).apply {
+                            description = "This channel for notification video"
+                        })
+                }
+            }
+        }
     }
 
     companion object {

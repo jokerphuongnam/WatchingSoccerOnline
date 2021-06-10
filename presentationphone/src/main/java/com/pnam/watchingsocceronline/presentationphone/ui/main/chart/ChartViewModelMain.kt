@@ -26,10 +26,5 @@ class ChartViewModelMain @Inject constructor(
         }
     }
 
-    internal fun getVideos(filter: Filter) {
-        this.filter = filter
-        getVideos()
-    }
-
     internal var filter: Filter = Filter.VIEW
 }

@@ -29,9 +29,12 @@ class DefaultMainContainerUseCaseImpl @Inject constructor(
             } else {
                 mutableListOf()
             }
-            searchHistory.addAll(videoRepository.getFilterVideos(searchWord).map { filterVideo ->
-                filterVideo.toSearch()
-            })
+            searchWord?.takeUnless { it.isEmpty() }?.let { searchFilter ->
+                searchHistory.addAll(
+                    videoRepository.getFilterVideos(searchFilter).map { filterVideo ->
+                        filterVideo.toSearch()
+                    })
+            }
             searchHistory
         }.flowOn(Dispatchers.IO)
 

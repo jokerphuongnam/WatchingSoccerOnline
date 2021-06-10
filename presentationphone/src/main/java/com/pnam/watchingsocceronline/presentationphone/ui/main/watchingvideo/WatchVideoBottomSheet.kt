@@ -174,9 +174,6 @@ class WatchVideoBottomSheet(
                         }
                         if (binding.video == null || binding.video!!.vid != video.data.vid) {
                             binding.video = video.data
-                            if (isRunVideo) {
-                                stopVideo()
-                            }
                             loadVideo(video.data.url)
                         } else {
                             binding.video = video.data
@@ -334,9 +331,11 @@ class WatchVideoBottomSheet(
                     }
                     STATE_DRAGGING -> {
                         binding.videoView.useController = false
+                        binding.videoView.hideController()
                     }
                     STATE_COLLAPSED -> {
                         binding.videoView.useController = false
+                        binding.videoView.hideController()
                     }
                     else -> {
 

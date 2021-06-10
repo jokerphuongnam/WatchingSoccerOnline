@@ -22,7 +22,7 @@ interface VideoRepository {
     suspend fun getVideoDownload(video: Video): Download
     fun getDownloads(): Flow<List<Download>>
     suspend fun getChart(filter: Filter): List<Video>
-    suspend fun getFilterVideos(searchWord: String? = null): List<Video>
+    suspend fun getFilterVideos(searchWord: String): List<Video>
     suspend fun getSearchResultVideos(uid: String,searchWord: String): List<Video>
     suspend fun getComments(vid: String): List<Comment>
     suspend fun likeVideo(uid: String, vid: String)

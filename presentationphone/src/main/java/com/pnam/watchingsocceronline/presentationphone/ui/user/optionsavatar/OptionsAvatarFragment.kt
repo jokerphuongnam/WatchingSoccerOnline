@@ -22,7 +22,7 @@ class OptionsAvatarFragment :
 
     private fun setUpData() {
         activityViewModel.userLiveData.value?.data?.avatar?.let { avatar ->
-            binding.hasAvatar = !avatar.equals("N/A", false)
+            binding.hasAvatar = !avatar.equals("N/A", true)
         }
     }
 

@@ -66,7 +66,7 @@ class DefaultVideoRepositoryImpl @Inject constructor(
         return videoNetwork.fetchChart(filter)
     }
 
-    override suspend fun getFilterVideos(searchWord: String?): List<Video> {
+    override suspend fun getFilterVideos(searchWord: String): List<Video> {
         return videoNetwork.fetchFilterVideo(searchWord)
     }
 

@@ -13,7 +13,7 @@ data class Video(
     var title: String,
     var thumbnail: String,
     var url: String,
-    var view: Long,
+    var views: Long,
     var likes: Long,
     var dislikes: Long,
     var date: Long,

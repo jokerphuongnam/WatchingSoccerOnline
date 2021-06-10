@@ -3,17 +3,17 @@ package com.pnam.watchingsocceronline.data.utils
 enum class Filter {
     LIKE {
         override fun toString(): String {
-            return "Like"
+            return "like"
         }
     },
-    COMMENT {
+    DISLIKE {
         override fun toString(): String {
-            return "Comment"
+            return "dislike"
         }
     },
     VIEW {
         override fun toString(): String {
-            return "View"
+            return "view"
         }
     };
 }

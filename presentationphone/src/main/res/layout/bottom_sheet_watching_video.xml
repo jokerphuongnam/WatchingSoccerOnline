@@ -156,17 +156,43 @@
                         android:foreground="@drawable/ripple"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
                             android:layout_weight="1"
-                            android:singleLine="false"
-                            android:text="@{video.title}"
-                            android:textColor="?attr/blackWhite"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            tools:text="Title" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="8dp"
+                                android:singleLine="false"
+                                android:text="@{video.title}"
+                                android:textColor="?attr/blackWhite"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                tools:text="Title" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:text="@{String.valueOf(video.views)}"
+                                    android:textColor="?attr/greyAttr"
+                                    tools:text="300" />
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitCenter"
+                                    app:srcCompat="@drawable/ic_eye" />
+                            </LinearLayout>
+                        </LinearLayout>
 
                         <ImageView
                             android:layout_width="32dp"
@@ -279,7 +305,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/comments" />
+                                    android:text="@string/comments"
+                                    android:textColor="?attr/greyAttr" />
                             </LinearLayout>
 
                             <ImageView

@@ -42,11 +42,11 @@ class RetrofitVideoNetworkImpl @Inject constructor(
     }
 
     override suspend fun fetchChart(filter: Filter): List<Video> {
-        TODO()
+        return service.fetchChart(filter.toString()).body()!!.map { it.toVideo() }
     }
 
-    override suspend fun fetchFilterVideo(searchWord: String?): List<Video> {
-        return emptyList()
+    override suspend fun fetchFilterVideo(searchWord: String): List<Video> {
+        return service.fetchFilterVideo(searchWord).body()?.map { it.toVideo() } ?: emptyList()
     }
 
     override suspend fun fetchSearchResultVideos(uid: String, searchWord: String): List<Video> {
@@ -82,7 +82,7 @@ class RetrofitVideoNetworkImpl @Inject constructor(
             @Path("uid") uid: String
         ): Response<String>
 
-        @GET("/api/video/random/5")
+        @GET("api/video/random/5")
         suspend fun fetchRecommendVideos(): Response<List<VideoResponse>>
 
         @GET("api/video/[id]/comment")
@@ -90,30 +90,36 @@ class RetrofitVideoNetworkImpl @Inject constructor(
             @Path("id") vid: String
         ): Response<List<CommentResponse>>
 
-        @POST("/api/video/{vid}/comment/{uid}/{cmt}")
+        @POST("api/video/{vid}/comment/{uid}/{cmt}")
         suspend fun writeComment(
             @Path("cmt") content: String,
             @Path("vid") vid: String,
             @Path("uid") uid: String
         ): Response<CommentResponse>
 
-        //        suspend fun fetchChart(filter: Filter): List<Video>
-//
-//        suspend fun fetchFilterVideo(searchWord: String?): List<Video>
-//
+        @GET("api/video/top/{filter}/5")
+        suspend fun fetchChart(
+            @Path("filter") filter: String
+        ): Response<List<VideoResponse>>
+
+        @GET("api/history/{search}")
+        suspend fun fetchFilterVideo(
+            @Path("search") searchWord: String
+        ): Response<List<VideoResponse>>
+
         @POST("api/user/{uid}/search/{search}")
         suspend fun fetchResultVideos(
             @Path("uid") uid: String,
             @Path("search") searchWord: String?
         ): Response<List<VideoResponse>>
 
-        @POST("/api/video/like/{uid}/{vid}")
+        @POST("api/video/like/{uid}/{vid}")
         suspend fun likeVideo(
             @Path("uid") uid: String,
             @Path("vid") vid: String
         ): Response<VideoResponse>
 
-        @POST("/api/video/dislike/{uid}/{vid}")
+        @POST("api/video/dislike/{uid}/{vid}")
         suspend fun dislikeVideo(
             @Path("uid") uid: String,
             @Path("vid") vid: String

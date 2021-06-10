@@ -14,20 +14,20 @@ class RetrofitSearchNetworkImpl @Inject constructor(
         uid: String,
         searchWord: String?
     ): List<SearchHistory> {
-        return service.fetchSearchHistory(uid).body()!!.filter {
+        return service.fetchSearchHistory(uid).body()?.filter {
             if (searchWord == null || searchWord.isEmpty()) {
                 true
             } else {
-                it.contains(searchWord)
+                it.contains(searchWord, true)
             }
-        }.map {
+        }?.map {
             SearchHistory(
                 "",
                 it,
                 1623121200000,
                 SearchHistory.SearchType.HISTORY
             )
-        }
+        } ?: emptyList()
     }
 
     interface SearchService {

@@ -45,7 +45,7 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
         return getFakeVideos()
     }
 
-    override suspend fun fetchFilterVideo(searchWord: String?): List<Video> {
+    override suspend fun fetchFilterVideo(searchWord: String): List<Video> {
         return getFakeFilterVideo(searchWord)
     }
 

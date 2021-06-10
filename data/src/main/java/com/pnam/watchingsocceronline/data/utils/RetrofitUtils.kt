@@ -12,7 +12,7 @@ object RetrofitUtils {
     internal const val NONE: String = "none"
     internal const val AVATAR: String = "avatar"
     internal fun convertLocalAvatar(avatar: String): String {
-        return if (avatar.equals("N/A", false)) {
+        return if (avatar.equals("N/A", true)) {
             avatar
         } else {
             "https://${avatar.substring(avatar.indexOf("www") until avatar.length)}"

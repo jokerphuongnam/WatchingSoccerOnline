@@ -16,21 +16,15 @@ class NotificationBroadCast : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         createNotificationChannel(context)
-        Log.e(
-            "cccccccccccccccccccc",
-            intent.getParcelableExtra<Notification>(NOTIFICATION).toString()
-        )
-        intent.getParcelableExtra<Notification>(NOTIFICATION)?.let { notification ->
-            val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION).apply {
-                setDefaults(NotificationCompat.DEFAULT_ALL)
-                setAutoCancel(false)
-                setSmallIcon(R.drawable.ic_download)
-                priority = NotificationCompat.PRIORITY_MAX
-                setContentTitle(notification.title)
-            }
-            with(NotificationManagerCompat.from(context)) {
-                notify(NOTIFICATION_ID, notificationBuilder.build())
-            }
+        val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION).apply {
+            setDefaults(NotificationCompat.DEFAULT_ALL)
+            setAutoCancel(false)
+            setSmallIcon(R.drawable.ic_download)
+            priority = NotificationCompat.PRIORITY_MAX
+            setContentTitle(context.getString(R.string.has_video_due))
+        }
+        with(NotificationManagerCompat.from(context)) {
+            notify(NOTIFICATION_ID, notificationBuilder.build())
         }
     }
 

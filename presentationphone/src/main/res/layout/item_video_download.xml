@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/view" />
+                        android:text="@string/views" />
 
                     <ImageView
                         android:layout_width="1dp"
