@@ -70,11 +70,6 @@ class MainToolbar(private val activity: FragmentActivity) {
         }
     }
 
-    internal fun setUser(user: User?, builder: ImageRequest.Builder.() -> Unit) {
-        binding.avatarHandle = builder
-        setUser(user)
-    }
-
     internal fun setUser(user: User?) {
         binding.user = user
     }

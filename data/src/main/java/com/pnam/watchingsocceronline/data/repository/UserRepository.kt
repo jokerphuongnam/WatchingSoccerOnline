@@ -30,6 +30,10 @@ interface UserRepository {
     @Throws(NotFoundException::class)
     suspend fun edit(user: User)
 
+    suspend fun uploadAvatar(uid: String, avatar: ByteArray)
+
+    suspend fun removeAvatar(uid: String)
+
     @Throws(NotFoundException::class)
     suspend fun changePassword(user: User)
     suspend fun signOut()

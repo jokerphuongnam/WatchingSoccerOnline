@@ -88,7 +88,6 @@ class WatchVideoBottomSheet(
     private fun onCreateView() {
         binding.apply {
             close.setOnClickListener(closeEvent)
-            avatarHandle = viewModel.avatarHandle
             playPause.setOnClickListener {
                 if (exoPlayer.playWhenReady) {
                     binding.playPause.setImageResource(R.drawable.ic_pause)

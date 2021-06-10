@@ -521,7 +521,7 @@ abstract class MainContainerFragment<VM : MainContainerViewModel> :
 
     private fun setUpActivityViewModel() {
         activityViewModel.userObservers.add { user ->
-            toolbar.setUser(user, activityViewModel.avatarHandle)
+            toolbar.setUser(user)
         }
     }
 

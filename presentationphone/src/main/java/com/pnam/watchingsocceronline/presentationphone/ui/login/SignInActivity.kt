@@ -41,7 +41,6 @@ class SignInActivity :
                 }
                 is Resource.Success -> {
                     it.data?.let { user -> viewModel.saveUser(user) }
-                    show.cancel()
                 }
                 is Resource.Error -> {
                     @StringRes val errorRes = when (it.error) {

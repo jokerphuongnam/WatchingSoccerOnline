@@ -48,6 +48,14 @@ class DefaultUserRepositoryImpl @Inject constructor(
         userLocal.editUser(userNetwork.editUser(user))
     }
 
+    override suspend fun uploadAvatar(uid: String, avatar: ByteArray) {
+        userLocal.editUser(userNetwork.uploadAvatar(uid, avatar))
+    }
+
+    override suspend fun removeAvatar(uid: String) {
+        userLocal.editUser(userNetwork.removeAvatar(uid))
+    }
+
     @Throws(NotFoundException::class)
     override suspend fun changePassword(user: User) {
         userLocal.editUser(userNetwork.changePassword(user))

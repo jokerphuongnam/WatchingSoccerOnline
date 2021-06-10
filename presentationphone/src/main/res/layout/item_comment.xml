@@ -8,17 +8,6 @@
         <variable
             name="comment"
             type="com.pnam.watchingsocceronline.domain.model.Comment" />
-
-        <import type="coil.request.ImageRequest.Builder" />
-
-        <import type="kotlin.Unit" />
-
-        <import type="kotlin.jvm.functions.Function1" />
-
-        <variable
-            name="avatar_handle"
-            type="Function1&lt;Builder, Unit>" />
-
     </data>
 
     <LinearLayout
@@ -29,7 +18,6 @@
 
         <ImageView
             android:id="@+id/avatar"
-            image_builder="@{avatar_handle}"
             user_url_image="@{comment.avatar}"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"

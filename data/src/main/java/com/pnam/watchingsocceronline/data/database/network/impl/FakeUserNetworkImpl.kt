@@ -73,4 +73,24 @@ class FakeUserNetworkImpl @Inject constructor() : UserNetwork {
         }
         return addUser(user)
     }
+
+    override suspend fun uploadAvatar(uid: String, images: ByteArray): User {
+        val fakeUsers: List<User> = getFakeUsers()
+        for (fakeUser in fakeUsers) {
+            if (fakeUser.uid.equals(uid)) {
+                return fakeUser
+            }
+        }
+        throw NotFoundException()
+    }
+
+    override suspend fun removeAvatar(uid: String): User {
+        val fakeUsers: List<User> = getFakeUsers()
+        for (fakeUser in fakeUsers) {
+            if (fakeUser.uid.equals(uid)) {
+                return fakeUser
+            }
+        }
+        throw NotFoundException()
+    }
 }

@@ -21,4 +21,8 @@ interface UserNetwork {
 
     @Throws(NotFoundException::class, EmailInvalid::class)
     suspend fun register(user: User): User
+
+    suspend fun uploadAvatar(uid: String, avatar: ByteArray): User
+
+    suspend fun removeAvatar(uid: String): User
 }

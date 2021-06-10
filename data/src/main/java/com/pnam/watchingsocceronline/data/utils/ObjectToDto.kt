@@ -14,33 +14,37 @@ fun Download.toDto(): DownloadDto =
     DownloadDto(vid, title, thumbnail, url, view, downloadTime, downloadProcess)
 
 fun Download.toVideo(video: Video): Video = Video(
-    vid,
-    title,
-    thumbnail,
-    url,
+    vid.trim(),
+    title.trim(),
+    thumbnail.trim(),
+    url.trim(),
     video.view,
     video.likes,
     video.dislikes,
     video.date,
-    video.highLight1,
-    video.highLight2,
-    video.highLight3,
+    video.highLight1.trim(),
+    video.highLight2.trim(),
+    video.highLight3.trim(),
     video.comments,
     video.reactVideo
 )
 
-fun String.toReactVideo(): Video.ReactVideo = if (equals(LIKE, false)) {
-    Video.ReactVideo.LIKE
-} else if (equals(DISLIKE, false)) {
-    Video.ReactVideo.DISLIKE
-} else {
-    Video.ReactVideo.NONE
+fun String.toReactVideo(): Video.ReactVideo = when {
+    equals(LIKE, false) -> {
+        Video.ReactVideo.LIKE
+    }
+    equals(DISLIKE, false) -> {
+        Video.ReactVideo.DISLIKE
+    }
+    else -> {
+        Video.ReactVideo.NONE
+    }
 }
 
 fun Video.toDownload(): Download = Download(
-    vid,
-    title,
-    thumbnail,
+    vid.trim(),
+    title.trim(),
+    thumbnail.trim(),
     "",
     view,
     System.currentTimeMillis(),
@@ -48,28 +52,28 @@ fun Video.toDownload(): Download = Download(
 )
 
 fun User.toDto(): UserDto = UserDto(
-    uid,
-    avatar,
-    email,
-    password,
-    firstName,
-    lastName,
+    uid.trim(),
+    avatar.trim(),
+    email.trim(),
+    password.trim(),
+    firstName.trim(),
+    lastName.trim(),
     birthDay,
     gender.toBoolean()
 )
 
 fun Video.toNotificationDto(): NotificationDto = NotificationDto(
-    vid,
-    title,
-    thumbnail,
+    vid.trim(),
+    title.trim(),
+    thumbnail.trim(),
     System.currentTimeMillis(),
     date
 )
 
 fun Notification.toDto(): NotificationDto = NotificationDto(
-    nid,
-    title,
-    thumbnail,
+    nid.trim(),
+    title.trim(),
+    thumbnail.trim(),
     getTime,
     notificationTime
 )

@@ -1,7 +1,12 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.user
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -11,6 +16,8 @@ import com.pnam.watchingsocceronline.presentationphone.databinding.ActivityUserB
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.changepassword.ChangePasswordActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.editprofile.EditProfileActivity
+import com.pnam.watchingsocceronline.presentationphone.ui.user.optionsavatar.OptionsAvatarFragment
+import com.pnam.watchingsocceronline.presentationphone.ui.user.reviewavatar.ReviewAvatarFragment
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,11 +25,34 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
     override val viewModel: UserViewModel by viewModels()
 
-    private fun setUpData() {
-//        intent.getParcelableExtra<User>(USER)?.let {
-//            viewModel.userLiveData.postValue(Resource.Success(it))
-//            binding.user = it
-//        }
+    private val imageChoose: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    MediaStore.Images.Media.getBitmap(contentResolver, uri).let { bitmap ->
+                        openReviewAvatar(bitmap)
+                    }
+                }
+            }
+        }
+
+    private val takePhotoFromCamera: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                (result.data?.extras?.get("data") as Bitmap).apply {
+                    openReviewAvatar(this)
+                }
+            }
+        }
+
+    private fun openReviewAvatar(bitmap: Bitmap) {
+        ReviewAvatarFragment(
+            viewModel.userLiveData.value!!.data!!.uid,
+            bitmap
+        ).show(
+            supportFragmentManager.beginTransaction(),
+            ReviewAvatarFragment::class.java.simpleName
+        )
     }
 
     private fun setUpActionBar() {
@@ -105,11 +135,19 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                     options.toBundle()
                 )
             }
+            avatar.setOnClickListener {
+                OptionsAvatarFragment().apply {
+                    imageChoose = this@UserActivity.imageChoose
+                    takePhotoFromCamera = this@UserActivity.takePhotoFromCamera
+                }.show(
+                    supportFragmentManager.beginTransaction(),
+                    OptionsAvatarFragment::class.java.simpleName
+                )
+            }
         }
     }
 
     override fun onCreateView() {
-        setUpData()
         setUpActionBar()
         setUpViewModel()
         setUpEvent()

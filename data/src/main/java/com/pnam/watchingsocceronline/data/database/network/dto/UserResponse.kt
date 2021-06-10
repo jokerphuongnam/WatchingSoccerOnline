@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.data.database.network.dto
 
+import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.convertLocalAvatar
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.util.toGender
 
@@ -17,7 +18,7 @@ class UserResponse(
     fun toUser(): User {
         return User(
             id,
-            avatar,
+            convertLocalAvatar(avatar),
             email,
             password,
             firstName,

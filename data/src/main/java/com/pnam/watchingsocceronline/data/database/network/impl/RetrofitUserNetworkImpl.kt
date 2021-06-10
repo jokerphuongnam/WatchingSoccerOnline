@@ -4,15 +4,15 @@ import com.pnam.watchingsocceronline.data.database.network.UserNetwork
 import com.pnam.watchingsocceronline.data.database.network.dto.*
 import com.pnam.watchingsocceronline.data.throwable.EmailInvalid
 import com.pnam.watchingsocceronline.data.throwable.NotFoundException
+import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.AVATAR
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.BAD_REQUEST
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.CREATE
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.SUCCESS
+import com.pnam.watchingsocceronline.data.utils.toMultipartBody
 import com.pnam.watchingsocceronline.domain.model.User
+import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import javax.inject.Inject
 
 class RetrofitUserNetworkImpl @Inject constructor(
@@ -75,9 +75,19 @@ class RetrofitUserNetworkImpl @Inject constructor(
         }
     }
 
+    override suspend fun uploadAvatar(uid: String, avatar: ByteArray): User {
+        return service.uploadAvatar(uid, avatar.toMultipartBody(AVATAR)).body()!!.toUser()
+    }
+
+    override suspend fun removeAvatar(uid: String): User {
+        return service.removeAvatar(uid).body()!!.toUser()
+    }
+
     interface UserService {
         @POST("api/user/signin")
-        suspend fun login(@Body login: LoginDto): Response<UserResponse>
+        suspend fun login(
+            @Body login: LoginDto
+        ): Response<UserResponse>
 
         @POST("api/user/{id}/edit")
         suspend fun editUser(
@@ -97,6 +107,20 @@ class RetrofitUserNetworkImpl @Inject constructor(
         ): Response<UserResponse>
 
         @POST("api/user/signup")
-        suspend fun register(@Body user: RegisterDto): Response<UserResponse>
+        suspend fun register(
+            @Body user: RegisterDto
+        ): Response<UserResponse>
+
+        @Multipart
+        @POST("api/user/{id}/upload/avatar")
+        suspend fun uploadAvatar(
+            @Path("id") uid: String,
+            @Part avatar: MultipartBody.Part
+        ): Response<UserResponse>
+
+        @DELETE("api/user/{id}/delete/avatar")
+        suspend fun removeAvatar(
+            @Path("id") uid: String
+        ): Response<UserResponse>
     }
 }

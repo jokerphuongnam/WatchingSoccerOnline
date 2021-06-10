@@ -14,16 +14,6 @@
         <variable
             name="user"
             type="com.pnam.watchingsocceronline.domain.model.User" />
-
-        <import type="coil.request.ImageRequest.Builder" />
-
-        <import type="kotlin.Unit" />
-
-        <import type="kotlin.jvm.functions.Function1" />
-
-        <variable
-            name="avatar_handle"
-            type="Function1&lt;Builder, Unit>" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -310,7 +300,6 @@
 
                             <ImageView
                                 android:id="@+id/avatar"
-                                image_builder="@{avatar_handle}"
                                 user_url_image="@{user.avatar}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="40dp"

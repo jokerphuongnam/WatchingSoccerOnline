@@ -1,6 +1,7 @@
 package com.pnam.watchingsocceronline.data.database.network.impl
 
 import com.pnam.watchingsocceronline.data.database.network.VideoNetwork
+import com.pnam.watchingsocceronline.data.database.network.dto.CommentResponse
 import com.pnam.watchingsocceronline.data.database.network.dto.VideoResponse
 import com.pnam.watchingsocceronline.data.utils.Filter
 import com.pnam.watchingsocceronline.data.utils.RetrofitUtils.NOT_FOUND
@@ -33,7 +34,7 @@ class RetrofitVideoNetworkImpl @Inject constructor(
     }
 
     override suspend fun fetchComments(vid: String): List<Comment> {
-        TODO()
+        return service.fetchComments(vid).body()!!.map { it.toComment() }
     }
 
     override suspend fun writeComment(content: String, vid: String, uid: String?) {
@@ -76,9 +77,12 @@ class RetrofitVideoNetworkImpl @Inject constructor(
         @GET("/api/video/random/5")
         suspend fun fetchRecommendVideos(): Response<List<VideoResponse>>
 
-        //        suspend fun fetchComments(vid: String): List<Comment>
-//
-//        suspend fun writeComment(content: String, vid: String, uid: String?)
+        @GET("api/video/[id]/comment")
+        suspend fun fetchComments(
+            @Path("id") vid: String
+        ): Response<List<CommentResponse>>
+
+        //        suspend fun writeComment(content: String, vid: String, uid: String?)
 //
 //        suspend fun fetchChart(filter: Filter): List<Video>
 //

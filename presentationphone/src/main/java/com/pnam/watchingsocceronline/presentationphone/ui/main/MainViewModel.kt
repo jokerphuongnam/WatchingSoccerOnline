@@ -80,14 +80,6 @@ class MainViewModel @Inject constructor(
         videoLiveData.postValue(Resource.Success(null))
     }
 
-    internal val avatarHandle: Function1<ImageRequest.Builder, Unit> by lazy {
-        {
-            it.transformations(CircleCropTransformation())
-            it.crossfade(true)
-            it.placeholder(R.drawable.ic_error)
-        }
-    }
-
     /**
      * for work load user with each MainContainerFragment
      * */

@@ -4,29 +4,27 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
 import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 
-@BindingAdapter(value = ["user_url_image", "image_builder"], requireAll = false)
+@BindingAdapter(value = ["user_url_image"], requireAll = false)
 fun setUserImageFromUrl(
     imageView: ImageView,
-    url: String?,
-    builder: (ImageRequest.Builder.() -> Unit)? = null
+    url: String?
 ) {
     url ?: return
+    val builder: ImageRequest.Builder.() -> Unit = {
+        transformations(CircleCropTransformation())
+        crossfade(true)
+        placeholder(R.drawable.ic_error)
+    }
+
     if (url.equals("N/A", ignoreCase = true)) {
-        if (builder == null) {
-            imageView.load(R.drawable.ic_user)
-        } else {
-            imageView.load(R.drawable.ic_user, builder = builder)
-        }
+        imageView.load(R.drawable.ic_user, builder = builder)
     } else {
-        if (builder == null) {
-            imageView.load(url)
-        } else {
-            imageView.load(url, builder = builder)
-        }
+        imageView.load(url, builder = builder)
     }
 }
 

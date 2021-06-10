@@ -9,16 +9,6 @@
         <variable
             name="user"
             type="com.pnam.watchingsocceronline.domain.model.User" />
-
-        <import type="coil.request.ImageRequest.Builder" />
-
-        <import type="kotlin.Unit" />
-
-        <import type="kotlin.jvm.functions.Function1" />
-
-        <variable
-            name="avatar_handle"
-            type="Function1&lt;Builder, Unit>" />
     </data>
 
     <FrameLayout
@@ -41,23 +31,22 @@
             app:strokeColor="@color/pink"
             android:textStyle="bold"
             android:transitionName="@string/login"
-            android:visibility="@{user == null?View.VISIBLE:View.GONE, default=gone}"
-            tools:visibility="visible" />
+            android:visibility="@{user == null?View.VISIBLE:View.GONE, default=gone}" />
 
         <ImageView
             android:id="@+id/avatar"
-            image_builder="@{avatar_handle}"
             user_url_image="@{user.avatar}"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
             android:visibility="@{user == null?View.GONE:View.VISIBLE, default=gone}"
             android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
+            android:adjustViewBounds="true"
             android:foreground="@drawable/ripple"
             android:scaleType="fitCenter"
             android:transitionName="avatar"
-            tools:visibility="gone" />
+            tools:src="@tools:sample/avatars"
+            tools:visibility="visible" />
     </FrameLayout>
 </layout>

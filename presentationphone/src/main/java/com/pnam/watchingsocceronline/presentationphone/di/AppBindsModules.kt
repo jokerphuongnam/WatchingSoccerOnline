@@ -48,4 +48,10 @@ abstract class AppBindsModules {
 
     @Binds
     abstract fun getChangePassword(useCase: DefaultChangePasswordUseCaseImpl): ChangePasswordUseCase
+
+    @Binds
+    abstract fun getOptionsAvatarUseCase(useCase: DefaultOptionsAvatarUseCaseImpl): OptionsAvatarUseCase
+
+    @Binds
+    abstract fun getReviewAvatarUseCase(useCase: DefaultReviewAvatarUseCaseImpl): ReviewAvatarUseCase
 }

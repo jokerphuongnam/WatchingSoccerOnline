@@ -80,4 +80,10 @@
     <string name="timeout">Request timeout, request again</string>
     <string name="email_invalid">Email invalid</string>
     <string name="has_error_when_register">Has error when register</string>
+    <string name="choose_gallery">Choose gallery</string>
+    <string name="open_camera">Open camera</string>
+    <string name="delete_avatar">Delete avatar</string>
+    <string name="review_avatar">Review avatar</string>
+    <string name="upload_avatar">Upload avatar</string>
+    <string name="upload_avatar_success">Upload avatar success</string>
 </resources>

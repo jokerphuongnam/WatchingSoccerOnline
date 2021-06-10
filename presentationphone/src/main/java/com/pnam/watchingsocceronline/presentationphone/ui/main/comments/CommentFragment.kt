@@ -29,7 +29,6 @@ class CommentFragment(private val appCompatActivity: AppCompatActivity) :
     private val commentsAdapter: CommentsAdapter by lazy { CommentsAdapter() }
 
     private fun setUpViewModel() {
-        binding.avatarHandle = activityViewModel.avatarHandle
         viewModel.commentLiveData.observe {
             when (it) {
                 is Resource.Loading -> {
