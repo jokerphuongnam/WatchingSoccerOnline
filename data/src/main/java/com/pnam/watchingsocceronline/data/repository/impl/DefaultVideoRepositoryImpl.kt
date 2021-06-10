@@ -77,4 +77,12 @@ class DefaultVideoRepositoryImpl @Inject constructor(
     override suspend fun getComments(vid: String): List<Comment> {
         return videoNetwork.fetchComments(vid)
     }
+
+    override suspend fun likeVideo(uid: String, vid: String) {
+        videoNetwork.likeVideo(uid, vid)
+    }
+
+    override suspend fun dislikeVideo(uid: String, vid: String) {
+        videoNetwork.dislikeVideo(uid, vid)
+    }
 }

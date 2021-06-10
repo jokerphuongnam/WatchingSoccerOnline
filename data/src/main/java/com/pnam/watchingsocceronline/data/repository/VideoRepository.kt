@@ -25,4 +25,6 @@ interface VideoRepository {
     suspend fun getFilterVideos(searchWord: String? = null): List<Video>
     suspend fun getSearchResultVideos(uid: String,searchWord: String): List<Video>
     suspend fun getComments(vid: String): List<Comment>
+    suspend fun likeVideo(uid: String, vid: String)
+    suspend fun dislikeVideo(uid: String, vid: String)
 }

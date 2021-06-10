@@ -8,5 +8,5 @@ import javax.inject.Singleton
 interface CommentsRepository {
     val videoNetwork: VideoNetwork
     suspend fun getComments(vid: String): List<Comment>
-    suspend fun writeComment(comment: String, vid: String, uid: String? = null)
+    suspend fun writeComment(comment: String, vid: String, uid: String)
 }

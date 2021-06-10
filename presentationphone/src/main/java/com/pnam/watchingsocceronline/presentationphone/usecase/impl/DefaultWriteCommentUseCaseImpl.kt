@@ -7,7 +7,7 @@ import javax.inject.Inject
 class DefaultWriteCommentUseCaseImpl @Inject constructor(
     override val commentRepository: CommentsRepository
 ) : WriteCommentUseCase {
-    override suspend fun writeComment(comment: String, vid: String, uid: String?) {
+    override suspend fun writeComment(comment: String, vid: String, uid: String) {
         commentRepository.writeComment(comment, vid, uid)
     }
 }

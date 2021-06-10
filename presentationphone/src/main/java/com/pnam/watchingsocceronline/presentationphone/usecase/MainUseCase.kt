@@ -15,4 +15,6 @@ interface MainUseCase {
     suspend fun getVideo(vid: String): Video
     suspend fun getUser(): User
     suspend fun getVideoDownload(video: Video): Download
+    suspend fun likeVideo(vid: String)
+    suspend fun dislikeVideo(vid: String)
 }

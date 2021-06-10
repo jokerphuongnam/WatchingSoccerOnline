@@ -37,10 +37,8 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
         throw Resources.NotFoundException()
     }
 
-    override suspend fun writeComment(content: String, vid: String, uid: String?) {
-        writeFakeComment(content, vid, uid).takeUnless { it }?.let {
-            throw Resources.NotFoundException()
-        }
+    override suspend fun writeComment(content: String, vid: String, uid: String): Comment {
+        return writeFakeComment(content, vid, uid)
     }
 
     override suspend fun fetchChart(filter: Filter): List<Video> {
@@ -57,5 +55,13 @@ class FakeVideoNetworkImpl @Inject constructor() : VideoNetwork {
 
     override suspend fun fetchRecommendVideos(): List<Video> {
         return getFakeVideos()
+    }
+
+    override suspend fun likeVideo(uid: String, vid: String):  Video {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun dislikeVideo(uid: String, vid: String):  Video {
+        TODO("Not yet implemented")
     }
 }

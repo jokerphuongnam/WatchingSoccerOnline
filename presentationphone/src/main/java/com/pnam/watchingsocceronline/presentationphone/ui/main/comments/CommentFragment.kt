@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.databinding.FragmentCommentsBinding
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseBottomSheetDialogFragment
@@ -90,6 +91,7 @@ class CommentFragment(private val appCompatActivity: AppCompatActivity) :
         setUpViewModel()
         setUpAdapter()
         setUpAction()
+        setUpAdapter()
     }
 
     override fun onResume() {

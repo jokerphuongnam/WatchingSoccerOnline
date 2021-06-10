@@ -86,4 +86,5 @@
     <string name="review_avatar">Review avatar</string>
     <string name="upload_avatar">Upload avatar</string>
     <string name="upload_avatar_success">Upload avatar success</string>
+    <string name="unlogin">Please login to continue</string>
 </resources>

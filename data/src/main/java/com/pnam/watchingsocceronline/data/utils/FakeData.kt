@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.data.utils
 
+import com.pnam.watchingsocceronline.data.throwable.NotFoundException
 import com.pnam.watchingsocceronline.domain.model.Comment
 import com.pnam.watchingsocceronline.domain.model.SearchHistory
 import com.pnam.watchingsocceronline.domain.model.User
@@ -121,29 +122,30 @@ private val videos: MutableList<Video> by lazy {
     )
 }
 
-fun writeFakeComment(content: String, vid: String, uid: String? = null): Boolean {
+fun writeFakeComment(content: String, vid: String, uid: String): Comment {
     for (fakeVideo in videos) {
         if (fakeVideo.vid == vid) {
             val comments = fakeVideo.comments.toMutableList()
             for (user in users) {
                 if (user.uid == uid) {
+                    val comment: Comment = Comment(
+                        System.currentTimeMillis().toString(),
+                        content,
+                        System.currentTimeMillis(),
+                        user.avatar,
+                        user.firstName,
+                        user.lastName
+                    )
                     comments.add(
-                        Comment(
-                            System.currentTimeMillis().toString(),
-                            content,
-                            System.currentTimeMillis(),
-                            user.avatar,
-                            user.firstName,
-                            user.lastName
-                        )
+                        comment
                     )
                     fakeVideo.comments = comments
+                    return comment
                 }
             }
-            return true
         }
     }
-    return false
+    throw NotFoundException()
 }
 
 suspend fun getFakeSearchHistory(searchWord: String? = null): MutableList<SearchHistory> =

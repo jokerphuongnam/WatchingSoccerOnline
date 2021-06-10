@@ -2,11 +2,8 @@ package com.pnam.watchingsocceronline.presentationphone.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.pnam.watchingsocceronline.domain.model.User
 import com.pnam.watchingsocceronline.domain.model.Video
-import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.ui.base.BaseViewModel
 import com.pnam.watchingsocceronline.presentationphone.usecase.impl.DefaultMainUseCaseImpl
 import com.pnam.watchingsocceronline.presentationphone.utils.Resource
@@ -51,13 +48,29 @@ class MainViewModel @Inject constructor(
     }
 
     internal fun openVideo(vid: String) {
-        recommendLiveData.postValue(Resource.Loading())
+        videoLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 videoLiveData.postValue(Resource.Success(useCase.getVideo(vid)))
             } catch (e: Throwable) {
                 videoLiveData.postValue(Resource.Error(e))
             }
+        }
+    }
+
+    internal fun likeVideo() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val video: Video = videoLiveData.value!!.data!!
+            useCase.likeVideo(video.vid)
+            openVideo(video.vid)
+        }
+    }
+
+    internal fun dislikeVideo() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val video: Video = videoLiveData.value!!.data!!
+            useCase.dislikeVideo(video.vid)
+            openVideo(video.vid)
         }
     }
 

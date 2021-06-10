@@ -12,7 +12,7 @@ class DefaultCommentsRepositoryImpl @Inject constructor(
         return videoNetwork.fetchComments(vid)
     }
 
-    override suspend fun writeComment(comment: String, vid: String, uid: String?) {
+    override suspend fun writeComment(comment: String, vid: String, uid: String) {
         videoNetwork.writeComment(comment, vid, uid)
     }
 }

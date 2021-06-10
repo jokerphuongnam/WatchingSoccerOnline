@@ -76,7 +76,7 @@ class DownloadVideoService : IntentService("DownloadVideoService") {
                 }
                 download.downloadProcess = process
                 NotificationManagerCompat.from(applicationContext)
-                    .notify(download.vid.toInt(), notificationBuilder.build())
+                    .notify(DOWNLOAD_NOTIFICATION_ID, notificationBuilder.build())
                 resultReceiver.send(RESULT_CODE_OK, Bundle().apply {
                     putParcelable(PARAM_RESULT, download)
                 })
@@ -89,6 +89,7 @@ class DownloadVideoService : IntentService("DownloadVideoService") {
 
     companion object {
         const val DOWNLOAD_CHANNEL = "DownloadChannel"
+        const val DOWNLOAD_NOTIFICATION_ID: Int = 22231
 
         fun startServiceToWithdraw(
             context: Context,

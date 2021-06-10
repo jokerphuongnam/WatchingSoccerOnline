@@ -37,8 +37,8 @@ class RetrofitVideoNetworkImpl @Inject constructor(
         return service.fetchComments(vid).body()!!.map { it.toComment() }
     }
 
-    override suspend fun writeComment(content: String, vid: String, uid: String?) {
-        TODO()
+    override suspend fun writeComment(content: String, vid: String, uid: String): Comment {
+        return service.writeComment(content, vid, uid).body()!!.toComment()
     }
 
     override suspend fun fetchChart(filter: Filter): List<Video> {
@@ -56,6 +56,14 @@ class RetrofitVideoNetworkImpl @Inject constructor(
         } else {
             response.body()!!.map { it.toVideo() }
         }
+    }
+
+    override suspend fun likeVideo(uid: String, vid: String): Video {
+        return service.likeVideo(uid, vid).body()!!.toVideo()
+    }
+
+    override suspend fun dislikeVideo(uid: String, vid: String): Video {
+        return service.dislikeVideo(uid, vid).body()!!.toVideo()
     }
 
     interface VideoService {
@@ -82,9 +90,14 @@ class RetrofitVideoNetworkImpl @Inject constructor(
             @Path("id") vid: String
         ): Response<List<CommentResponse>>
 
-        //        suspend fun writeComment(content: String, vid: String, uid: String?)
-//
-//        suspend fun fetchChart(filter: Filter): List<Video>
+        @POST("/api/video/{vid}/comment/{uid}/{cmt}")
+        suspend fun writeComment(
+            @Path("cmt") content: String,
+            @Path("vid") vid: String,
+            @Path("uid") uid: String
+        ): Response<CommentResponse>
+
+        //        suspend fun fetchChart(filter: Filter): List<Video>
 //
 //        suspend fun fetchFilterVideo(searchWord: String?): List<Video>
 //
@@ -93,5 +106,17 @@ class RetrofitVideoNetworkImpl @Inject constructor(
             @Path("uid") uid: String,
             @Path("search") searchWord: String?
         ): Response<List<VideoResponse>>
+
+        @POST("/api/video/like/{uid}/{vid}")
+        suspend fun likeVideo(
+            @Path("uid") uid: String,
+            @Path("vid") vid: String
+        ): Response<VideoResponse>
+
+        @POST("/api/video/dislike/{uid}/{vid}")
+        suspend fun dislikeVideo(
+            @Path("uid") uid: String,
+            @Path("vid") vid: String
+        ): Response<VideoResponse>
     }
 }

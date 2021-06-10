@@ -25,4 +25,12 @@ class DefaultMainUseCaseImpl @Inject constructor(
     override suspend fun getVideoDownload(video: Video): Download {
         return videoRepository.getVideoDownload(video)
     }
+
+    override suspend fun likeVideo(vid: String) {
+        videoRepository.likeVideo(userRepository.getUid()!!, vid)
+    }
+
+    override suspend fun dislikeVideo(vid: String) {
+        videoRepository.dislikeVideo(userRepository.getUid()!!, vid)
+    }
 }

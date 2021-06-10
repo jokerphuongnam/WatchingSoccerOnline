@@ -116,6 +116,7 @@ class DownloadFragment :
         super.onResume()
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         resultReceiverCallBack.setFragment(this)
+        viewModel.getVideoDownloads()
     }
 
     override fun onDestroy() {

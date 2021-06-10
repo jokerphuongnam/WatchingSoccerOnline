@@ -1,5 +1,6 @@
 package com.pnam.watchingsocceronline.presentationphone.ui.main.watchingvideo
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.view.View
@@ -28,6 +29,7 @@ import com.pnam.watchingsocceronline.domain.model.Video
 import com.pnam.watchingsocceronline.presentationphone.R
 import com.pnam.watchingsocceronline.presentationphone.background.DownloadVideoService
 import com.pnam.watchingsocceronline.presentationphone.databinding.BottomSheetWatchingVideoBinding
+import com.pnam.watchingsocceronline.presentationphone.ui.login.SignInActivity
 import com.pnam.watchingsocceronline.presentationphone.ui.main.MainViewModel
 import com.pnam.watchingsocceronline.presentationphone.ui.main.comments.CommentFragment
 import com.pnam.watchingsocceronline.presentationphone.ui.main.custom.CustomBottomSheet
@@ -109,6 +111,34 @@ class WatchVideoBottomSheet(
                     viewModel.getVideoDownload(videoNotNull)
                 }
             }
+            like.setOnClickListener {
+                viewModel.userLiveData.apply {
+                    if (value == null || value!!.data == null) {
+                        activity.startActivity(
+                            Intent(
+                                activity,
+                                SignInActivity::class.java
+                            )
+                        )
+                    } else {
+                        viewModel.likeVideo()
+                    }
+                }
+            }
+            dislike.setOnClickListener {
+                viewModel.userLiveData.apply {
+                    if (value == null || value!!.data == null) {
+                        activity.startActivity(
+                            Intent(
+                                activity,
+                                SignInActivity::class.java
+                            )
+                        )
+                    } else {
+                        viewModel.dislikeVideo()
+                    }
+                }
+            }
         }
     }
 
@@ -149,6 +179,7 @@ class WatchVideoBottomSheet(
                             }
                             loadVideo(video.data.url)
                         } else {
+                            binding.video = video.data
                             behavior.state = STATE_EXPANDED
                         }
                     }
